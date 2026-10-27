@@ -81,6 +81,26 @@
       </view>
     </view>
 
+    <!-- 已达阈值，等待对方确认共识 -->
+    <view wx:elif="{{awaitingPeer}}" class="awaiting-panel">
+      <view class="awaiting-title">⏳ 等待对方确认共识</view>
+      <view class="awaiting-msg">
+        契合度已达阈值 {{uiState.threshold}}。需要对方在自己的匹配页点「认可」后，才能解锁匹配星图。
+      </view>
+      <view
+        class="btn-primary {{completing ? 'disabled' : ''}}"
+        bindtap="onRefreshConsensus"
+      >
+        {{completing ? '刷新中…' : '刷新共识状态'}}
+      </view>
+      <view
+        class="btn-spread {{sharing ? 'disabled' : ''}}"
+        bindtap="onShareSpread"
+      >
+        {{sharing ? '生成中…' : '📡 提醒对方 · 复制文案'}}
+      </view>
+    </view>
+
     <!-- 未达成共识 → 传播面板 -->
     <view wx:else class="spread-panel">
       <view class="spread-title">📡 扩大验证池</view>

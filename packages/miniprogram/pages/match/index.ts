@@ -24,6 +24,8 @@ Page({
     completing: false,
     sharing: false,
     uiState: null as MatchUiState | null,
+    // 已达阈值但双向共识未成立：completeMission 会被 403 consensus_required 拒绝
+    awaitingPeer: false,
     personalize: true,
   },
 
@@ -40,7 +42,9 @@ Page({
   async loadPendingConsensus() {
     try {
       const data: any = await gameApi.listConsensus()
-      this.setData({ pendingConsensus: data?.pending ?? [] })
+      const all: MatchConsensusItem[] = data?.pending ?? []
+      // 只展示需要「我」认可的入站请求；自己发起的那条要等对方认可，不在这里给按钮
+      this.setData({ pendingConsensus: all.filter((it: any) => it.is_incoming === true) })
     } catch {
       this.setData({ pendingConsensus: [] })
     }
@@ -55,6 +59,7 @@ Page({
       result: null,
       pendingConsensus: [],
       uiState: null,
+      awaitingPeer: false,
     })
 
     await new Promise((r) => setTimeout(r, 900))
@@ -72,6 +77,7 @@ Page({
         phase: 'result',
         result: data as FleetMatchResponse,
         uiState,
+        awaitingPeer: !!uiState.awaitingPeer,
       })
 
       // 异步加载待认可的共识请求
@@ -101,6 +107,11 @@ Page({
     const ui = this.data.uiState
     const canComplete = result.can_complete_mission === true
     if (!canComplete) {
+      // 分数过阈值但共识未双向确认时，原因不是「契合度不足」，别给错的引导
+      if (this.data.awaitingPeer || ui?.awaitingPeer) {
+        wx.showToast({ title: '已达门槛，等待对方确认共识后才能解锁', icon: 'none', duration: 2500 })
+        return
+      }
       wx.showToast({ title: '契合度未达解锁阈值，可邀请更多舰员后再试', icon: 'none' })
       return
     }
@@ -132,6 +143,13 @@ Page({
       setTimeout(() => wx.navigateBack(), 900)
     } catch (err: any) {
       const status = err?.status || err?.statusCode
+      const code = err?.body?.error || err?.details?.error || err?.error
+      // 403 consensus_required：契合度够了，但对方还没认可 —— 切到等待态，不是失败
+      if (status === 403 || code === 'consensus_required') {
+        this.setData({ awaitingPeer: true })
+        wx.showToast({ title: '等待对方确认共识后才能解锁', icon: 'none', duration: 2500 })
+        return
+      }
       if (status === 409) {
         store.completeMission('match')
         store.setAchievement({
@@ -194,6 +212,13 @@ Page({
     const next = !this.data.personalize
     this.setData({ personalize: next })
     void this.startMatch()
+  },
+
+  /** 等待对方确认时手动刷新：重新匹配即可拿到最新 can_complete_mission */
+  async onRefreshConsensus() {
+    if (this.data.completing) return
+    await this.loadPendingConsensus()
+    await this.startMatch()
   },
 
   onRetry() {
