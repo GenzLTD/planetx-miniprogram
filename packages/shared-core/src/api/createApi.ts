@@ -661,11 +661,23 @@ export function createPaymentApi(client: ApiClient) {
         ...attribution,
       }),
 
-    /** Create WeChat Pay order (production mode) */
-    wechatOrder: (payload: import("../types/payment").WechatOrderRequest) =>
-      client.post<import("../types/payment").WechatOrderResponse>(
-        API_ROUTES.PAYMENT_WECHAT_ORDER,
+    /** Create WeChat Pay order. region 写在这一单上，微信支付只接受 CN。 */
+    wechatOrder: (
+      payload: import("../types/payment").WechatOrderRequest,
+      region?: import("../types/payment").PaymentRegion,
+    ) => {
+      const query = region ? `?region=${region}` : "";
+      return client.post<import("../types/payment").WechatOrderResponse>(
+        `${API_ROUTES.PAYMENT_WECHAT_ORDER}${query}`,
         payload,
+      );
+    },
+
+    /** Stub only: simulate the WeChat success notify for an existing order. */
+    wechatNotifySimulate: (outTradeNo: string) =>
+      client.post<{ settled: boolean; out_trade_no: string; tier: string }>(
+        API_ROUTES.PAYMENT_WECHAT_NOTIFY_SIMULATE,
+        { out_trade_no: outTradeNo },
       ),
 
     /** List configured overseas payment providers */

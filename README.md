@@ -16,6 +16,10 @@
 
 唯一源有了 HTTPS 合法域名之后，只改 `API_ORIGIN` 这一行。
 
+## 支付
+
+商户号下来之前，会员页走下单、模拟回调、核对订阅。登录沿用启动页的微信登录。区域写在这一单的 `region=CN` 上。生产换成 `wx.requestPayment`，核销链不变。不再使用 `touristappid` 那份独立模拟器。
+
 ## 打开
 
 用微信开发者工具导入 `packages/miniprogram`。构建：

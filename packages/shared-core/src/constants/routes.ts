@@ -103,6 +103,8 @@ export const API_ROUTES = {
   PAYMENT_CHECKOUT: "/v1/payment/checkout",
   PAYMENT_WECHAT_ORDER: "/v1/payment/wechat/order",
   PAYMENT_WECHAT_NOTIFY: "/v1/payment/wechat/notify",
+  /** 仅 PAYMENT_STUB_MODE 可用。商户号下来前，模拟微信成功回调，走同一条核销链。 */
+  PAYMENT_WECHAT_NOTIFY_SIMULATE: "/v1/payment/wechat/notify-simulate",
   // Apple IAP（payment.v1.json v1.2.0；服务端 zervi-rust payment-service）。
   // webhook 是 Apple→服务端回调，App/前端不调用，故不注册。
   PAYMENT_APPLE_VERIFY: "/v1/payment/apple/verify",

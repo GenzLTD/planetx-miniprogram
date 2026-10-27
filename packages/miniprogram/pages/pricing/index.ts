@@ -1,10 +1,11 @@
 /**
  * Pricing Page — 会员升级页
  *
- * 流程分两路：
- *   Stub 模式 (PAYMENT_STUB_MODE=true) → POST /v1/payment/upgrade 直接升级
- *   生产模式 (PAYMENT_STUB_MODE=false) → POST /v1/payment/wechat/order JSAPI
- *     → wx.requestPayment → 轮询 status → refresh JWT
+ * 登录在启动页完成（wx.login → /v1/auth/wechat）。
+ * 这里从下单接着走，区域写在这一单上：
+ *   Stub：POST /v1/payment/wechat/order?region=CN
+ *         → POST /v1/payment/wechat/notify-simulate → GET /v1/payment/status
+ *   生产：同一下单 → wx.requestPayment → 轮询 status → refresh JWT
  */
 import { paymentApi, authApi } from '../../utils/api'
 import { store } from '../../utils/store'
@@ -95,7 +96,7 @@ Page({
           buttonText = '已拥有更高版本'
           disabled = true
         } else if (stubMode && plan.tier !== 'free') {
-          buttonText = '立即升级 (内测)'
+          buttonText = '微信支付（内测）'
           disabled = false
         } else if (!stubMode && plan.tier !== 'free') {
           buttonText = `微信支付 ¥${plan.price_monthly}`
@@ -141,7 +142,7 @@ Page({
 
     try {
       if (this.data.stubMode) {
-        await this.doStubUpgrade(tier)
+        await this.doStubPay(tier)
       } else {
         await this.doWechatPay(tier)
       }
@@ -153,27 +154,27 @@ Page({
     }
   },
 
-  /** Stub 模式：直接调 upgrade API */
-  async doStubUpgrade(tier: string) {
-    const res: any = await paymentApi.upgrade(tier as 'supporter' | 'pro')
-
-    // 后端 stub upgrade 返回新 token，同步写入双存储
-    if (res.access_token) {
-      store.set('token', res.access_token)
-      wx.setStorageSync(LOOMA_TOKEN_KEY, res.access_token)
+  /** 商户号下来前：下单 → 模拟微信回调 → 核对订阅。不走直接升级。 */
+  async doStubPay(tier: string) {
+    const order: any = await paymentApi.wechatOrder(
+      {
+        tier: tier as 'supporter' | 'pro',
+        trade_type: 'JSAPI',
+      },
+      'CN',
+    )
+    if (!order?.out_trade_no) {
+      throw new Error('未获取到订单号，请重试')
     }
 
-    // 刷新用户 profile 以更新 tier
-    try {
-      const profile = await authApi.profile()
-      store.set('user', profile as any)
-    } catch {
-      // profile refresh 失败不阻塞
-    }
+    await paymentApi.wechatNotifySimulate(order.out_trade_no)
 
-    this.setData({ paying: false })
+    this.setData({ polling: true })
+    await this.pollAndRefresh()
+
+    this.setData({ paying: false, polling: false })
     this.refreshCurrentTier()
-    this.loadPlans() // 重新加载，刷新按钮状态
+    this.loadPlans()
 
     wx.showToast({ title: '升级成功！', icon: 'success' })
   },
@@ -181,10 +182,13 @@ Page({
   /** 生产模式：JSAPI 微信支付流程 */
   async doWechatPay(tier: string) {
     // 1. 创建微信支付订单（不传 openid，由后端从 DB 自动填充）
-    const order: any = await paymentApi.wechatOrder({
-      tier: tier as 'supporter' | 'pro',
-      trade_type: 'JSAPI',
-    })
+    const order: any = await paymentApi.wechatOrder(
+      {
+        tier: tier as 'supporter' | 'pro',
+        trade_type: 'JSAPI',
+      },
+      'CN',
+    )
 
     const jsapiParams: WechatJsapiParams | undefined = order?.jsapi_params
     if (!jsapiParams) {
