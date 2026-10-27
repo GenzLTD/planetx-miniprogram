@@ -1,0 +1,53 @@
+<star-bg />
+<view class="page-container safe-bottom">
+  <!-- User Card -->
+  <view class="card user-card">
+    <view class="user-avatar">🧑‍🚀</view>
+    <view class="user-info">
+      <view class="user-name">{{userName}}</view>
+      <view class="user-tier tag tag-accent">{{tierLabel}}</view>
+      <view wx:if="{{isEarlyAdopter}}" class="early-badge">⭐ 早鸟用户</view>
+    </view>
+  </view>
+
+  <!-- Stats Card -->
+  <view class="card stats-card">
+    <view class="stat-row">
+      <text class="stat-key">等级</text>
+      <text class="stat-val">Lv.{{level}} · {{rankName}}</text>
+    </view>
+    <view class="stat-row" wx:if="{{userEmail}}">
+      <text class="stat-key">邮箱</text>
+      <text class="stat-val">{{userEmail}}</text>
+    </view>
+    <view class="stat-row" wx:else>
+      <text class="stat-key">邮箱</text>
+      <text class="stat-val text-muted">未绑定</text>
+    </view>
+  </view>
+
+  <!-- Menu -->
+  <view class="card menu-card">
+    <view class="menu-item" bindtap="handleUpgrade">
+      <text class="menu-icon">⭐</text>
+      <text class="menu-text">升级会员</text>
+      <text class="menu-badge">{{tierLabel}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="handleBindEmail">
+      <text class="menu-icon">📧</text>
+      <text class="menu-text">绑定邮箱</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="handleAbout">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-text">关于 PlanetX</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Logout -->
+  <view class="logout-btn" bindtap="handleLogout">
+    🚪 退出登录
+  </view>
+</view>

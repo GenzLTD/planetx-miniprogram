@@ -1,0 +1,67 @@
+/* Star Background — pure CSS, 3 DOM nodes total */
+.star-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Layer 1: small dense stars via radial-gradient */
+.star-layer-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2rpx 2rpx at 8% 12%, rgba(200,255,80,0.7), transparent),
+    radial-gradient(2rpx 2rpx at 22% 35%, rgba(200,255,80,0.5), transparent),
+    radial-gradient(3rpx 3rpx at 45% 8%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2rpx 2rpx at 67% 28%, rgba(200,255,80,0.6), transparent),
+    radial-gradient(2rpx 2rpx at 85% 15%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(3rpx 3rpx at 12% 55%, rgba(200,255,80,0.5), transparent),
+    radial-gradient(2rpx 2rpx at 38% 72%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2rpx 2rpx at 58% 88%, rgba(200,255,80,0.6), transparent),
+    radial-gradient(2rpx 2rpx at 78% 62%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(3rpx 3rpx at 92% 78%, rgba(200,255,80,0.5), transparent),
+    radial-gradient(2rpx 2rpx at 5% 85%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2rpx 2rpx at 30% 18%, rgba(200,255,80,0.5), transparent);
+  animation: starFade 4s ease-in-out infinite alternate;
+}
+
+/* Layer 2: larger sparse stars */
+.star-layer-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(4rpx 4rpx at 15% 40%, rgba(200,255,80,0.8), transparent),
+    radial-gradient(4rpx 4rpx at 55% 20%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(5rpx 5rpx at 75% 70%, rgba(200,255,80,0.7), transparent),
+    radial-gradient(4rpx 4rpx at 35% 85%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(4rpx 4rpx at 90% 45%, rgba(200,255,80,0.6), transparent);
+  animation: starFade 5s ease-in-out infinite alternate-reverse;
+}
+
+/* Subtle purple glow */
+.star-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 600rpx;
+  height: 600rpx;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(107,63,160,0.08), transparent 70%);
+  border-radius: 50%;
+}
+
+@keyframes starFade {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.9; }
+}

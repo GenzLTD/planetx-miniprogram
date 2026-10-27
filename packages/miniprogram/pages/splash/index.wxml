@@ -1,0 +1,22 @@
+<view class="splash-container">
+  <view class="splash-logo">
+    <text class="logo-text">Planet</text><text class="logo-x">X</text>
+  </view>
+  <view class="slogan">你的职业飞行器</view>
+
+  <!-- Loading state -->
+  <view wx:if="{{loading}}" class="loading-area">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">正在连接星际网络...</text>
+  </view>
+
+  <!-- Failed state with retry + dev skip -->
+  <view wx:elif="{{loginFailed}}" class="login-failed">
+    <view class="failed-icon">⚠️</view>
+    <text class="failed-text">连接失败，请检查网络或后端服务</text>
+    <view class="btn-primary" bindtap="handleRetryLogin">重新连接</view>
+    <view wx:if="{{devMode}}" class="btn-skip" bindtap="handleSkipLogin">
+      跳过登录 (开发模式)
+    </view>
+  </view>
+</view>

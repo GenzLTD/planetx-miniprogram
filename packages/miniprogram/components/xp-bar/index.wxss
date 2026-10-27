@@ -1,0 +1,53 @@
+.xp-bar {
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.xp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.xp-label {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  letter-spacing: 2rpx;
+}
+
+.xp-rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  background: linear-gradient(135deg, rgba(107, 63, 160, 0.5), rgba(200, 255, 80, 0.15));
+  border: 1rpx solid rgba(200, 255, 80, 0.25);
+  border-radius: 32rpx;
+  padding: 8rpx 24rpx;
+  font-size: 24rpx;
+  color: #C8FF50;
+  font-weight: bold;
+}
+
+.xp-count {
+  font-size: 24rpx;
+  color: #C8FF50;
+  font-weight: bold;
+}
+
+.xp-track {
+  height: 12rpx;
+  background: #1A1A2E;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #6B3FA0, #C8FF50);
+  transition: width 0.8s ease;
+}

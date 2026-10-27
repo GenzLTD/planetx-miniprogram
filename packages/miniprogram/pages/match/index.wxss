@@ -1,0 +1,339 @@
+.scan-panel,
+.result-panel,
+.error-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 48rpx;
+}
+
+.scan-orbit {
+  position: relative;
+  width: 220rpx;
+  height: 220rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40rpx;
+}
+
+.scan-core {
+  font-size: 72rpx;
+  z-index: 2;
+}
+
+.scan-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 4rpx solid rgba(200, 255, 80, 0.35);
+  border-top-color: #c8ff50;
+  animation: spin 1.4s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.scan-title,
+.error-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 16rpx;
+}
+
+.scan-status {
+  font-size: 28rpx;
+  color: #c8ff50;
+  margin-bottom: 12rpx;
+}
+
+.scan-hint,
+.error-msg {
+  font-size: 24rpx;
+  color: #b8b8c8;
+  text-align: center;
+  padding: 0 32rpx;
+  line-height: 1.5;
+}
+
+/* ── Consensus Badge ── */
+.consensus-badge {
+  text-align: center;
+  padding: 8rpx 24rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+  letter-spacing: 0.05em;
+}
+
+.consensus-verified {
+  background: rgba(200, 255, 80, 0.12);
+  border: 1rpx solid rgba(200, 255, 80, 0.35);
+  color: #c8ff50;
+}
+
+.consensus-weak {
+  background: rgba(249, 202, 36, 0.1);
+  border: 1rpx solid rgba(249, 202, 36, 0.3);
+  color: #f9ca24;
+}
+
+.consensus-failed {
+  background: rgba(255, 118, 117, 0.1);
+  border: 1rpx solid rgba(255, 118, 117, 0.3);
+  color: #ff7675;
+}
+
+/* ── Fleet chip ── */
+.fleet-chip {
+  font-size: 22rpx;
+  color: #b8b8c8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 999rpx;
+  padding: 8rpx 24rpx;
+  margin-bottom: 40rpx;
+}
+
+/* ── Pair cards ── */
+.pair-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  width: 100%;
+  margin-bottom: 32rpx;
+}
+
+.pair-card {
+  flex: 1;
+  background: #0d0d1a;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 28rpx 16rpx;
+  text-align: center;
+}
+
+.pair-emoji {
+  font-size: 56rpx;
+  margin-bottom: 8rpx;
+}
+
+.pair-role {
+  font-size: 22rpx;
+  color: #b8b8c8;
+  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pair-type {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.pair-link {
+  width: 120rpx;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.score {
+  font-size: 44rpx;
+  font-weight: 900;
+  color: #c8ff50;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 20rpx;
+  color: #b8b8c8;
+  margin-top: 6rpx;
+}
+
+.score-threshold {
+  font-size: 18rpx;
+  color: #78788c;
+  margin-top: 4rpx;
+}
+
+/* ── Reason box ── */
+.reason-box {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(107, 63, 160, 0.2);
+  border: 1rpx solid rgba(200, 255, 80, 0.2);
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  font-size: 26rpx;
+  color: #ffffff;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+/* ── Pending consensus ── */
+.consensus-pending-panel {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(0, 229, 255, 0.25);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.consensus-pending-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #00e5ff;
+  margin-bottom: 16rpx;
+}
+
+.consensus-pending-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.consensus-pending-item:last-child {
+  margin-bottom: 0;
+}
+
+.consensus-pending-info {
+  font-size: 24rpx;
+  color: #b8b8c8;
+}
+
+.btn-acknowledge {
+  padding: 10rpx 24rpx;
+  border-radius: 16rpx;
+  background: #c8ff50;
+  color: #0a0a1a;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+/* ── Spread panel ── */
+.spread-panel {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid rgba(200, 255, 80, 0.2);
+  background: rgba(200, 255, 80, 0.04);
+}
+
+.spread-title {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #c8ff50;
+  margin-bottom: 12rpx;
+}
+
+.spread-msg {
+  font-size: 24rpx;
+  color: #b8b8c8;
+  line-height: 1.5;
+  margin-bottom: 16rpx;
+}
+
+.spread-progress {
+  font-size: 22rpx;
+  color: #78788c;
+  margin-bottom: 20rpx;
+}
+
+.btn-spread {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 28rpx 24rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(90deg, #6b3fa0, #8b5cf6);
+  color: #ffffff;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+/* ── Shared buttons ── */
+.btn-primary {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 28rpx 24rpx;
+  border-radius: 24rpx;
+  background: #c8ff50;
+  color: #0a0a1a;
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.btn-primary.disabled,
+.btn-spread.disabled {
+  opacity: 0.6;
+}
+
+.btn-ghost {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 20rpx;
+  font-size: 26rpx;
+  color: #b8b8c8;
+}
+
+/* ── Error ── */
+.error-panel {
+  padding-top: 80rpx;
+}
+
+.error-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+}
+
+.error-msg {
+  margin-bottom: 40rpx;
+}
+
+/* ── Fade-in animation ── */
+.fade-in {
+  animation: fadeIn 0.35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Trust entry ── */
+.trust-entry {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8rpx;
+  padding: 24rpx;
+  margin-top: 16rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid rgba(200, 255, 80, 0.12);
+  background: rgba(200, 255, 80, 0.04);
+  font-size: 26rpx;
+  color: #c8ff50;
+  font-weight: 600;
+}
+
+.trust-entry-arrow {
+  font-size: 28rpx;
+  color: #c8ff50;
+}

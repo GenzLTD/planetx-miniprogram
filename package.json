@@ -1,0 +1,8 @@
+{
+  "name": "planetx-miniprogram",
+  "private": true,
+  "description": "WeChat miniprogram for one GFCC contract and one ledger. AppID wx842b6837e6898789.",
+  "scripts": {
+    "build:npm": "pnpm --filter @looma/miniprogram build:npm"
+  }
+}

@@ -1,0 +1,51 @@
+.auth-card {
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 32rpx;
+  padding: 48rpx 32rpx;
+  margin-top: 48rpx;
+  text-align: center;
+}
+
+.auth-icon {
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.auth-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #C8FF50;
+}
+
+.auth-desc {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  margin-top: 8rpx;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin: 40rpx 0;
+}
+
+.form-input {
+  background: #1A1A2E;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  color: #ffffff;
+  text-align: left;
+}
+
+.btn-skip {
+  margin-top: 16rpx;
+  padding: 16rpx 0;
+  font-size: 26rpx;
+  color: #B8B8C8;
+}

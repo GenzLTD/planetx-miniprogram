@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "xp-bar": "/components/xp-bar/index"
+  },
+  "navigationBarTitleText": "PlanetX"
+}

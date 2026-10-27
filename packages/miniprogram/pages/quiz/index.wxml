@@ -1,0 +1,34 @@
+<star-bg />
+<view class="page-container">
+  <!-- Progress -->
+  <view class="quiz-progress">
+    <view class="progress-text">第 {{step + 1}} / {{total}} 题</view>
+    <view class="progress-bars">
+      <view
+        wx:for="{{progress}}"
+        wx:key="index"
+        class="progress-bar {{item ? 'done' : ''}} {{index === step ? 'current' : ''}}"
+      ></view>
+    </view>
+  </view>
+
+  <!-- Question Card -->
+  <view class="quiz-card">
+    <view class="question-text">{{currentQuestion.q}}</view>
+
+    <view class="options">
+      <view
+        wx:for="{{currentQuestion.options}}"
+        wx:for-item="opt"
+        wx:for-index="i"
+        wx:key="i"
+        class="option"
+        data-index="{{i}}"
+        bindtap="onAnswer"
+      >
+        <text class="option-letter">{{['A', 'B', 'C', 'D'][i]}}</text>
+        <text class="option-text">{{opt.text}}</text>
+      </view>
+    </view>
+  </view>
+</view>

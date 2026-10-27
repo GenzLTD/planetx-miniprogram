@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "star-bg": "/components/star-bg/index"
+  },
+  "navigationBarTitleText": "首次星际匹配"
+}

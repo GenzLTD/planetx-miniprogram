@@ -1,0 +1,153 @@
+/**
+ * PlanetX Miniprogram - Global Styles
+ * Star space theme: dark bg + #C8FF50 accent + #6B3FA0 purple
+ */
+
+/* ============ Global Reset ============ */
+page {
+  background: #0a0a1a;
+  color: #e0e0ff;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+view, text, input, textarea, button, scroll-view {
+  box-sizing: border-box;
+}
+
+/* ============ Brand Colors ============ */
+.bg-dark { background: #0a0a1a; }
+.bg-card { background: #0D0D1A; }
+.bg-card-hover { background: #1A1A2E; }
+.text-accent { color: #C8FF50; }
+.text-purple { color: #6B3FA0; }
+.text-muted { color: #B8B8C8; }
+.text-white { color: #ffffff; }
+
+/* ============ Star Background Animation ============ */
+.star-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #C8FF50;
+  opacity: 0.6;
+  animation: starPulse 3s ease-in-out infinite;
+}
+
+@keyframes starPulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+@keyframes xSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============ Common Components ============ */
+.page-container {
+  position: relative;
+  z-index: 1;
+  padding: 24rpx;
+  min-height: 100vh;
+}
+
+.card {
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #6B3FA0, #8B5CF6);
+  color: #ffffff;
+  border: none;
+  border-radius: 24rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-secondary {
+  background: rgba(200, 255, 80, 0.05);
+  color: #C8FF50;
+  border: 1rpx solid rgba(200, 255, 80, 0.3);
+  border-radius: 24rpx;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
+.btn-secondary::after {
+  border: none;
+}
+
+.logo-text {
+  font-size: 64rpx;
+  font-weight: 900;
+  color: #C8FF50;
+  letter-spacing: 4rpx;
+}
+
+.logo-x {
+  color: #6B3FA0;
+  display: inline-block;
+  animation: xSpin 8s linear infinite;
+}
+
+.slogan {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  letter-spacing: 4rpx;
+}
+
+/* ============ Tag / Badge ============ */
+.tag {
+  display: inline-block;
+  padding: 8rpx 24rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  background: rgba(107, 63, 160, 0.2);
+  color: #C4B5FD;
+}
+
+.tag-accent {
+  background: rgba(200, 255, 80, 0.15);
+  color: #C8FF50;
+}
+
+/* ============ Loading ============ */
+.loading-text {
+  color: #B8B8C8;
+  font-size: 26rpx;
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+/* ============ Safe Area ============ */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}

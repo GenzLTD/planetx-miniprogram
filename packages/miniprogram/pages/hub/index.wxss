@@ -1,0 +1,421 @@
+.hub-header {
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.identity-label {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  letter-spacing: 4rpx;
+  margin-top: 8rpx;
+}
+
+/* ============ Tab Nav ============ */
+.tab-nav {
+  display: flex;
+  gap: 8rpx;
+  background: #0D0D1A;
+  border-radius: 24rpx;
+  padding: 8rpx;
+  margin-bottom: 32rpx;
+}
+
+.tab-nav-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #B8B8C8;
+  transition: all 0.2s;
+}
+
+.tab-nav-item.active {
+  background: rgba(200, 255, 80, 0.1);
+  color: #C8FF50;
+}
+
+/* ============ Mission Card ============ */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.mission-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  background: #0D0D1A;
+}
+
+.mission-icon {
+  font-size: 48rpx;
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mission-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mission-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.mission-reward {
+  font-size: 24rpx;
+  color: #C8FF50;
+  margin-top: 4rpx;
+}
+
+.mission-status {
+  flex-shrink: 0;
+}
+
+.status-done {
+  font-size: 24rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  background: rgba(200, 255, 80, 0.15);
+  color: #C8FF50;
+}
+
+.status-locked {
+  font-size: 32rpx;
+}
+
+.status-todo {
+  font-size: 24rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.05);
+  color: #B8B8C8;
+}
+
+/* ============ Team Card ============ */
+.team-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.team-icon {
+  font-size: 64rpx;
+}
+
+.team-icon-large {
+  font-size: 80rpx;
+}
+
+.team-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.team-desc {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  margin-top: 4rpx;
+}
+
+/* Fleet empty state */
+.team-empty-card {
+  text-align: center;
+  padding: 48rpx 28rpx;
+}
+
+/* Fleet detail state */
+.fleet-detail-card {
+  padding: 32rpx 28rpx;
+}
+
+.fleet-header {
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+
+.fleet-name {
+  font-size: 32rpx;
+  font-weight: 900;
+  color: #00E5FF;
+  margin-top: 12rpx;
+}
+
+.fleet-member-count {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  margin-top: 4rpx;
+}
+
+.invite-section {
+  margin: 24rpx 0;
+  padding: 24rpx;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1rpx dashed rgba(0, 229, 255, 0.25);
+  border-radius: 16rpx;
+  text-align: center;
+}
+
+.invite-label {
+  font-size: 22rpx;
+  color: #B8B8C8;
+  margin-bottom: 12rpx;
+}
+
+.invite-code {
+  font-size: 40rpx;
+  font-weight: 900;
+  color: #00E5FF;
+  letter-spacing: 6rpx;
+}
+
+.invite-hint {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 8rpx;
+}
+
+/* Member slots */
+.member-slots {
+  display: flex;
+  gap: 16rpx;
+  justify-content: center;
+  margin: 24rpx 0;
+}
+
+.member-slot {
+  width: 180rpx;
+  text-align: center;
+  padding: 20rpx 0;
+  background: #1A1A2E;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
+}
+
+.member-slot.filled {
+  opacity: 1;
+  border-color: rgba(200, 255, 80, 0.3);
+}
+
+.slot-avatar {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.slot-name {
+  font-size: 22rpx;
+  color: #B8B8C8;
+}
+
+/* Fleet action buttons */
+.fleet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.btn-create,
+.btn-join,
+.btn-primary {
+  width: 100%;
+  padding: 22rpx 0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-create {
+  background: linear-gradient(135deg, rgba(200, 255, 80, 0.2), rgba(0, 229, 255, 0.2));
+  color: #C8FF50;
+  border: 1rpx solid rgba(200, 255, 80, 0.3);
+}
+
+.btn-join {
+  background: rgba(255, 255, 255, 0.05);
+  color: #B8B8C8;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(200, 255, 80, 0.3), rgba(0, 229, 255, 0.3));
+  color: #C8FF50;
+}
+
+.btn-secondary {
+  padding: 22rpx 0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  color: #B8B8C8;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+/* Join Fleet Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 5, 15, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 560rpx;
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 40rpx;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.fleet-join-input {
+  width: 100%;
+  padding: 20rpx 24rpx;
+  background: #1A1A2E;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 16rpx;
+  color: #ffffff;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  margin-bottom: 28rpx;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.modal-actions button {
+  flex: 1;
+}
+
+/* ============ Personality Card ============ */
+.personality-card {
+  text-align: center;
+  padding: 32rpx;
+}
+
+.personality-emoji {
+  font-size: 96rpx;
+}
+
+.personality-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #C8FF50;
+  margin-top: 16rpx;
+}
+
+.personality-tagline {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  margin-top: 8rpx;
+}
+
+/* ============ Stats Grid ============ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.stat-card {
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 28rpx;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: 900;
+  color: #C8FF50;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #B8B8C8;
+  margin-top: 8rpx;
+}
+
+/* ============ Trust Entry Card ============ */
+.trust-entry-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx;
+  margin-top: 24rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid rgba(200, 255, 80, 0.15);
+  background: linear-gradient(135deg, rgba(200, 255, 80, 0.05), rgba(0, 229, 255, 0.03));
+}
+
+.trust-entry-card:active {
+  background: rgba(200, 255, 80, 0.1);
+}
+
+.trust-entry-icon {
+  font-size: 48rpx;
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(200, 255, 80, 0.1);
+  border-radius: 20rpx;
+}
+
+.trust-entry-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.trust-entry-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #C8FF50;
+}
+
+.trust-entry-desc {
+  font-size: 22rpx;
+  color: #B8B8C8;
+  margin-top: 4rpx;
+}
+
+.trust-entry-arrow {
+  font-size: 32rpx;
+  color: #C8FF50;
+  flex-shrink: 0;
+}

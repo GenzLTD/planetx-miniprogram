@@ -1,0 +1,41 @@
+<star-bg />
+<view class="page-container">
+  <view wx:if="{{hasResult}}" class="result-card">
+    <view class="result-emoji">{{emoji}}</view>
+    <view class="result-name">{{name}}</view>
+    <view class="result-tagline">{{tagline}}</view>
+
+    <view class="traits-row">
+      <view wx:for="{{traits}}" wx:key="*this" class="trait-tag">{{item}}</view>
+    </view>
+
+    <view class="result-desc">{{desc}}</view>
+
+    <view class="share-preview">
+      <view class="preview-emoji">{{emoji}}</view>
+      <view class="preview-name">{{name}}</view>
+      <view class="preview-label">PlanetX · 星际人格认证</view>
+    </view>
+
+    <view class="btn-actions">
+      <button class="btn-secondary" bindtap="handleShare">
+        📋 复制分享文案
+      </button>
+      <button class="btn-secondary" bindtap="handleCopyHrLink">
+        👔 复制 HR 画像链接
+      </button>
+      <button class="btn-secondary" open-type="share">
+        📢 微信分享给好友
+      </button>
+      <view class="btn-primary" bindtap="handleBack">
+        🚀 返回母舰 · 继续探险
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="no-result">
+    <view class="no-result-icon">🌌</view>
+    <view class="no-result-text">尚未完成人格测试</view>
+    <view class="btn-primary" bindtap="handleBack">返回母舰</view>
+  </view>
+</view>

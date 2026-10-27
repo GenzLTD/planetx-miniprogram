@@ -1,0 +1,137 @@
+.ask-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ Messages ============ */
+.msg-list {
+  flex: 1;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
+}
+
+.msg-item {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+  align-items: flex-start;
+}
+
+.msg-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.msg-meta {
+  margin-top: 8rpx;
+  font-size: 20rpx;
+  color: rgba(200, 255, 80, 0.55);
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.msg-avatar {
+  font-size: 40rpx;
+  flex-shrink: 0;
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #1A1A2E;
+}
+
+.msg-user {
+  flex-direction: row-reverse;
+}
+
+.msg-bubble {
+  max-width: 70%;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+.msg-ai .msg-bubble {
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  color: #e0e0ff;
+  border-top-left-radius: 8rpx;
+  max-width: 100%;
+}
+
+.msg-user .msg-bubble {
+  background: linear-gradient(135deg, #6B3FA0, #8B5CF6);
+  color: #ffffff;
+  border-top-right-radius: 8rpx;
+}
+
+/* ============ Typing Indicator ============ */
+.msg-typing {
+  display: flex;
+  gap: 8rpx;
+  align-items: center;
+  padding: 24rpx 32rpx;
+}
+
+.dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #B8B8C8;
+  animation: typingDot 1.4s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-8rpx); }
+}
+
+/* ============ Input Bar ============ */
+.input-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 24rpx;
+  background: #0D0D1A;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+}
+
+.input-field {
+  flex: 1;
+  background: #1A1A2E;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 32rpx;
+  padding: 20rpx 32rpx;
+  font-size: 28rpx;
+  color: #ffffff;
+}
+
+.send-btn {
+  padding: 20rpx 40rpx;
+  border-radius: 32rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  background: #1A1A2E;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.send-btn.active {
+  background: linear-gradient(90deg, #6B3FA0, #C8FF50);
+  color: #0a0a1a;
+}

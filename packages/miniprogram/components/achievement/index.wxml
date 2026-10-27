@@ -1,0 +1,5 @@
+<view class="achievement-popup {{visible ? 'show' : 'hide'}}" wx:if="{{visible}}">
+  <view class="achievement-icon">🏆</view>
+  <view class="achievement-title">{{title}}</view>
+  <view class="achievement-desc">{{desc}}</view>
+</view>

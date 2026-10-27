@@ -1,0 +1,15 @@
+{
+  "cut_from": "GenzLTD/looma-zervi",
+  "commit": "233e2ca7d57adfc9cc8c44eddf49e30887538767",
+  "paths": [
+    "frontend/packages/miniprogram",
+    "frontend/packages/shared-core"
+  ],
+  "appid": "wx842b6837e6898789",
+  "contract": {
+    "repo": "GenzLTD/gfcc",
+    "commit": "4f0dc4ba5c15861fbe56e0ad63e762003b80bf62",
+    "l0": "1.5.0",
+    "signal": "1.1.0"
+  }
+}

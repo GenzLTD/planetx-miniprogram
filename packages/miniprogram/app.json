@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/splash/index",
+    "pages/hub/index",
+    "pages/trust/index",
+    "pages/ask/index",
+    "pages/profile/index",
+    "pages/quiz/index",
+    "pages/result/index",
+    "pages/match/index",
+    "pages/pricing/index",
+    "pages/auth/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#0a0a1a",
+    "navigationBarTitleText": "PlanetX",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0a0a1a"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#B8B8C8",
+    "selectedColor": "#C8FF50",
+    "backgroundColor": "#0D0D1A",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/hub/index",
+        "text": "母舰"
+      },
+      {
+        "pagePath": "pages/ask/index",
+        "text": "问答"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+<star-bg />
+<view class="page-container safe-bottom">
+  <!-- Header -->
+  <view class="header">
+    <view class="header-title">升级会员</view>
+    <view class="header-sub">
+      当前：<text class="tier-highlight">{{currentTierLabel}}</text>
+      <text wx:if="{{stubMode}}" class="stub-badge">内测模式</text>
+    </view>
+  </view>
+
+  <!-- Loading -->
+  <view wx:if="{{loading}}" class="loading-box">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载套餐中...</text>
+  </view>
+
+  <!-- Pricing Cards -->
+  <view wx:else class="plans-list">
+    <view
+      wx:for="{{plans}}"
+      wx:key="tier"
+      class="plan-card {{item.isCurrent ? 'plan-current' : ''}} {{item.tier === 'pro' ? 'plan-pro' : ''}}"
+    >
+      <!-- 当前标记 -->
+      <view wx:if="{{item.isCurrent}}" class="current-badge">当前</view>
+
+      <!-- 推荐标记 (pro) -->
+      <view wx:if="{{item.tier === 'pro' && !item.isCurrent}}" class="pro-badge">推荐</view>
+
+      <view class="plan-name">{{item.name}}</view>
+      <view class="plan-price">{{item.price}}</view>
+
+      <!-- Features -->
+      <view class="plan-features">
+        <view wx:for="{{item.features}}" wx:key="*this" wx:for-item="feat" class="feature-item">
+          <text class="feature-check">✓</text>
+          <text class="feature-text">{{feat}}</text>
+        </view>
+      </view>
+
+      <!-- Action Button -->
+      <button
+        class="plan-btn {{item.disabled ? 'btn-disabled' : (item.tier === 'pro' ? 'btn-pro' : 'btn-supporter')}}"
+        disabled="{{item.disabled}}"
+        loading="{{paying && selectedTier === item.tier}}"
+        data-tier="{{item.tier}}"
+        bindtap="handleUpgrade"
+      >
+        {{paying && selectedTier === item.tier ? (polling ? '确认中...' : '处理中...') : item.buttonText}}
+      </button>
+    </view>
+  </view>
+
+  <!-- Footer -->
+  <view class="footer">
+    <text class="footer-text">支付由微信支付提供安全保障</text>
+    <text class="footer-text">会员有效期自支付成功起 30 天</text>
+  </view>
+</view>

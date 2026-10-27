@@ -1,0 +1,5 @@
+<view class="star-bg">
+  <view class="star-layer star-layer-1"></view>
+  <view class="star-layer star-layer-2"></view>
+  <view class="star-glow"></view>
+</view>

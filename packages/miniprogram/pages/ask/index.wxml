@@ -1,0 +1,46 @@
+<star-bg />
+<view class="ask-container">
+  <!-- Messages -->
+  <scroll-view class="msg-list" scroll-y scroll-into-view="{{scrollIntoView}}" enhanced show-scrollbar="{{false}}">
+    <view
+      wx:for="{{messages}}"
+      wx:key="index"
+      class="msg-item {{item.role === 'user' ? 'msg-user' : 'msg-ai'}}"
+    >
+      <view class="msg-avatar">{{item.role === 'user' ? '🧑‍🚀' : '🤖'}}</view>
+      <view class="msg-col">
+        <view class="msg-bubble">{{item.content}}</view>
+        <view wx:if="{{metas[index] && metas[index].intent}}" class="msg-meta">
+          intent: {{metas[index].intent}} · conf: {{metas[index].intent_confidence}} · {{metas[index].source_scores}}
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="msg-item msg-ai">
+      <view class="msg-avatar">🤖</view>
+      <view class="msg-bubble msg-typing">
+        <text class="dot"></text>
+        <text class="dot"></text>
+        <text class="dot"></text>
+      </view>
+    </view>
+
+    <view id="msg-bottom"></view>
+  </scroll-view>
+
+  <!-- Input Bar -->
+  <view class="input-bar safe-bottom">
+    <input
+      class="input-field"
+      placeholder="问点什么..."
+      value="{{inputText}}"
+      bindinput="onInput"
+      confirm-type="send"
+      bindconfirm="onSend"
+      adjust-position="{{true}}"
+    />
+    <view class="send-btn {{inputText && !loading ? 'active' : ''}}" bindtap="onSend">
+      发送
+    </view>
+  </view>
+</view>

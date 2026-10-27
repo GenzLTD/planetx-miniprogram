@@ -1,0 +1,19 @@
+{
+  "name": "@looma/miniprogram",
+  "private": true,
+  "version": "1.0.0",
+  "description": "PlanetX miniprogram shell, AppID wx842b6837e6898789",
+  "main": "app.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build:npm": "pnpm --filter @looma/shared-core build:mini && node scripts/create-miniprogram-npm.js && node scripts/quick-check.js"
+  },
+  "dependencies": {
+    "@looma/shared-core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/wechat-miniprogram": "^3.4.0"
+  },
+  "miniprogram": "."
+}

@@ -1,0 +1,9 @@
+node_modules/
+miniprogram_npm/
+dist/
+.DS_Store
+.env
+.env.*
+project.private.config.json
+*.pem
+*.key

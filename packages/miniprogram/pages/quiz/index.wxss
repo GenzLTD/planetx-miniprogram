@@ -1,0 +1,89 @@
+.quiz-progress {
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.progress-text {
+  font-size: 26rpx;
+  color: #B8B8C8;
+  margin-bottom: 16rpx;
+}
+
+.progress-bars {
+  display: flex;
+  gap: 8rpx;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8rpx;
+  border-radius: 4rpx;
+  background: #1A1A2E;
+  transition: background-color 0.3s;
+}
+
+.progress-bar.done {
+  background: #C8FF50;
+}
+
+.progress-bar.current {
+  background: #6B3FA0;
+}
+
+/* ============ Question Card ============ */
+.quiz-card {
+  background: #0D0D1A;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 32rpx;
+  padding: 40rpx;
+}
+
+.question-text {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 28rpx 32rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  background: #1A1A2E;
+  color: #ffffff;
+  font-size: 28rpx;
+  transition: all 0.2s;
+}
+
+.option:active {
+  background: #2A2A3E;
+  border-color: rgba(200, 255, 80, 0.3);
+}
+
+.option-letter {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #C8FF50;
+  flex-shrink: 0;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(200, 255, 80, 0.1);
+}
+
+.option-text {
+  flex: 1;
+}

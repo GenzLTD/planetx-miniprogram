@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "star-bg": "/components/star-bg/index"
+  },
+  "navigationBarTitleText": "星际人格认证"
+}

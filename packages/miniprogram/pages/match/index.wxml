@@ -1,0 +1,109 @@
+<star-bg />
+<view class="page-container">
+  <!-- Scanning -->
+  <view wx:if="{{phase === 'scanning'}}" class="scan-panel">
+    <view class="scan-orbit">
+      <view class="scan-core">🎯</view>
+      <view class="scan-ring"></view>
+    </view>
+    <view class="scan-title">首次星际匹配</view>
+    <view class="scan-status">{{statusText}}</view>
+    <view class="scan-hint">仅在舰队范围内寻找互补人格</view>
+  </view>
+
+  <!-- Result: 三分流 -->
+  <view wx:elif="{{phase === 'result' && result && uiState}}" class="result-panel fade-in">
+    <!-- 共识徽章 -->
+    <view class="consensus-badge consensus-{{uiState.view}}">
+      {{uiState.statusLabel}} · 阈值 {{uiState.threshold}}
+    </view>
+
+    <view class="fleet-chip" wx:if="{{result.fleet_name}}">舰队 · {{result.fleet_name}}</view>
+
+    <!-- 双人卡片 -->
+    <view class="pair-row">
+      <view class="pair-card self">
+        <view class="pair-emoji">{{result.self.personality_emoji || '🪐'}}</view>
+        <view class="pair-role">你</view>
+        <view class="pair-type">{{result.self.personality_type || ''}}</view>
+      </view>
+
+      <view class="pair-link">
+        <view class="score">{{result.match.match_score || 0}}</view>
+        <view class="score-label">契合度</view>
+        <view class="score-threshold">阈值 {{uiState.threshold}}</view>
+      </view>
+
+      <view class="pair-card other">
+        <view class="pair-emoji">{{result.match.personality_emoji || '🪐'}}</view>
+        <view class="pair-role">{{result.match.name || '神秘星际公民'}}</view>
+        <view class="pair-type">{{result.match.personality_type || ''}}</view>
+      </view>
+    </view>
+
+    <view class="reason-box">{{result.match.reason || ''}}</view>
+
+    <!-- 待认可的共识请求（仅 incoming） -->
+    <view wx:if="{{pendingConsensus.length > 0}}" class="consensus-pending-panel">
+      <view class="consensus-pending-title">待你认可的共识请求</view>
+      <view
+        wx:for="{{pendingConsensus}}"
+        wx:key="id"
+        class="consensus-pending-item"
+      >
+        <view class="consensus-pending-info">
+          {{item.candidate_name}} · {{item.match_score}} 分
+        </view>
+        <view class="btn-acknowledge" data-id="{{item.id}}" bindtap="onAcknowledge">认可</view>
+      </view>
+    </view>
+
+    <!-- 已达成共识 → 确认按钮 -->
+    <view wx:if="{{uiState.canComplete}}">
+      <view
+        class="btn-primary {{completing ? 'disabled' : ''}}"
+        bindtap="onConfirm"
+      >
+        {{completing ? '同步中…' : '确认共振 · 解锁星图 +40 XP'}}
+      </view>
+    </view>
+
+    <!-- 未达成共识 → 传播面板 -->
+    <view wx:else class="spread-panel">
+      <view class="spread-title">📡 扩大验证池</view>
+      <view class="spread-msg">
+        {{uiState.spreadHint.message || '邀请更多舰员加入舰队，提升共识验证成功率'}}
+      </view>
+      <view wx:if="{{uiState.spreadHint.spread_target > 0}}" class="spread-progress">
+        传播进度 {{uiState.spreadHint.spread_count}}/{{uiState.spreadHint.spread_target}}
+        <text wx:if="{{uiState.spreadHint.wide_scan_unlocked}}"> · 广域扫描已解锁</text>
+        <text wx:elif="{{uiState.spreadHint.spread_target - uiState.spreadHint.spread_count > 0}}">
+          · 再邀请 {{uiState.spreadHint.spread_target - uiState.spreadHint.spread_count}} 人解锁广域扫描
+        </text>
+      </view>
+      <view
+        class="btn-spread {{sharing ? 'disabled' : ''}}"
+        bindtap="onShareSpread"
+      >
+        {{sharing ? '生成中…' : '📡 复制传播文案 · 发送星际信号'}}
+      </view>
+    </view>
+
+    <view class="btn-ghost" bindtap="onBack">稍后再说</view>
+
+    <!-- 信任档案入口 — 匹配结果生成 attestation 后可查看 -->
+    <view class="trust-entry" bindtap="goToTrust">
+      <text>🛡️ 查看信任档案</text>
+      <text class="trust-entry-arrow">→</text>
+    </view>
+  </view>
+
+  <!-- Error -->
+  <view wx:else class="error-panel">
+    <view class="error-icon">📡</view>
+    <view class="error-title">匹配信号中断</view>
+    <view class="error-msg">{{errorMessage}}</view>
+    <view class="btn-primary" bindtap="onRetry">重新扫描</view>
+    <view class="btn-ghost" bindtap="onBack">返回母舰</view>
+  </view>
+</view>
