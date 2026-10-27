@@ -4,13 +4,36 @@
   </view>
   <view class="slogan">你的职业飞行器</view>
 
-  <!-- Loading state -->
-  <view wx:if="{{loading}}" class="loading-area">
+  <view wx:if="{{showPrivacyGate}}" class="privacy-gate">
+    <view class="privacy-title">隐私政策</view>
+    <text class="privacy-meta">运营主体 {{operator}} · {{contact}}</text>
+    <scroll-view scroll-y class="privacy-body">
+      <text class="privacy-text">{{privacySummary}}</text>
+    </scroll-view>
+
+    <view class="privacy-check" bindtap="onTogglePrivacy" hover-class="privacy-check-hover">
+      <view class="privacy-box {{privacyChecked ? 'on' : ''}}">
+        <text wx:if="{{privacyChecked}}">✓</text>
+      </view>
+      <text class="privacy-check-label">我已阅读并同意隐私政策</text>
+    </view>
+
+    <view class="privacy-check" bindtap="onToggleAge" hover-class="privacy-check-hover">
+      <view class="privacy-box {{ageChecked ? 'on' : ''}}">
+        <text wx:if="{{ageChecked}}">✓</text>
+      </view>
+      <text class="privacy-check-label">我已年满14周岁</text>
+    </view>
+
+    <view class="privacy-link" bindtap="handleOpenPrivacy">阅读完整隐私政策</view>
+    <view class="btn-primary" bindtap="handleAgreePrivacy" hover-class="btn-primary-hover">同意并继续</view>
+  </view>
+
+  <view wx:elif="{{loading}}" class="loading-area">
     <view class="loading-spinner"></view>
     <text class="loading-text">正在连接星际网络...</text>
   </view>
 
-  <!-- Failed state with retry + dev skip -->
   <view wx:elif="{{loginFailed}}" class="login-failed">
     <view class="failed-icon">⚠️</view>
     <text class="failed-text">连接失败，请检查网络或后端服务</text>

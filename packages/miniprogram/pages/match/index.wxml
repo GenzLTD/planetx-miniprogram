@@ -1,5 +1,13 @@
 <star-bg />
 <view class="page-container">
+  <!-- 关闭个性化开关（PIPL 自动化决策可拒绝） -->
+  <view class="personalize-toggle {{phase === 'scanning' ? 'disabled' : ''}}" bindtap="onTogglePersonalize">
+    <view class="personalize-check {{!personalize ? 'on' : ''}}">
+      <text wx:if="{{!personalize}}">✓</text>
+    </view>
+    <text class="personalize-label">关闭个性化 · 改用非画像随机匹配</text>
+  </view>
+
   <!-- Scanning -->
   <view wx:if="{{phase === 'scanning'}}" class="scan-panel">
     <view class="scan-orbit">
@@ -8,7 +16,7 @@
     </view>
     <view class="scan-title">首次星际匹配</view>
     <view class="scan-status">{{statusText}}</view>
-    <view class="scan-hint">仅在舰队范围内寻找互补人格</view>
+    <view class="scan-hint">{{personalize ? '仅在舰队范围内寻找互补人格' : '已关闭个性化 · 随机匹配'}}</view>
   </view>
 
   <!-- Result: 三分流 -->
@@ -16,6 +24,11 @@
     <!-- 共识徽章 -->
     <view class="consensus-badge consensus-{{uiState.view}}">
       {{uiState.statusLabel}} · 阈值 {{uiState.threshold}}
+    </view>
+
+    <!-- 非画像匹配标识 -->
+    <view wx:if="{{result.personalized === false}}" class="non-personalized-badge">
+      已关闭个性化 · 本次为舰队内随机匹配，不基于人格画像
     </view>
 
     <view class="fleet-chip" wx:if="{{result.fleet_name}}">舰队 · {{result.fleet_name}}</view>

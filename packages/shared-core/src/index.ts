@@ -113,6 +113,7 @@ export type {
   MissionCompleteResponse,
   FleetMatchCandidate,
   FleetMatchResponse,
+  FleetMatchRequest,
   ConsensusStatus,
   MatchSpreadHint,
   MatchConsensusItem,
@@ -345,6 +346,7 @@ export {
 } from "./constants/quota";
 
 export { API_ROUTES } from "./constants/routes";
+export { LEGAL, LEGAL_PRIVACY_SUMMARY } from "./constants/legal";
 
 export {
   CLAIM_LABEL,

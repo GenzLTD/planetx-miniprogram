@@ -99,7 +99,7 @@ export const gameApi = {
   },
 
   // match — 舰队内 1:1 人格配对
-  match: () => createGameApi(apiClient).match(),
+  match: (payload?: { personalize?: boolean }) => createGameApi(apiClient).match(payload),
 
   // consensus — 共识列表 + 确认
   listConsensus: () => createGameApi(apiClient).listConsensus(),

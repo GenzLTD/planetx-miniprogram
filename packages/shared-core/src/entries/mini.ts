@@ -85,6 +85,7 @@ export type {
   MissionCompleteResponse,
   FleetMatchCandidate,
   FleetMatchResponse,
+  FleetMatchRequest,
   CreateFleetRequest,
   JoinFleetRequest,
   FleetResponse,
@@ -238,6 +239,7 @@ export type {
 export { QUIZ_QUESTIONS } from "../constants/quiz";
 export { PERSONALITY_MAP, PERSONALITY_FALLBACK_MAP } from "../constants/personality";
 export { API_ROUTES } from "../constants/routes";
+export { LEGAL, LEGAL_PRIVACY_SUMMARY } from "../constants/legal";
 export {
   QUOTA_LIMITS,
   TIER_ORDER,

@@ -35,9 +35,14 @@ App({
       this.globalData.token = token
       // NOTE: loadProfile() moved to hub page onShow — don't call here
     } else {
-      console.log('[App] No saved token, starting WeChat login')
-      // Auto-login with WeChat (async, doesn't block launch)
-      this.wechatLogin()
+      const privacyOk = !!wx.getStorageSync('looma_privacy_accepted')
+      const ageOk = !!wx.getStorageSync('looma_age_confirmed')
+      if (privacyOk && ageOk) {
+        console.log('[App] No saved token, starting WeChat login')
+        this.wechatLogin()
+      } else {
+        console.log('[App] Privacy/age gate pending — splash will collect consent first')
+      }
     }
   },
 

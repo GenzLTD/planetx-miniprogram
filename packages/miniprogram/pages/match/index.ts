@@ -24,6 +24,7 @@ Page({
     completing: false,
     sharing: false,
     uiState: null as MatchUiState | null,
+    personalize: true,
   },
 
   onLoad() {
@@ -46,9 +47,10 @@ Page({
   },
 
   async startMatch() {
+    const usePersonalize = this.data.personalize
     this.setData({
       phase: 'scanning',
-      statusText: '正在扫描舰队星轨…',
+      statusText: usePersonalize ? '正在扫描舰队星轨…' : '随机星轨匹配（已关闭个性化）…',
       errorMessage: '',
       result: null,
       pendingConsensus: [],
@@ -56,10 +58,10 @@ Page({
     })
 
     await new Promise((r) => setTimeout(r, 900))
-    this.setData({ statusText: '计算人格互补轨道…' })
+    this.setData({ statusText: usePersonalize ? '计算人格互补轨道…' : '在舰队范围内随机挑选…' })
 
     try {
-      const data: any = await gameApi.match()
+      const data: any = await gameApi.match({ personalize: usePersonalize })
       if (!data?.matched || !data?.match) {
         throw new Error(data?.message || '匹配失败')
       }
@@ -186,6 +188,12 @@ Page({
       const msg = err?.body?.message || err?.message || '确认失败，请稍后重试'
       wx.showToast({ title: msg, icon: 'none' })
     }
+  },
+
+  onTogglePersonalize() {
+    const next = !this.data.personalize
+    this.setData({ personalize: next })
+    void this.startMatch()
   },
 
   onRetry() {

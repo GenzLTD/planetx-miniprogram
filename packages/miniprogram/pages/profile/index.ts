@@ -74,6 +74,10 @@ Page({
     })
   },
 
+  handlePrivacy() {
+    wx.navigateTo({ url: '/pages/legal/index' })
+  },
+
   handleLogout() {
     wx.showModal({
       title: '退出登录',

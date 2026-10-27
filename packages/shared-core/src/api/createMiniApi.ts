@@ -26,6 +26,7 @@ import type {
   MissionCompleteRequest,
   MissionCompleteResponse,
   FleetMatchResponse,
+  FleetMatchRequest,
   MatchConsensusListResponse,
   CreateFleetRequest,
   FleetResponse,
@@ -138,8 +139,10 @@ export function createGameApi(client: MiniApiClientInterface) {
     missionComplete: (payload: MissionCompleteRequest) =>
       client.post<MissionCompleteResponse>(API_ROUTES.GAME_MISSION_COMPLETE, payload),
 
-    /** Fleet 1:1 personality match (PlanetX domain) */
-    match: () => client.post<FleetMatchResponse>(API_ROUTES.GAME_MATCH),
+    /** Fleet 1:1 personality match (PlanetX domain)
+     *  personalize=false 关闭个性化画像匹配（PIPL 自动化决策可拒绝） */
+    match: (payload?: FleetMatchRequest) =>
+      client.post<FleetMatchResponse>(API_ROUTES.GAME_MATCH, payload ?? {}),
 
     acknowledgeConsensus: (payload: { consensus_id: string }) =>
       client.post<{ status: string }>(API_ROUTES.GAME_MATCH_ACK, payload),
