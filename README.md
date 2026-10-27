@@ -2,7 +2,9 @@
 
 微信小程序独立仓库。AppID `wx842b6837e6898789`。
 
-这是从 `GenzLTD/looma-zervi` 的 `main`（`233e2ca`）切出的壳，加上它依赖的 `shared-core`。`looma-zervi` 里的 `wx6563950292092013` 不动。
+这是从 `GenzLTD/looma-zervi` 的 `main`（`233e2ca`）切出的壳，加上它依赖的 `shared-core`。
+
+`wx6563950292092013` 停止推进。那个主体不是企业法人，无法上架。上架只走本仓库的 `wx842b6837e6898789`。`looma-zervi` 里的旧壳保留，不再加功能。
 
 ## 单源
 

@@ -6,6 +6,11 @@
     "frontend/packages/shared-core"
   ],
   "appid": "wx842b6837e6898789",
+  "supersedes": {
+    "appid": "wx6563950292092013",
+    "status": "stopped",
+    "reason": "主体不是企业法人，无法上架"
+  },
   "contract": {
     "repo": "GenzLTD/gfcc",
     "commit": "4f0dc4ba5c15861fbe56e0ad63e762003b80bf62",
