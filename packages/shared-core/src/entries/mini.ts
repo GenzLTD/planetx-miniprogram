@@ -163,6 +163,7 @@ export type {
 export type {
   PaymentPlan,
   PlansResponse,
+  ProvidersResponse,
   PaymentStatus,
   UpgradeRequest,
   UpgradeResponse,
