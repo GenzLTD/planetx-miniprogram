@@ -2,6 +2,8 @@
   "pages": [
     "pages/splash/index",
     "pages/hub/index",
+    "pages/onboarding/index",
+    "pages/timeline/index",
     "pages/trust/index",
     "pages/ask/index",
     "pages/profile/index",

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "选择身份",
+  "usingComponents": {
+    "star-bg": "/components/star-bg/index"
+  }
+}

@@ -4,6 +4,7 @@
  */
 import { eventBus } from '../../utils/event-bus'
 import { store } from '../../utils/store'
+import { enterApp } from '../../utils/enter'
 import { LEGAL, LEGAL_PRIVACY_SUMMARY } from '@looma/shared-core'
 
 const LOGIN_TIMEOUT_MS = 5000
@@ -35,7 +36,7 @@ Page({
     this._authHandler = (data: any) => {
       this.clearTimer()
       if (data.success) {
-        wx.switchTab({ url: '/pages/hub/index' })
+        enterApp()
       } else {
         this.setData({ loading: false, loginFailed: true, devMode: true })
       }
@@ -58,10 +59,7 @@ Page({
     }
 
     if (token) {
-      wx.switchTab({
-        url: '/pages/hub/index',
-        fail: (err: any) => console.error('[Splash] switchTab failed:', JSON.stringify(err)),
-      })
+      enterApp()
       return
     }
 
@@ -108,7 +106,7 @@ Page({
     wx.setStorageSync(AGE_KEY, 1)
     const token = store.get('token') || wx.getStorageSync('looma_token')
     if (token) {
-      wx.switchTab({ url: '/pages/hub/index' })
+      enterApp()
       return
     }
     this.setData({ showPrivacyGate: false, loading: true, loginFailed: false })
@@ -130,6 +128,6 @@ Page({
 
   handleSkipLogin() {
     store.set('token', 'dev-mode-token')
-    wx.switchTab({ url: '/pages/hub/index' })
+    enterApp()
   },
 })

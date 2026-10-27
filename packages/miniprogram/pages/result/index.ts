@@ -168,4 +168,8 @@ Page({
   handleBack() {
     wx.switchTab({ url: '/pages/hub/index' })
   },
+
+  handleTimeline() {
+    wx.navigateTo({ url: '/pages/timeline/index' })
+  },
 })

@@ -27,6 +27,9 @@
       <button class="btn-secondary" open-type="share">
         📢 微信分享给好友
       </button>
+      <view class="btn-primary" bindtap="handleTimeline">
+        查看职业时间线
+      </view>
       <view class="btn-primary" bindtap="handleBack">
         🚀 返回母舰 · 继续探险
       </view>

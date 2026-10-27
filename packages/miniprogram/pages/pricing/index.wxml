@@ -9,6 +9,14 @@
     </view>
   </view>
 
+  <view class="pay-steps" wx:if="{{payStep}}">
+    <text class="pay-step {{payStep === 'order' ? 'now' : ''}}">下单</text>
+    <text class="pay-arrow">→</text>
+    <text class="pay-step {{payStep === 'notify' ? 'now' : ''}}">{{stubMode ? '模拟回调' : '微信支付'}}</text>
+    <text class="pay-arrow">→</text>
+    <text class="pay-step {{payStep === 'status' || payStep === 'done' ? 'now' : ''}}">订阅状态</text>
+  </view>
+
   <!-- Loading -->
   <view wx:if="{{loading}}" class="loading-box">
     <view class="loading-spinner"></view>

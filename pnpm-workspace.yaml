@@ -1,2 +1,9 @@
 packages:
   - "packages/*"
+
+# esbuild 的安装脚本（下载平台原生二进制）对本项目是多余的：平台包 @esbuild/darwin-arm64
+# 已随依赖装好，直接可用。pnpm 默认是「未显式表态 = 拒绝执行 + 报错」，会让 pnpm install 以及
+# 后续的 pnpm build:npm 全部以 exit 1 退出（ERR_PNPM_IGNORED_BUILDS）。
+# 这里显式表态为 false：不执行其安装脚本，且不再报未授权错误。
+allowBuilds:
+  esbuild: false

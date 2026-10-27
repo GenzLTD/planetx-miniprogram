@@ -5,6 +5,7 @@
  */
 
 import { eventBus } from './utils/event-bus'
+import { enterApp } from './utils/enter'
 import { store } from './utils/store'
 import { authApi, gameApi, API_BASE, referralApi } from './utils/api'
 import { getDeviceInfo } from './utils/device'
@@ -82,11 +83,8 @@ App({
             const currentRoute = pages.length > 0 ? pages[pages.length - 1].route : ''
             console.log('[App] Current page after login:', currentRoute)
             if (currentRoute === 'pages/splash/index' || currentRoute === '') {
-              console.log('[App] Navigating to hub directly')
-              wx.switchTab({
-                url: '/pages/hub/index',
-                fail: (err) => console.error('[App] switchTab failed:', JSON.stringify(err)),
-              })
+              console.log('[App] Navigating into the app')
+              enterApp()
             }
 
             // Load full game profile

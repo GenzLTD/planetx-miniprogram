@@ -209,8 +209,8 @@ export const store = {
   },
 
   /** Set identity and sync to backend */
-  async setIdentity(identity: Identity) {
-    state.identity = identity
+  async setIdentity(identity: Identity | 'captain' | 'wanderer') {
+    state.identity = identity as Identity
     persistToStorage()
 
     // 同步到后端（best-effort）

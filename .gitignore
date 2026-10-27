@@ -5,5 +5,6 @@ dist/
 .env
 .env.*
 project.private.config.json
+packages/miniprogram/utils/config.local.ts
 *.pem
 *.key

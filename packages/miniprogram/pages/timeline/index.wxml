@@ -1,0 +1,37 @@
+<star-bg />
+<view class="page">
+  <view class="h1">职业时间线</view>
+  <view class="lead">我在哪 → 我能做什么 → 我积累了什么 → 过去发生了什么</view>
+  <view class="growth" wx:if="{{growthMessage}}">{{growthMessage}}</view>
+
+  <view class="actions">
+    <view class="btn" bindtap="openCheckIn">记录本周</view>
+    <view class="btn" bindtap="openProject">写入项目</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="muted">加载中...</view>
+  <view wx:elif="{{items.length === 0}}" class="muted">还没有记录。完成测验或在这里写下本周行动。</view>
+  <view wx:else>
+    <view wx:for="{{items}}" wx:key="id" class="item">
+      <view class="when">{{item.when}}</view>
+      <view class="title">{{item.title}}</view>
+      <view class="summary" wx:if="{{item.summary}}">{{item.summary}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{panel}}" class="mask" bindtap="closePanel">
+    <view class="sheet" catchtap="noop">
+      <block wx:if="{{panel === 'check_in'}}">
+        <view class="sheet-title">本周记录</view>
+        <textarea class="field" placeholder="这周做了什么" value="{{focus}}" bindinput="onFocus" />
+        <view class="btn solid" bindtap="submitCheckIn">保存</view>
+      </block>
+      <block wx:else>
+        <view class="sheet-title">项目经历</view>
+        <input class="field line" placeholder="项目标题" value="{{projectTitle}}" bindinput="onProjectTitle" />
+        <textarea class="field" placeholder="你在其中做了什么" value="{{projectSummary}}" bindinput="onProjectSummary" />
+        <view class="btn solid" bindtap="submitProject">保存</view>
+      </block>
+    </view>
+  </view>
+</view>

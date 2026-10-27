@@ -32,6 +32,7 @@ export {
   createAnalyticsApi,
   createComplianceApi,
   createTrustApi,
+  createTimelineApi,
 } from "../api/createMiniApi";
 
 export type { MiniApiClientInterface } from "../api/createMiniApi";

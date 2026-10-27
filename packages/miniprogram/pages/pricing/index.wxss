@@ -156,6 +156,17 @@
   line-height: 1.5;
 }
 
+.pay-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin: 0 0 24rpx;
+  font-size: 24rpx;
+  color: #8888aa;
+}
+.pay-step.now { color: #C8FF50; font-weight: 700; }
+
 /* Buttons */
 .plan-btn {
   width: 100%;

@@ -15,6 +15,7 @@ import {
   createReferralApi,
   createComplianceApi,
   createPaymentApi,
+  createTimelineApi,
   LOOMA_TOKEN_KEY,
   type MiniApiClient,
   type WechatAuthRequest,
@@ -157,6 +158,8 @@ export const complianceApi = createComplianceApi(apiClient)
 // Payment API 适配器
 export const paymentApi = createPaymentApi(apiClient)
 
+export const timelineApi = createTimelineApi(apiClient)
+
 // Trust API 适配器
 export const trustApi = createTrustApi(apiClient)
 
@@ -180,4 +183,5 @@ export default {
   complianceApi,
   paymentApi,
   trustApi,
+  timelineApi,
 }

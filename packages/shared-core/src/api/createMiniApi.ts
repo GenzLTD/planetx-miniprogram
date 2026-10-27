@@ -528,6 +528,28 @@ export function createTrustApi(client: MiniApiClientInterface) {
   };
 }
 
+export function createTimelineApi(client: MiniApiClientInterface) {
+  return {
+    list: (params?: { cursor?: string; limit?: number; kind?: string; since?: string }) => {
+      const q: string[] = [];
+      if (params?.cursor) q.push(`cursor=${encodeURIComponent(params.cursor)}`);
+      if (params?.limit != null) q.push(`limit=${params.limit}`);
+      if (params?.kind) q.push(`kind=${encodeURIComponent(params.kind)}`);
+      if (params?.since) q.push(`since=${encodeURIComponent(params.since)}`);
+      const qs = q.join("&");
+      return client.get<import("../types/timeline").TimelineListResponse>(
+        qs ? `${API_ROUTES.TIMELINE}?${qs}` : API_ROUTES.TIMELINE,
+      );
+    },
+    createEvent: (payload: import("../types/timeline").CreateTimelineEventRequest) =>
+      client.post<import("../types/timeline").TimelineEvent>(API_ROUTES.TIMELINE_EVENTS, payload),
+    growth: () =>
+      client.get<import("../types/timeline").TimelineGrowthResponse>(API_ROUTES.TIMELINE_GROWTH),
+    backfill: () =>
+      client.post<import("../types/timeline").TimelineBackfillResponse>(API_ROUTES.TIMELINE_BACKFILL),
+  };
+}
+
 // ============================================================
 // Compliance API (PIPL consent gate)
 // ============================================================

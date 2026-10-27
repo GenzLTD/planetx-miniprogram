@@ -47,6 +47,7 @@ Page({
     selectedTier: '' as string,
     paying: false,
     polling: false,
+    payStep: '' as '' | 'order' | 'notify' | 'status' | 'done',
     resultModal: false,
     resultTitle: '',
     resultDesc: '',
@@ -147,7 +148,7 @@ Page({
         await this.doWechatPay(tier)
       }
     } catch (err: any) {
-      this.setData({ paying: false })
+      this.setData({ paying: false, polling: false, payStep: '' })
       const msg = err?.message || err?.errMsg || '支付失败，请重试'
       wx.showToast({ title: msg, icon: 'none', duration: 3000 })
       console.error('[Pricing] upgrade failed:', err)
@@ -156,6 +157,7 @@ Page({
 
   /** 商户号下来前：下单 → 模拟微信回调 → 核对订阅。不走直接升级。 */
   async doStubPay(tier: string) {
+    this.setData({ payStep: 'order' })
     const order: any = await paymentApi.wechatOrder(
       {
         tier: tier as 'supporter' | 'pro',
@@ -167,12 +169,13 @@ Page({
       throw new Error('未获取到订单号，请重试')
     }
 
+    this.setData({ payStep: 'notify' })
     await paymentApi.wechatNotifySimulate(order.out_trade_no)
 
-    this.setData({ polling: true })
+    this.setData({ payStep: 'status', polling: true })
     await this.pollAndRefresh()
 
-    this.setData({ paying: false, polling: false })
+    this.setData({ paying: false, polling: false, payStep: 'done' })
     this.refreshCurrentTier()
     this.loadPlans()
 
@@ -181,7 +184,7 @@ Page({
 
   /** 生产模式：JSAPI 微信支付流程 */
   async doWechatPay(tier: string) {
-    // 1. 创建微信支付订单（不传 openid，由后端从 DB 自动填充）
+    this.setData({ payStep: 'order' })
     const order: any = await paymentApi.wechatOrder(
       {
         tier: tier as 'supporter' | 'pro',
@@ -195,7 +198,7 @@ Page({
       throw new Error('未获取到支付参数，请重试')
     }
 
-    // 2. 调起微信支付
+    this.setData({ payStep: 'notify' })
     await new Promise<void>((resolve, reject) => {
       wx.requestPayment({
         timeStamp: jsapiParams.timeStamp,
@@ -208,11 +211,10 @@ Page({
       })
     })
 
-    // 3. 轮询支付状态 + 刷新 JWT
-    this.setData({ polling: true })
+    this.setData({ payStep: 'status', polling: true })
     await this.pollAndRefresh()
 
-    this.setData({ paying: false, polling: false })
+    this.setData({ paying: false, polling: false, payStep: 'done' })
     this.refreshCurrentTier()
     this.loadPlans()
 

@@ -183,6 +183,10 @@ Page({
     wx.navigateTo({ url: '/pages/trust/index' })
   },
 
+  goToTimeline() {
+    wx.navigateTo({ url: '/pages/timeline/index' })
+  },
+
   // ── Fleet operations ──
 
   onTeamMissionTap() {
