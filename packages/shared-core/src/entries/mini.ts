@@ -4,6 +4,7 @@
 export {
   MiniApiClient,
   createMiniApiClient,
+  createPlatformAwareApiClient,
   wxStorageAdapter,
   isWechatMiniProgram,
 } from "../api/MiniApiClientAdapter";
@@ -87,6 +88,7 @@ export type {
   FleetMatchCandidate,
   FleetMatchResponse,
   FleetMatchRequest,
+  MatchConsensusItem,
   CreateFleetRequest,
   JoinFleetRequest,
   FleetResponse,
@@ -265,6 +267,8 @@ export { BRAND, BRAND_PLANETX, BRAND_SAAS } from "../types/brand";
 
 // Utils
 export { computePersonality, hydratePersonality } from "../utils/quiz";
+export { deriveMatchUiState } from "../utils/matchConsensus";
+export type { MatchUiState, MatchResultView } from "../utils/matchConsensus";
 export { getShareText } from "../utils/share";
 export {
   ensureConsent,

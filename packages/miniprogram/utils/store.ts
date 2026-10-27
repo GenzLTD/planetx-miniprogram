@@ -217,8 +217,10 @@ export const store = {
     const token = state.token
     if (token) {
       try {
-        // 动态 import 避免循环依赖
-        const { gameApi } = await import('./api')
+        // 函数级 require 规避与 api.ts 的循环依赖。
+        // 动态 import() 在微信小程序编译链下不可用（会抛错且被 catch 吞掉，请求根本发不出去）。
+        // @ts-ignore 小程序运行时提供 CommonJS require
+        const { gameApi } = require('./api')
         await gameApi.syncProfile({ personality_type: '', identity })
       } catch {
         console.warn('[Store] identity sync failed (non-critical)')
