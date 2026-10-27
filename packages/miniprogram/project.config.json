@@ -2,7 +2,7 @@
   "miniprogramRoot": "./",
   "projectname": "planetx-miniprogram",
   "description": "PlanetX miniprogram for one contract and one ledger",
-  "appid": "wx842b6837e6898789",
+  "appid": "wx6563950292092013",
   "setting": {
     "urlCheck": true,
     "es6": true,
@@ -37,7 +37,7 @@
     "packNpmRelationList": [
       {
         "packageJsonPath": "./package.json",
-        "miniprogramNpmDistDir": "./node_modules"
+        "miniprogramNpmDistDir": "./"
       }
     ],
     "minifyWXSS": true,
@@ -62,7 +62,16 @@
   },
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "node_modules"
+      },
+      {
+        "type": "suffix",
+        "value": ".map"
+      }
+    ],
     "include": []
   }
 }
