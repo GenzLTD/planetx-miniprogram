@@ -131,6 +131,16 @@ export const gameApi = {
 // Chat/Ask API 适配器
 export const askApi = createChatApi(apiClient)
 
+// 求职：与 iOS 同一组 looma 接口
+export const careerApi = {
+  parse: (text: string) =>
+    apiClient.post('/v1/resume/parse', { text }, { timeout: 120000 }),
+  match: (resumeText: string) =>
+    apiClient.post('/v1/jobs/match', { resume_text: resumeText }, { timeout: 120000 }),
+  jobs: () => apiClient.get('/v1/jobs/list'),
+  resumes: () => apiClient.get('/v1/resume/list'),
+}
+
 // Quota API 适配器
 export const quotaApi = {
   // getQuota -> get

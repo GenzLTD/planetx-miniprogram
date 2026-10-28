@@ -1,0 +1,24 @@
+<view class="page">
+  <view class="modes">
+    <view class="mode {{mode === 'parse' ? 'on' : ''}}" data-mode="parse" bindtap="onMode">解析简历</view>
+    <view class="mode {{mode === 'match' ? 'on' : ''}}" data-mode="match" bindtap="onMode">岗位匹配</view>
+  </view>
+  <textarea
+    class="editor"
+    placeholder="贴上简历文本。解析和匹配都走天翼 looma，授权项是「求职核心处理」。"
+    value="{{text}}"
+    bindinput="onInput"
+    maxlength="8000"
+  />
+  <button class="go" loading="{{busy}}" disabled="{{busy}}" bindtap="onSubmit">
+    {{mode === 'parse' ? '解析' : '计算匹配'}}
+  </button>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view wx:if="{{result}}" class="result">{{result}}</view>
+  <view class="section">职位库</view>
+  <view wx:for="{{jobs}}" wx:key="index" class="job">
+    <text class="title">{{item.title}}</text>
+    <text class="meta">{{item.company}} {{item.salary}}</text>
+  </view>
+  <view wx:if="{{jobs.length === 0}}" class="meta">职位库为空，或尚未登录。</view>
+</view>

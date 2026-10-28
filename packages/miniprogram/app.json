@@ -6,6 +6,7 @@
     "pages/timeline/index",
     "pages/trust/index",
     "pages/ask/index",
+    "pages/career/index",
     "pages/profile/index",
     "pages/quiz/index",
     "pages/result/index",
@@ -24,6 +25,7 @@
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "tabBar": {
+    "custom": true,
     "color": "#B8B8C8",
     "selectedColor": "#C8FF50",
     "backgroundColor": "#0D0D1A",
@@ -36,6 +38,10 @@
       {
         "pagePath": "pages/ask/index",
         "text": "问答"
+      },
+      {
+        "pagePath": "pages/career/index",
+        "text": "求职"
       },
       {
         "pagePath": "pages/profile/index",

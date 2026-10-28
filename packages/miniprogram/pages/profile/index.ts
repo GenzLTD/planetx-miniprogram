@@ -34,7 +34,7 @@ Page({
 
   onShow() {
     const tabBar = (this as any).getTabBar?.()
-    if (tabBar) tabBar.setData({ selected: 2 })
+    if (tabBar) tabBar.setData({ selected: 3 })
     this.refreshFromStore()
   },
 

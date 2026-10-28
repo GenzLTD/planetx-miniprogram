@@ -9,6 +9,7 @@ Component({
     list: [
       { pagePath: '/pages/hub/index', text: '母舰', icon: '🚀', activeIcon: '🚀' },
       { pagePath: '/pages/ask/index', text: '问答', icon: '💬', activeIcon: '💬' },
+      { pagePath: '/pages/career/index', text: '求职', icon: '🎯', activeIcon: '🎯' },
       { pagePath: '/pages/profile/index', text: '我的', icon: '🪪', activeIcon: '🪪' },
     ],
   },
