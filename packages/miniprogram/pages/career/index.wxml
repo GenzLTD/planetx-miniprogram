@@ -15,11 +15,20 @@
   </button>
   <view wx:if="{{error}}" class="error">{{error}}</view>
   <view wx:if="{{result}}" class="result">{{result}}</view>
-  <view class="section">简历管理</view>
+  <view class="section">我的简历</view>
   <view class="modes">
     <view class="mode" bindtap="goTemplates">模板</view>
     <view class="mode" bindtap="goBlacklist">屏蔽企业</view>
   </view>
+  <view class="resume-item" wx:for="{{resumes}}" wx:key="id" data-id="{{item.id}}" bindtap="openResume">
+    <view class="resume-item-head">
+      <text class="title">{{item.title}}</text>
+      <text class="parsed-badge" wx:if="{{item.parsed}}">已解析</text>
+    </view>
+    <text class="meta" wx:if="{{item.dateLabel}}">{{item.dateLabel}}</text>
+  </view>
+  <view wx:if="{{resumeError}}" class="meta">简历列表加载失败：{{resumeError}}</view>
+  <view wx:elif="{{resumes.length === 0}}" class="meta">暂无入库简历。上方「解析简历」成功后会自动入库。</view>
   <view class="section">职位库</view>
   <view wx:for="{{jobs}}" wx:key="index" class="job">
     <text class="title">{{item.title}}</text>
