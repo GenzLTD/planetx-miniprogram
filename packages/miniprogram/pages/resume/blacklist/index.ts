@@ -82,7 +82,7 @@ Page({
       this.applyFilter();
     } catch (err: unknown) {
       if (isNotImplemented(err)) {
-        this.setData({ notReady: true, loading: false, items: [], total: 0 });
+        this.setData({ notReady: true, loading: false, items: [], filteredItems: [], total: 0 });
         return;
       }
       const msg = err instanceof Error ? err.message : "加载失败";
