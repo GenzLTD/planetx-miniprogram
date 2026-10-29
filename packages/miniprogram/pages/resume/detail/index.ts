@@ -31,6 +31,10 @@ Page({
     this.loadDetail().finally(() => wx.stopPullDownRefresh());
   },
 
+  goBack() {
+    wx.navigateBack({ fail: () => wx.switchTab({ url: "/pages/career/index" }) });
+  },
+
   async loadDetail() {
     const { resumeId } = this.data;
     if (!resumeId) return;

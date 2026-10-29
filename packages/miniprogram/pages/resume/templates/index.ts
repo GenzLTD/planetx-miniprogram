@@ -22,6 +22,11 @@ Page({
     this.loadTemplates().finally(() => wx.stopPullDownRefresh());
   },
 
+  /** 降级态导流：求职页是 tabBar 页，switchTab（不能带参） */
+  goParse() {
+    wx.switchTab({ url: "/pages/career/index" });
+  },
+
   async loadTemplates() {
     this.setData({ loading: true, error: "", notReady: false });
     try {
