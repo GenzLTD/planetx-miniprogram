@@ -146,10 +146,7 @@ console.log('\n📋 完成！');
 
 if (allFilesExist) {
   console.log('\n🎉 miniprogram_npm 目录结构已创建成功！');
-  console.log('\n下一步操作:');
-  console.log('1. 打开微信开发者工具');
-  console.log('2. 工具 → 构建 npm (现在应该能成功)');
-  console.log('3. 编译测试页面');
+  console.log('⚠️  对拍协议：不要在开发者工具里点「构建 npm」，会覆盖现成的 miniprogram_npm');
 } else {
   console.log('\n⚠️  部分文件缺失，请检查构建状态');
   console.log('   运行: pnpm --filter @looma/shared-core build:mini');

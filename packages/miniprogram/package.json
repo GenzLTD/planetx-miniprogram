@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@looma/shared-core": "workspace:*",
-    "@vant/weapp": "^1.11.0"
+    "@vant/weapp": "1.11.7"
   },
   "devDependencies": {
     "typescript": "^5.4.0",

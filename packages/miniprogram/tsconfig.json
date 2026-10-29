@@ -12,7 +12,10 @@
     "experimentalDecorators": true,
     "lib": ["ES2018", "DOM"],
     "typeRoots": ["./typings"],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@looma/shared-core": ["../shared-core/src/entries/mini.ts"]
+    }
   },
   "include": ["./**/*.ts", "./typings/**/*.d.ts"],
   "exclude": ["node_modules", "./**/__tests__/**"]

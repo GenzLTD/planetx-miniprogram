@@ -23,7 +23,9 @@ module.exports = {
     ],
   },
   moduleNameMapper: {
-    '^@looma/shared-core$': '<rootDir>/packages/shared-core/src/index.ts',
+    // 与微信运行时同一入口（miniprogram_npm = dist/mini = entries/mini.ts），
+    // 避免 tsc(main=src/index.ts) 与运行时(mini entry) 导出面错位
+    '^@looma/shared-core$': '<rootDir>/packages/shared-core/src/entries/mini.ts',
   },
   setupFiles: ['<rootDir>/jest.setup.js'],
   collectCoverageFrom: ['packages/miniprogram/utils/**/*.ts'],

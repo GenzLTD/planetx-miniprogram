@@ -7,7 +7,8 @@
  * 在这一源给出 HTTPS 合法域名之前，这里保持空字符串：
  * 请求会失败，不会落到 ServBay、腾讯云或另一本账。
  */
-export const API_ORIGIN = ''
+// 显式 string：空串时若推断为字面量 ""，下游真值分支会收窄成 never
+export const API_ORIGIN: string = ''
 
 export const API_BASE = API_ORIGIN
 export const SAAS_BASE = API_ORIGIN

@@ -19,6 +19,11 @@ export interface NavBarMetrics {
   totalHeight: number
 }
 
+// typings/index.d.ts 是 ambient 文件不能 import，这里镜像一个全局接口供 IAppOption 引用
+declare global {
+  interface INavBarMetrics extends NavBarMetrics {}
+}
+
 let cached: NavBarMetrics | null = null
 
 const DEFAULT_MENU_BUTTON_HEIGHT = 32

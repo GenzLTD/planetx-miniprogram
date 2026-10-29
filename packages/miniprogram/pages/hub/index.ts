@@ -6,7 +6,7 @@ import { eventBus } from '../../utils/event-bus'
 import { store } from '../../utils/store'
 import { gameApi } from '../../utils/api'
 import { IDENTITY_LABELS, hydratePersonality } from '../../types/index'
-import type { MissionId, Identity } from '../../types/index'
+import type { MissionId, Identity, Fleet } from '../../types/index'
 
 Page({
   data: {
@@ -213,7 +213,8 @@ Page({
     this.setData({ fleetCreating: true })
     try {
       const data: any = await gameApi.createFleet('星际舰队')
-      store.set('fleet', { id: data.id, name: data.name, invite_code: data.invite_code, captain_id: data.captain_id })
+      // TODO(shared-core, dual-review): Fleet 类型缺 invite_code，实际 API 有返回（L264 分享在用）
+      store.set('fleet', { id: data.id, name: data.name, invite_code: data.invite_code, captain_id: data.captain_id } as unknown as Fleet)
       store.set('teamSize', data.team_size ?? 1)
       store.set('fleetMembers', [])
       this.refreshFromStore()

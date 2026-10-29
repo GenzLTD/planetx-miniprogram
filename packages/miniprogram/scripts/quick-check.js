@@ -73,12 +73,8 @@ if (hasNpmConfig) {
 console.log('\n📋 总结:');
 
 if (hasNpmDir && hasMiniBundle && hasNpmConfig) {
-  console.log('🎉 所有检查通过！现在可以在微信开发者工具中构建 npm');
-  console.log('\n下一步操作:');
-  console.log('1. 打开微信开发者工具');
-  console.log('2. 导入项目');
-  console.log('3. 工具 → 构建 npm');
-  console.log('4. 访问核心功能页面: pages/hub/index');
+  console.log('🎉 所有检查通过！miniprogram_npm 就绪');
+  console.log('⚠️  对拍协议：不要在开发者工具里点「构建 npm」，会覆盖现成的 miniprogram_npm');
 } else {
   console.log('⚠️  需要修复以下问题:');
   if (!hasNpmDir) console.log('   - miniprogram_npm 目录不存在');

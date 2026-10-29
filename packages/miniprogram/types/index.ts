@@ -56,7 +56,6 @@ export type {
   DocSource,
   AskRequest,
   AskResponse,
-  StreamCallbacks,
   RateRequest,
   LastQueryResponse,
   
@@ -214,10 +213,6 @@ export {
   grantConsent,
   hasConsent,
   isConsentRequiredError,
-  initAnalytics,
-  getAnalyticsSessionId,
-  trackEvent,
-  flushEvents,
   formatDate,
   formatDateTime,
   formatNumber,

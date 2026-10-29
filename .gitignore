@@ -8,3 +8,5 @@ project.private.config.json
 packages/miniprogram/utils/config.local.ts
 *.pem
 *.key
+pnpm-lock.yaml
+package-lock.json

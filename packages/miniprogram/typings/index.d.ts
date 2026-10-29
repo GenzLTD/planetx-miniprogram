@@ -10,7 +10,7 @@ interface IAppOption {
     userInfo: any
     apiBase: string
     device: any
-    navBar: any
+    navBar: INavBarMetrics | null
   }
   wechatLogin(): void
   loadProfile(): void
@@ -40,6 +40,7 @@ declare const wx: {
   hideLoading(): void
   showModal(options: ShowModalOptions): void
   showActionSheet(options: ShowActionSheetOptions): void
+  stopPullDownRefresh(): void
   
   // Clipboard
   setClipboardData(options: SetClipboardDataOption): void
