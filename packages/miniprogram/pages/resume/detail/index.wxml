@@ -33,17 +33,67 @@
     </view>
   </view>
 
+  <!-- 正文：只读 / 编辑 -->
   <view class="resume-list" wx:if="{{!loading && !error && !notReady && detail}}">
-    <view class="resume-card">
-      <text class="resume-card-title">{{detail.title || '未命名简历'}}</text>
+    <view class="resume-card" wx:if="{{!editing}}">
+      <view class="resume-card-row">
+        <text class="resume-card-title">{{detail.title || '未命名简历'}}</text>
+        <view class="edit-link" bindtap="startEdit">
+          <text>编辑正文</text>
+        </view>
+      </view>
       <text class="resume-card-meta" wx:if="{{detail.filename}}">{{detail.filename}}</text>
       <text class="resume-card-meta" wx:if="{{visibilityText}}">可见性 · {{visibilityText}}</text>
+      <text class="resume-card-meta" wx:if="{{detail.status}}">状态 · {{detail.status}}</text>
       <text class="resume-card-body" wx:if="{{detail.extracted.summary}}">{{detail.extracted.summary}}</text>
+      <text class="resume-card-body muted" wx:if="{{detail.markdown}}">{{detail.markdown}}</text>
+    </view>
+
+    <view class="resume-card" wx:else>
+      <text class="resume-card-title">编辑正文</text>
+      <text class="edit-field-label">标题</text>
+      <input
+        class="edit-input"
+        value="{{editTitle}}"
+        maxlength="200"
+        placeholder="简历标题"
+        bindinput="onEditTitle"
+        disabled="{{editSaving}}"
+      />
+      <text class="edit-field-label">摘要</text>
+      <textarea
+        class="edit-textarea short"
+        value="{{editSummary}}"
+        maxlength="2000"
+        placeholder="一句话摘要（写入 extracted.summary）"
+        bindinput="onEditSummary"
+        disabled="{{editSaving}}"
+        auto-height
+      />
+      <text class="edit-field-label">正文 Markdown</text>
+      <textarea
+        class="edit-textarea"
+        value="{{editMarkdown}}"
+        maxlength="50000"
+        placeholder="简历原文 / 转换后的 markdown"
+        bindinput="onEditMarkdown"
+        disabled="{{editSaving}}"
+      />
+      <text class="edit-hint">只提交有改动的字段；摘要改动会整份替换 extracted（其余字段保留）。可见性请用下方「谁可看」。</text>
+      <text class="perm-error" wx:if="{{editError}}">{{editError}}</text>
+      <view class="edit-actions">
+        <view class="edit-btn ghost {{editSaving ? 'disabled' : ''}}" bindtap="cancelEdit">
+          <text>取消</text>
+        </view>
+        <view class="edit-btn primary {{editSaving ? 'disabled' : ''}}" bindtap="saveEdit">
+          <text>{{editSaving ? '保存中…' : '保存'}}</text>
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- 谁可看：授权面唯一写入口（metadata.permission），与 detail 读同一处 -->
-  <view class="resume-list perm-list" wx:if="{{!loading && !error && !notReady && detail && !permBlocked}}">
+  <view class="resume-list perm-list" wx:if="{{!loading && !error && !notReady && detail && !permBlocked && !editing}}">
     <view class="resume-card">
       <view class="resume-card-row">
         <text class="resume-card-title">谁可看</text>
