@@ -1,0 +1,24 @@
+/**
+ * tsconfig.base.json — 仓级 TS 基座。
+ *
+ * 背景：本仓从 looma-zervi monorepo 切出时丢失了这份文件，导致
+ * packages/shared-core/tsconfig.json 的 extends 静默失效，target/lib/module
+ * 全部回退 ES5 默认值（~90 个 TS2550/TS2705/TS1343 错误的根因）。
+ * 2026-10-29 修缮批次补回。口径：
+ *  - target/lib ES2020：Promise/Object.entries/Set/Map 全覆盖，supabase 系依赖的 d.ts 也要求 ≥es2015
+ *  - module ES2020：supabase.ts 使用 import.meta（TS1343 要求 module ≥ es2020）
+ *  - moduleResolution Bundler：与 esbuild（build:mini）与打包器行为一致
+ *  - skipLibCheck：node_modules 内 d.ts（@supabase/* 的 Buffer/NodeJS 引用）不做全量检查
+ *  - lib 带 DOM：web 面 ApiClient 使用 fetch/Headers；小程序面类型自带 wx 声明，不受影响
+ */
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "ES2020",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  }
+}
