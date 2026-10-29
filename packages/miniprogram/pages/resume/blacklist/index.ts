@@ -1,10 +1,14 @@
 /**
  * 屏蔽企业 — GET/POST /v1/resume/blacklist · DELETE /v1/resume/blacklist/:item_id（用户维）
- * 阶段3 前统一走 isNotImplemented → 降级空态/降级提示，禁止页面自判 501/405。
- * 添加表单为契约完整交互预留：body 按 match 枚举分情况必填（resume.v1.json#blacklist_add）。
+ * 501 降级统一走 isNotImplemented，页面不自判状态码。
+ * 添加表单按 match 枚举分情况必填（resume.v1.json#blacklist_add）。
+ *
+ * 展示兜底：非 exact_name 形态下页面只传匹配键，服务端 company_name 落空串，
+ * 卡片标题不能渲染成空白 —— 统一在 decorateBlacklistItem() 里补展示名。
  */
-import { isNotImplemented, type ResumeBlacklistItem, type BlacklistMatch } from "@looma/shared-core";
+import { isNotImplemented, type BlacklistMatch } from "@looma/shared-core";
 import { resumeApi } from "../../../utils/api";
+import { decorateBlacklistItem, type BlacklistRow } from "./display";
 
 type MatchOption = { value: BlacklistMatch; label: string; placeholder: string; field: "company_name" | "credit_code" | "enterprise_id" };
 
@@ -16,7 +20,7 @@ const MATCH_OPTIONS: MatchOption[] = [
 
 Page({
   data: {
-    items: [] as ResumeBlacklistItem[],
+    items: [] as BlacklistRow[],
     total: 0,
     loading: true,
     error: "",
@@ -48,7 +52,7 @@ Page({
     this.setData({ loading: true, error: "", notReady: false });
     try {
       const result = await resumeApi.blacklist();
-      const items = result.items || [];
+      const items = (result.items || []).map(decorateBlacklistItem);
       this.setData({
         items,
         total: result.total ?? items.length,
@@ -109,7 +113,7 @@ Page({
     } catch (err: unknown) {
       this.setData({ submitting: false });
       if (isNotImplemented(err)) {
-        wx.showToast({ title: "屏蔽功能建设中，阶段3 上线后可用", icon: "none", duration: 2200 });
+        wx.showToast({ title: "该功能暂不可用（后端未实现）", icon: "none", duration: 2200 });
         this.closeAdd();
         return;
       }
@@ -127,7 +131,7 @@ Page({
       this.loadBlacklist();
     } catch (err: unknown) {
       if (isNotImplemented(err)) {
-        wx.showToast({ title: "移除功能建设中，阶段3 上线后可用", icon: "none", duration: 2200 });
+        wx.showToast({ title: "该功能暂不可用（后端未实现）", icon: "none", duration: 2200 });
         return;
       }
       const msg = err instanceof Error ? err.message : "移除失败";
