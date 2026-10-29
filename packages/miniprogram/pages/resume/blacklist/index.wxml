@@ -1,0 +1,36 @@
+<scroll-view class="resume-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="resume-header">
+    <text class="resume-title">屏蔽企业</text>
+    <text class="resume-subtitle" wx:if="{{total > 0 && !notReady}}">已屏蔽 {{total}} 家</text>
+  </view>
+
+  <view class="resume-loading" wx:if="{{loading}}">
+    <text class="resume-muted">加载中...</text>
+  </view>
+
+  <view class="resume-error" wx:if="{{error && !loading}}">
+    <text class="resume-error-text">{{error}}</text>
+    <view class="resume-retry" bindtap="loadBlacklist">
+      <text>重试</text>
+    </view>
+  </view>
+
+  <view class="resume-degrade" wx:if="{{notReady && !loading}}">
+    <text class="resume-degrade-title">屏蔽列表即将开放</text>
+    <text class="resume-degrade-hint">服务端尚未实现 GET /v1/resume/blacklist（阶段3 落地）。当前为空态降级，不是加载失败。</text>
+  </view>
+
+  <view class="resume-list" wx:if="{{!loading && !error && !notReady}}">
+    <view class="resume-card" wx:for="{{items}}" wx:key="id">
+      <text class="resume-card-title">{{item.company_name}}</text>
+      <text class="resume-card-meta" wx:if="{{item.match}}">匹配方式 · {{item.match}}</text>
+      <text class="resume-card-body" wx:if="{{item.note}}">{{item.note}}</text>
+    </view>
+    <view class="resume-empty" wx:if="{{items.length === 0}}">
+      <text class="resume-degrade-title">暂无屏蔽企业</text>
+      <text class="resume-degrade-hint">列表已接通。添加屏蔽后，推荐与投递将按此过滤。</text>
+    </view>
+  </view>
+
+  <view class="resume-bottom-safe"></view>
+</scroll-view>

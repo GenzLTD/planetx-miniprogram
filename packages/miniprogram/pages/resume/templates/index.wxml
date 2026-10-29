@@ -1,0 +1,36 @@
+<scroll-view class="resume-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="resume-header">
+    <text class="resume-title">简历模板</text>
+    <text class="resume-subtitle" wx:if="{{total > 0 && !notReady}}">共 {{total}} 套模板</text>
+  </view>
+
+  <view class="resume-loading" wx:if="{{loading}}">
+    <text class="resume-muted">加载中...</text>
+  </view>
+
+  <view class="resume-error" wx:if="{{error && !loading}}">
+    <text class="resume-error-text">{{error}}</text>
+    <view class="resume-retry" bindtap="loadTemplates">
+      <text>重试</text>
+    </view>
+  </view>
+
+  <view class="resume-degrade" wx:if="{{notReady && !loading}}">
+    <text class="resume-degrade-title">模板目录即将开放</text>
+    <text class="resume-degrade-hint">服务端尚未实现 GET /v1/resume/templates（阶段3 落地）。当前为空态降级，不是加载失败。</text>
+  </view>
+
+  <view class="resume-list" wx:if="{{!loading && !error && !notReady}}">
+    <view class="resume-card" wx:for="{{templates}}" wx:key="id">
+      <text class="resume-card-title">{{item.name}}</text>
+      <text class="resume-card-meta" wx:if="{{item.locale}}">{{item.locale}}</text>
+      <text class="resume-card-body" wx:if="{{item.summary}}">{{item.summary}}</text>
+    </view>
+    <view class="resume-empty" wx:if="{{templates.length === 0}}">
+      <text class="resume-degrade-title">暂无模板</text>
+      <text class="resume-degrade-hint">目录已接通，但当前没有可展示的模板。</text>
+    </view>
+  </view>
+
+  <view class="resume-bottom-safe"></view>
+</scroll-view>
