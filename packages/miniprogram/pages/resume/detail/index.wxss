@@ -1,1 +1,66 @@
 @import "../_shared.wxss";
+
+/* ============ 谁可看（授权面） ============ */
+.perm-list {
+  margin-top: 20rpx;
+}
+
+.perm-count {
+  font-size: 22rpx;
+  color: #8a8aa0;
+  flex-shrink: 0;
+}
+
+.perm-options {
+  display: flex;
+  flex-direction: row;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.perm-option {
+  flex: 1;
+  padding: 18rpx 12rpx;
+  border-radius: 12rpx;
+  background: #12121f;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.perm-option.on {
+  border-color: rgba(200, 255, 80, 0.6);
+  background: rgba(200, 255, 80, 0.08);
+}
+
+.perm-option-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #f1f1ff;
+}
+
+.perm-option.on .perm-option-label {
+  color: #c8ff50;
+}
+
+.perm-option-hint {
+  font-size: 20rpx;
+  color: #8a8aa0;
+  line-height: 1.4;
+}
+
+.perm-note {
+  display: block;
+  margin-top: 18rpx;
+  font-size: 22rpx;
+  color: #8a8aa0;
+}
+
+.perm-error {
+  display: block;
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: #f87171;
+  line-height: 1.5;
+}

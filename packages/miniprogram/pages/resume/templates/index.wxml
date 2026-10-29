@@ -22,9 +22,9 @@
 
   <!-- 降级空态 + 导流：别把用户晾在死胡同 -->
   <view class="resume-degrade" wx:if="{{notReady && !loading}}">
-    <text class="resume-degrade-badge">✦ 阶段3 预留</text>
-    <text class="resume-degrade-title">模板目录即将开放</text>
-    <text class="resume-degrade-hint">服务端尚未实现 GET /v1/resume/templates（阶段3 落地）。当前为空态降级，不是加载失败。</text>
+    <text class="resume-degrade-badge">✦ 接口未开放</text>
+    <text class="resume-degrade-title">模板目录暂不可用</text>
+    <text class="resume-degrade-hint">当前后端版本尚未实现 GET /v1/resume/templates（501 not_implemented）。不是加载失败。</text>
     <view class="resume-cta" bindtap="goParse">
       <text>先去解析一份简历 →</text>
     </view>

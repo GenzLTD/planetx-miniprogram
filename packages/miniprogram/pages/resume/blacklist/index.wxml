@@ -21,20 +21,19 @@
 
   <!-- 降级空态：not_implemented 专属，不是加载失败 -->
   <view class="resume-degrade" wx:if="{{notReady && !loading}}">
-    <text class="resume-degrade-badge">✦ 阶段3 预留</text>
-    <text class="resume-degrade-title">屏蔽列表即将开放</text>
-    <text class="resume-degrade-hint">服务端尚未实现 GET /v1/resume/blacklist（阶段3 落地）。当前为空态降级，不是加载失败。</text>
+    <text class="resume-degrade-badge">✦ 接口未开放</text>
+    <text class="resume-degrade-title">屏蔽列表暂不可用</text>
+    <text class="resume-degrade-hint">当前后端版本尚未实现 GET /v1/resume/blacklist（501 not_implemented）。不是加载失败。</text>
   </view>
 
   <view class="resume-list" wx:if="{{!loading && !error && !notReady}}">
     <view class="resume-card" wx:for="{{items}}" wx:key="id">
       <view class="resume-card-row">
-        <text class="resume-card-title">{{item.company_name}}</text>
+        <text class="resume-card-title">{{item.displayName}}</text>
         <view class="resume-remove" data-id="{{item.id}}" bindtap="removeItem">移除</view>
       </view>
-      <text class="resume-card-meta" wx:if="{{item.match}}">匹配方式 · {{item.match}}</text>
-      <text class="resume-card-meta" wx:if="{{item.credit_code}}">信用代码 · {{item.credit_code}}</text>
-      <text class="resume-card-meta" wx:if="{{item.enterprise_id}}">企业 ID · {{item.enterprise_id}}</text>
+      <text class="resume-card-meta">匹配方式 · {{item.matchLabel}}</text>
+      <text class="resume-card-meta" wx:if="{{item.keyHint}}">{{item.keyHint}}</text>
       <text class="resume-card-body" wx:if="{{item.note}}">{{item.note}}</text>
     </view>
     <view class="resume-empty" wx:if="{{items.length === 0}}">

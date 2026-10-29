@@ -1,6 +1,6 @@
 /**
  * 简历模板目录 — GET /v1/resume/templates
- * 阶段3 前统一走 isNotImplemented → 降级空态，禁止页面自判 501/405。
+ * 501 降级统一走 isNotImplemented，页面不自判状态码。
  */
 import { isNotImplemented, type ResumeTemplate } from "@looma/shared-core";
 import { resumeApi } from "../../../utils/api";

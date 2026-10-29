@@ -25,9 +25,9 @@
   </view>
 
   <view class="resume-degrade" wx:if="{{notReady && !loading}}">
-    <text class="resume-degrade-badge">✦ 阶段3 预留</text>
-    <text class="resume-degrade-title">详情接口即将开放</text>
-    <text class="resume-degrade-hint">服务端尚未实现 GET /v1/resume/:resume_id（阶段3 落地）。当前为空态降级；列表与解析仍可用既有端点。</text>
+    <text class="resume-degrade-badge">✦ 接口未开放</text>
+    <text class="resume-degrade-title">详情接口暂不可用</text>
+    <text class="resume-degrade-hint">当前后端版本尚未实现 GET /v1/resume/:resume_id（501 not_implemented）。不是加载失败，列表与解析仍可用。</text>
     <view class="resume-cta" bindtap="goBack">
       <text>返回 →</text>
     </view>
@@ -37,8 +37,36 @@
     <view class="resume-card">
       <text class="resume-card-title">{{detail.title || '未命名简历'}}</text>
       <text class="resume-card-meta" wx:if="{{detail.filename}}">{{detail.filename}}</text>
-      <text class="resume-card-meta" wx:if="{{detail.visibility}}">可见性 · {{detail.visibility}}</text>
+      <text class="resume-card-meta" wx:if="{{visibilityText}}">可见性 · {{visibilityText}}</text>
       <text class="resume-card-body" wx:if="{{detail.extracted.summary}}">{{detail.extracted.summary}}</text>
+    </view>
+  </view>
+
+  <!-- 谁可看：授权面唯一写入口（metadata.permission），与 detail 读同一处 -->
+  <view class="resume-list perm-list" wx:if="{{!loading && !error && !notReady && detail && !permBlocked}}">
+    <view class="resume-card">
+      <view class="resume-card-row">
+        <text class="resume-card-title">谁可看</text>
+        <text class="perm-count" wx:if="{{perm}}">{{grantCount}} 个授权对象</text>
+      </view>
+
+      <view class="perm-options">
+        <view
+          wx:for="{{visibilityOptions}}"
+          wx:key="value"
+          class="perm-option {{currentVisibility === item.value ? 'on' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="onVisibilityTap"
+        >
+          <text class="perm-option-label">{{item.label}}</text>
+          <text class="perm-option-hint">{{item.hint}}</text>
+        </view>
+      </view>
+
+      <text class="perm-note" wx:if="{{permLoading}}">授权信息加载中…</text>
+      <text class="perm-note" wx:elif="{{permSaving}}">保存中…</text>
+      <text class="perm-note" wx:elif="{{permUpdatedAt}}">最近更新 · {{permUpdatedAt}}</text>
+      <text class="perm-error" wx:if="{{permError}}">{{permError}}</text>
     </view>
   </view>
 
