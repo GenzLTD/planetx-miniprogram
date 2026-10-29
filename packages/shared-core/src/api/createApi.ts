@@ -69,7 +69,7 @@ import type {
   JobPostMatchesResponse,
   CandidateListResponse,
 } from "../types/enterprise";
-import type { ParsedResume, JobMatchRequest, JobMatchResponse, Job, ResumeUploadResult, ResumeIngestRequest, ResumeIngestResponse, ParsedJob, JobUploadResult, CreditAnalysis, CheckCompanyRequest, CheckCompanyResponse, ResumeListResponse, ResumeAnalysisResponse } from "../types/resume";
+import type { ParsedResume, JobMatchRequest, JobMatchResponse, Job, ResumeUploadResult, ResumeIngestRequest, ResumeIngestResponse, ParsedJob, JobUploadResult, CreditAnalysis, CheckCompanyRequest, CheckCompanyResponse, ResumeListResponse, ResumeAnalysisResponse, ResumeDetail, ResumeUpdateRequest, ResumePermission, ResumePermissionGrant, ResumeVisibility, ResumeBlacklistItem, ResumeBlacklistAddRequest, ResumeBlacklistResponse, ResumeTemplatesResponse } from "../types/resume";
 import type { Report, GenerateReportRequest } from "../types/misc";
 import type {
   CreateMatchReportRequest,
@@ -404,6 +404,34 @@ export function createResumeApi(client: ApiClient) {
     /** Delete a resume by ID */
     delete: (resumeId: string) =>
       client.delete<{ message: string; resume_id: string }>(`${API_ROUTES.RESUME_DELETE}/${resumeId}`),
+
+    // ── resume.v1.json v0.1.0 契约端点（与 createMiniApi.ts 同面镜像）──
+    // 阶段3 落地前 8 个端点均为 stub_501；统一用 isNotImplemented(err) 降级。
+    detail: (resumeId: string) =>
+      client.get<ResumeDetail>(`${API_ROUTES.RESUME_BASE}/${resumeId}`),
+
+    /** 正文更新（title/extracted/markdown；visibility 写入口归 setPermission，裁决 2026-10-29） */
+    update: (resumeId: string, body: ResumeUpdateRequest) =>
+      client.put<ResumeDetail>(`${API_ROUTES.RESUME_BASE}/${resumeId}`, body),
+
+    permission: (resumeId: string) =>
+      client.get<ResumePermission>(`${API_ROUTES.RESUME_BASE}/${resumeId}/permission`),
+
+    /** 全量替换语义；grants 省略即清空，必须先 GET 再 PUT */
+    setPermission: (
+      resumeId: string,
+      body: { visibility: ResumeVisibility; grants?: ResumePermissionGrant[] }
+    ) => client.put<ResumePermission>(`${API_ROUTES.RESUME_BASE}/${resumeId}/permission`, body),
+
+    blacklist: () => client.get<ResumeBlacklistResponse>(API_ROUTES.RESUME_BLACKLIST),
+
+    blacklistAdd: (body: ResumeBlacklistAddRequest) =>
+      client.post<ResumeBlacklistItem>(API_ROUTES.RESUME_BLACKLIST, body),
+
+    blacklistRemove: (itemId: string) =>
+      client.delete<{ message: string; id: string }>(`${API_ROUTES.RESUME_BLACKLIST}/${itemId}`),
+
+    templates: () => client.get<ResumeTemplatesResponse>(API_ROUTES.RESUME_TEMPLATES),
   };
 }
 

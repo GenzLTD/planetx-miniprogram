@@ -47,7 +47,7 @@ import type {
   AddCandidateRequest,
   AddCandidateResponse,
 } from "../types/enterprise";
-import type { ParsedResume, JobMatchRequest, JobMatchResponse, Job, ParsedJob, CreditAnalysis, CheckCompanyRequest, ResumeListResponse, ResumeAnalysisResponse } from "../types/resume";
+import type { ParsedResume, JobMatchRequest, JobMatchResponse, Job, ParsedJob, CreditAnalysis, CheckCompanyRequest, ResumeListResponse, ResumeAnalysisResponse, ResumeDetail, ResumeUpdateRequest, ResumePermission, ResumePermissionGrant, ResumeVisibility, ResumeBlacklistItem, ResumeBlacklistAddRequest, ResumeBlacklistResponse, ResumeTemplatesResponse } from "../types/resume";
 import type { Report, GenerateReportRequest } from "../types/misc";
 import { API_ROUTES } from "../constants/routes";
 
@@ -279,6 +279,41 @@ export function createResumeApi(client: MiniApiClientInterface) {
     /** Delete a resume by ID */
     delete: (resumeId: string) =>
       client.delete<{ message: string; resume_id: string }>(`${API_ROUTES.RESUME_DELETE}/${resumeId}`),
+
+    // ── resume.v1.json v0.1.0 契约端点 ──
+    // 阶段3 落地前 8 个端点均为 stub_501；页面用 isNotImplemented(err) 统一降级，
+    // 禁止各页面自行判 501/405。
+    /** GET /v1/resume/:resume_id — 详情（stub_501 → stage3） */
+    detail: (resumeId: string) =>
+      client.get<ResumeDetail>(`${API_ROUTES.RESUME_BASE}/${resumeId}`),
+
+    /** PUT /v1/resume/:resume_id — 正文更新（title/extracted/markdown；不含 visibility，写入口归 setPermission） */
+    update: (resumeId: string, body: ResumeUpdateRequest) =>
+      client.put<ResumeDetail>(`${API_ROUTES.RESUME_BASE}/${resumeId}`, body),
+
+    /** GET /v1/resume/:resume_id/permission — 简历维授权面（仅 owner 可读完整 grants） */
+    permission: (resumeId: string) =>
+      client.get<ResumePermission>(`${API_ROUTES.RESUME_BASE}/${resumeId}/permission`),
+
+    /** PUT /v1/resume/:resume_id/permission — 全量替换语义；grants 省略即清空，必须先 GET 再 PUT */
+    setPermission: (
+      resumeId: string,
+      body: { visibility: ResumeVisibility; grants?: ResumePermissionGrant[] }
+    ) => client.put<ResumePermission>(`${API_ROUTES.RESUME_BASE}/${resumeId}/permission`, body),
+
+    /** GET /v1/resume/blacklist — 用户维屏蔽企业列表 */
+    blacklist: () => client.get<ResumeBlacklistResponse>(API_ROUTES.RESUME_BLACKLIST),
+
+    /** POST /v1/resume/blacklist — match 枚举分情况必填 */
+    blacklistAdd: (body: ResumeBlacklistAddRequest) =>
+      client.post<ResumeBlacklistItem>(API_ROUTES.RESUME_BLACKLIST, body),
+
+    /** DELETE /v1/resume/blacklist/:item_id */
+    blacklistRemove: (itemId: string) =>
+      client.delete<{ message: string; id: string }>(`${API_ROUTES.RESUME_BLACKLIST}/${itemId}`),
+
+    /** GET /v1/resume/templates — 全局模板目录（0.1 只读；auth optional） */
+    templates: () => client.get<ResumeTemplatesResponse>(API_ROUTES.RESUME_TEMPLATES),
   };
 }
 
