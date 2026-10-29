@@ -1,7 +1,8 @@
 <scroll-view class="resume-page" scroll-y enhanced show-scrollbar="{{false}}">
   <view class="resume-header">
     <text class="resume-title">屏蔽企业</text>
-    <text class="resume-subtitle" wx:if="{{total > 0 && !notReady}}">已屏蔽 {{total}} 家 · 推荐与投递将自动过滤</text>
+    <text class="resume-subtitle" wx:if="{{total > 0 && keyword}}">匹配 {{filteredItems.length}} / 共 {{total}} 家</text>
+    <text class="resume-subtitle" wx:elif="{{total > 0 && !notReady}}">已屏蔽 {{total}} 家 · 推荐与投递将自动过滤</text>
   </view>
 
   <!-- 加载态：skeleton 骨架条 -->
@@ -26,8 +27,21 @@
     <text class="resume-degrade-hint">当前后端版本尚未实现 GET /v1/resume/blacklist（501 not_implemented）。不是加载失败。</text>
   </view>
 
+  <!-- 搜索条：纯客户端过滤，命中展示名/键值/备注 -->
+  <view class="resume-search" wx:if="{{!loading && !error && !notReady && items.length > 0}}">
+    <input
+      class="resume-search-input"
+      placeholder="搜索企业名 / 信用代码 / 备注"
+      placeholder-class="resume-input-ph"
+      value="{{keyword}}"
+      confirm-type="search"
+      bindinput="onSearchInput"
+    />
+    <text class="resume-search-clear" wx:if="{{keyword}}" bindtap="clearSearch">清空</text>
+  </view>
+
   <view class="resume-list" wx:if="{{!loading && !error && !notReady}}">
-    <view class="resume-card" wx:for="{{items}}" wx:key="id">
+    <view class="resume-card" wx:for="{{filteredItems}}" wx:key="id">
       <view class="resume-card-row">
         <text class="resume-card-title">{{item.displayName}}</text>
         <view class="resume-remove" data-id="{{item.id}}" bindtap="removeItem">移除</view>
@@ -39,6 +53,10 @@
     <view class="resume-empty" wx:if="{{items.length === 0}}">
       <text class="resume-degrade-title">暂无屏蔽企业</text>
       <text class="resume-degrade-hint">列表已接通。添加屏蔽后，推荐与投递将按此过滤。</text>
+    </view>
+    <view class="resume-empty" wx:if="{{items.length > 0 && filteredItems.length === 0}}">
+      <text class="resume-degrade-title">没有匹配「{{keyword}}」的屏蔽项</text>
+      <text class="resume-degrade-hint">换个关键字试试，或清空搜索查看全部。</text>
     </view>
   </view>
 
@@ -70,6 +88,18 @@
       placeholder-class="resume-input-ph"
       value="{{form[matchOptions[matchIndex].field]}}"
       data-field="{{matchOptions[matchIndex].field}}"
+      bindinput="onFormInput"
+    />
+
+    <!-- 非 exact_name 形态：选填展示名。服务端三种形态都落 company_name；
+         enterprise_id 留空时服务端还会从 enterprises 表 best-effort 补名 -->
+    <input
+      wx:if="{{matchOptions[matchIndex].value !== 'exact_name'}}"
+      class="resume-input"
+      placeholder="企业名称（选填，用于列表展示与搜索）"
+      placeholder-class="resume-input-ph"
+      value="{{form.display_name}}"
+      data-field="display_name"
       bindinput="onFormInput"
     />
 

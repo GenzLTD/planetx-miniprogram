@@ -8,7 +8,7 @@
  */
 import { isNotImplemented, type BlacklistMatch } from "@looma/shared-core";
 import { resumeApi } from "../../../utils/api";
-import { decorateBlacklistItem, type BlacklistRow } from "./display";
+import { decorateBlacklistItem, filterBlacklistRows, type BlacklistRow } from "./display";
 
 type MatchOption = { value: BlacklistMatch; label: string; placeholder: string; field: "company_name" | "credit_code" | "enterprise_id" };
 
@@ -21,6 +21,9 @@ const MATCH_OPTIONS: MatchOption[] = [
 Page({
   data: {
     items: [] as BlacklistRow[],
+    // 搜索：keyword 过滤 items 得 filteredItems（纯函数，见 display.ts）
+    keyword: "",
+    filteredItems: [] as BlacklistRow[],
     total: 0,
     loading: true,
     error: "",
@@ -36,6 +39,8 @@ Page({
       company_name: "",
       credit_code: "",
       enterprise_id: "",
+      // 非 exact_name 形态的选填展示名（提交映射为 body.company_name）
+      display_name: "",
       note: "",
     },
   },
@@ -48,6 +53,22 @@ Page({
     this.loadBlacklist().finally(() => wx.stopPullDownRefresh());
   },
 
+  // ── 列表搜索（纯客户端过滤，keywords 命中展示名/键值/备注）──
+  applyFilter() {
+    const { items, keyword } = this.data;
+    this.setData({ filteredItems: filterBlacklistRows(items, keyword) });
+  },
+
+  onSearchInput(e: any) {
+    this.setData({ keyword: e.detail.value });
+    this.applyFilter();
+  },
+
+  clearSearch() {
+    this.setData({ keyword: "" });
+    this.applyFilter();
+  },
+
   async loadBlacklist() {
     this.setData({ loading: true, error: "", notReady: false });
     try {
@@ -58,9 +79,10 @@ Page({
         total: result.total ?? items.length,
         loading: false,
       });
+      this.applyFilter();
     } catch (err: unknown) {
       if (isNotImplemented(err)) {
-        this.setData({ notReady: true, loading: false, items: [], total: 0 });
+        this.setData({ notReady: true, loading: false, items: [], filteredItems: [], total: 0 });
         return;
       }
       const msg = err instanceof Error ? err.message : "加载失败";
@@ -104,11 +126,15 @@ Page({
     this.setData({ submitting: true, formError: "" });
     try {
       const body: Record<string, string> = { match: opt.value, [opt.field]: value };
+      // 非 exact_name 形态：选填展示名 → body.company_name（服务端三种形态都落库；
+      // enterprise_id 留空时服务端还会从 enterprises 表 best-effort 补名）
+      const displayName = (this.data.form.display_name || "").trim();
+      if (opt.value !== "exact_name" && displayName) body.company_name = displayName;
       if ((this.data.form.note || "").trim()) body.note = this.data.form.note.trim();
       await resumeApi.blacklistAdd(body as any);
       // 阶段3 后走到这里：成功 → 关表单 + 重拉列表
       this.closeAdd();
-      this.setData({ form: { company_name: "", credit_code: "", enterprise_id: "", note: "" } });
+      this.setData({ form: { company_name: "", credit_code: "", enterprise_id: "", display_name: "", note: "" } });
       this.loadBlacklist();
     } catch (err: unknown) {
       this.setData({ submitting: false });

@@ -19,6 +19,25 @@ export type BlacklistRow = ResumeBlacklistItem & {
   keyHint: string;
 };
 
+/** 搜索命中的字段清单（大小写不敏感、关键字 trim；空关键字 = 全量） */
+export function filterBlacklistRows(rows: BlacklistRow[], keyword: string): BlacklistRow[] {
+  const q = (keyword || "").trim().toLowerCase();
+  if (!q) return rows;
+  return rows.filter((r) =>
+    [
+      r.displayName,
+      r.company_name,
+      r.credit_code,
+      r.enterprise_id,
+      r.note,
+      r.keyHint,
+    ]
+      .join("\n")
+      .toLowerCase()
+      .includes(q)
+  );
+}
+
 /** 长键截断：代码/ID 只留头尾，避免撑破卡片标题 */
 export function maskKey(raw: string): string {
   const s = (raw || "").trim();
