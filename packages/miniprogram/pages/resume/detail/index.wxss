@@ -1,5 +1,99 @@
 @import "../_shared.wxss";
 
+/* ============ 正文编辑 ============ */
+.edit-link {
+  flex-shrink: 0;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(200, 255, 80, 0.12);
+  border: 1rpx solid rgba(200, 255, 80, 0.35);
+}
+
+.edit-link text {
+  font-size: 22rpx;
+  color: #c8ff50;
+  font-weight: 600;
+}
+
+.edit-field-label {
+  display: block;
+  margin-top: 24rpx;
+  margin-bottom: 10rpx;
+  font-size: 22rpx;
+  color: #8a8aa0;
+  letter-spacing: 1rpx;
+}
+
+.edit-input,
+.edit-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18rpx 20rpx;
+  border-radius: 12rpx;
+  background: #12121f;
+  border: 1rpx solid rgba(255, 255, 255, 0.08);
+  color: #f1f1ff;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+.edit-textarea {
+  min-height: 220rpx;
+}
+
+.edit-textarea.short {
+  min-height: 100rpx;
+}
+
+.edit-hint {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 20rpx;
+  color: #6b6b80;
+  line-height: 1.5;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 28rpx;
+}
+
+.edit-btn {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.edit-btn.ghost {
+  background: transparent;
+  border: 1rpx solid rgba(255, 255, 255, 0.12);
+  color: #b8b8c8;
+}
+
+.edit-btn.primary {
+  background: #c8ff50;
+  color: #0d0d1a;
+}
+
+.edit-btn.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.resume-card-body.muted {
+  margin-top: 16rpx;
+  color: #8a8aa0;
+  font-size: 24rpx;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 360rpx;
+  overflow: hidden;
+}
+
 /* ============ 谁可看（授权面） ============ */
 .perm-list {
   margin-top: 20rpx;

@@ -1,9 +1,11 @@
 /**
- * 简历详情 — GET /v1/resume/:resume_id · GET/PUT /v1/resume/:resume_id/permission
+ * 简历详情 — GET/PUT /v1/resume/:resume_id · GET/PUT /v1/resume/:resume_id/permission
  *
  * 「谁可看」是授权面唯一写入口：写 metadata.permission，与 detail 读同一处。
  * grants 是全量替换语义 —— 改 visibility 时必须把当前 grants 原样回传，
  * 否则服务端会把已有授权静默清空（契约 permission_semantics）。
+ *
+ * 正文编辑走 PUT /:resume_id（title / extracted / markdown），不动 visibility。
  * 501 降级统一走 isNotImplemented，页面不自判状态码。
  */
 import {
@@ -13,6 +15,7 @@ import {
   type ResumeVisibility,
 } from "@looma/shared-core";
 import { resumeApi } from "../../../utils/api";
+import { buildUpdateBody, draftFromDetail, type EditDraft } from "./edit";
 
 type VisibilityOption = { value: ResumeVisibility; label: string; hint: string };
 
@@ -35,6 +38,14 @@ Page({
     loading: true,
     error: "",
     notReady: false,
+
+    // 正文编辑
+    editing: false,
+    editTitle: "",
+    editSummary: "",
+    editMarkdown: "",
+    editSaving: false,
+    editError: "",
 
     // 授权面
     visibilityOptions: VISIBILITY_OPTIONS,
@@ -73,15 +84,29 @@ Page({
   async loadDetail() {
     const { resumeId } = this.data;
     if (!resumeId) return;
-    // 同页实例换 resume_id 时，先清掉上一份授权 UI，避免短暂闪旧态
-    this.setData({ loading: true, error: "", notReady: false, perm: null, permBlocked: false, permError: "" });
+    // 同页实例换 resume_id 时，先清掉上一份授权/编辑 UI，避免短暂闪旧态
+    this.setData({
+      loading: true,
+      error: "",
+      notReady: false,
+      perm: null,
+      permBlocked: false,
+      permError: "",
+      editing: false,
+      editSaving: false,
+      editError: "",
+    });
     try {
       const detail = await resumeApi.detail(resumeId);
+      const draft = draftFromDetail(detail);
       this.setData({
         detail,
         loading: false,
         currentVisibility: detail.visibility,
         visibilityText: visibilityLabel(detail.visibility),
+        editTitle: draft.title,
+        editSummary: draft.summary,
+        editMarkdown: draft.markdown,
       });
       // 授权面独立容错：读失败不该把正文一起打成错误态
       await this.loadPermission();
@@ -92,6 +117,91 @@ Page({
       }
       const msg = err instanceof Error ? err.message : "加载失败";
       this.setData({ error: msg, loading: false });
+    }
+  },
+
+  startEdit() {
+    const { detail, editSaving } = this.data;
+    if (!detail || editSaving) return;
+    const draft = draftFromDetail(detail);
+    this.setData({
+      editing: true,
+      editError: "",
+      editTitle: draft.title,
+      editSummary: draft.summary,
+      editMarkdown: draft.markdown,
+    });
+  },
+
+  cancelEdit() {
+    if (this.data.editSaving) return;
+    const draft = this.data.detail ? draftFromDetail(this.data.detail) : null;
+    this.setData({
+      editing: false,
+      editError: "",
+      ...(draft
+        ? {
+            editTitle: draft.title,
+            editSummary: draft.summary,
+            editMarkdown: draft.markdown,
+          }
+        : {}),
+    });
+  },
+
+  onEditTitle(e: any) {
+    this.setData({ editTitle: e.detail.value, editError: "" });
+  },
+
+  onEditSummary(e: any) {
+    this.setData({ editSummary: e.detail.value, editError: "" });
+  },
+
+  onEditMarkdown(e: any) {
+    this.setData({ editMarkdown: e.detail.value, editError: "" });
+  },
+
+  async saveEdit() {
+    const { resumeId, detail, editTitle, editSummary, editMarkdown, editSaving } =
+      this.data;
+    if (!resumeId || !detail || editSaving) return;
+
+    const draft: EditDraft = {
+      title: editTitle,
+      summary: editSummary,
+      markdown: editMarkdown,
+    };
+    const built = buildUpdateBody(detail, draft);
+    if (built.ok === false) {
+      this.setData({ editError: built.error });
+      return;
+    }
+
+    this.setData({ editSaving: true, editError: "" });
+    try {
+      const next = await resumeApi.update(resumeId, built.body);
+      const nextDraft = draftFromDetail(next);
+      this.setData({
+        detail: next,
+        editing: false,
+        editSaving: false,
+        editTitle: nextDraft.title,
+        editSummary: nextDraft.summary,
+        editMarkdown: nextDraft.markdown,
+        currentVisibility: next.visibility,
+        visibilityText: visibilityLabel(next.visibility),
+      });
+      wx.showToast({ title: "已保存", icon: "success", duration: 1200 });
+    } catch (err: unknown) {
+      if (isNotImplemented(err)) {
+        this.setData({
+          editSaving: false,
+          editError: "正文更新接口未开放（501 not_implemented）",
+        });
+        return;
+      }
+      const msg = err instanceof Error ? err.message : "保存失败";
+      this.setData({ editSaving: false, editError: msg });
     }
   },
 
@@ -124,7 +234,7 @@ Page({
 
   onVisibilityTap(e: any) {
     const value = String(e.currentTarget.dataset.value || "") as ResumeVisibility;
-    if (this.data.permSaving) return;
+    if (this.data.permSaving || this.data.editing) return;
     if (!value || value === this.data.currentVisibility) return;
     if (!this.data.perm) {
       wx.showToast({ title: "授权信息未加载，下拉刷新后重试", icon: "none" });
