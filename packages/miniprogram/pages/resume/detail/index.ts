@@ -73,7 +73,8 @@ Page({
   async loadDetail() {
     const { resumeId } = this.data;
     if (!resumeId) return;
-    this.setData({ loading: true, error: "", notReady: false });
+    // 同页实例换 resume_id 时，先清掉上一份授权 UI，避免短暂闪旧态
+    this.setData({ loading: true, error: "", notReady: false, perm: null, permBlocked: false, permError: "" });
     try {
       const detail = await resumeApi.detail(resumeId);
       this.setData({
