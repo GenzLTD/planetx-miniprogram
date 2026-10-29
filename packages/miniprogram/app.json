@@ -13,7 +13,10 @@
     "pages/match/index",
     "pages/pricing/index",
     "pages/auth/index",
-    "pages/legal/index"
+    "pages/legal/index",
+    "pages/resume/templates/index",
+    "pages/resume/blacklist/index",
+    "pages/resume/detail/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",

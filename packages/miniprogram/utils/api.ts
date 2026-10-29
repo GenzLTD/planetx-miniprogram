@@ -16,6 +16,7 @@ import {
   createComplianceApi,
   createPaymentApi,
   createTimelineApi,
+  createResumeApi,
   LOOMA_TOKEN_KEY,
   type MiniApiClient,
   type WechatAuthRequest,
@@ -173,6 +174,9 @@ export const timelineApi = createTimelineApi(apiClient)
 // Trust API 适配器
 export const trustApi = createTrustApi(apiClient)
 
+// Resume API（resume.v1.json；阶段3 前 stub 端点用 isNotImplemented 降级）
+export const resumeApi = createResumeApi(apiClient)
+
 // ============================================================
 // 类型导出（向后兼容）
 // ============================================================
@@ -194,4 +198,5 @@ export default {
   paymentApi,
   trustApi,
   timelineApi,
+  resumeApi,
 }

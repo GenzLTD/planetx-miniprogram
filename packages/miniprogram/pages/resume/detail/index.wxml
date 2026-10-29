@@ -1,0 +1,33 @@
+<scroll-view class="resume-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="resume-header">
+    <text class="resume-title">简历详情</text>
+    <text class="resume-subtitle" wx:if="{{resumeId}}">ID · {{resumeId}}</text>
+  </view>
+
+  <view class="resume-loading" wx:if="{{loading}}">
+    <text class="resume-muted">加载中...</text>
+  </view>
+
+  <view class="resume-error" wx:if="{{error && !loading}}">
+    <text class="resume-error-text">{{error}}</text>
+    <view class="resume-retry" bindtap="loadDetail" wx:if="{{resumeId}}">
+      <text>重试</text>
+    </view>
+  </view>
+
+  <view class="resume-degrade" wx:if="{{notReady && !loading}}">
+    <text class="resume-degrade-title">详情接口即将开放</text>
+    <text class="resume-degrade-hint">服务端尚未实现 GET /v1/resume/:resume_id（阶段3 落地）。当前为空态降级；列表与解析仍可用既有端点。</text>
+  </view>
+
+  <view class="resume-list" wx:if="{{!loading && !error && !notReady && detail}}">
+    <view class="resume-card">
+      <text class="resume-card-title">{{detail.title || '未命名简历'}}</text>
+      <text class="resume-card-meta" wx:if="{{detail.filename}}">{{detail.filename}}</text>
+      <text class="resume-card-meta" wx:if="{{detail.visibility}}">可见性 · {{detail.visibility}}</text>
+      <text class="resume-card-body" wx:if="{{detail.extracted.summary}}">{{detail.extracted.summary}}</text>
+    </view>
+  </view>
+
+  <view class="resume-bottom-safe"></view>
+</scroll-view>

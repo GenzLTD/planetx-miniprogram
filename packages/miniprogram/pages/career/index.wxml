@@ -15,6 +15,11 @@
   </button>
   <view wx:if="{{error}}" class="error">{{error}}</view>
   <view wx:if="{{result}}" class="result">{{result}}</view>
+  <view class="section">简历管理</view>
+  <view class="modes">
+    <view class="mode" bindtap="goTemplates">模板</view>
+    <view class="mode" bindtap="goBlacklist">屏蔽企业</view>
+  </view>
   <view class="section">职位库</view>
   <view wx:for="{{jobs}}" wx:key="index" class="job">
     <text class="title">{{item.title}}</text>

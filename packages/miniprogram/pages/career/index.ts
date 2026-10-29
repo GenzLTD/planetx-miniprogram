@@ -27,6 +27,14 @@ Page({
     this.setData({ mode: e.currentTarget.dataset.mode, result: '', error: '' })
   },
 
+  goTemplates() {
+    wx.navigateTo({ url: '/pages/resume/templates/index' })
+  },
+
+  goBlacklist() {
+    wx.navigateTo({ url: '/pages/resume/blacklist/index' })
+  },
+
   onInput(e: any) {
     this.setData({ text: e.detail.value })
   },
