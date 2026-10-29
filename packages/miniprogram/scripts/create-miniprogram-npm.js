@@ -40,7 +40,23 @@ if (!fs.existsSync(path.join(sourceDir, 'index.js'))) {
   process.exit(1);
 }
 
-for (const targetDir of [sharedCoreNpmDir, nodeModulesDir]) {
+// ⚠️ pnpm 下 node_modules/@looma/shared-core 是指向源码包的符号链接，
+// 直接写入会把产物覆盖进源码目录（真实事故：package.json 被产物版覆盖）。
+// workspace 包本身就能被 tsc/运行时解析，此时跳过 node_modules 复制。
+let targets = [sharedCoreNpmDir];
+try {
+  const realNodeModules = fs.realpathSync(nodeModulesDir);
+  const realSource = fs.realpathSync(path.join(projectRoot, '../shared-core'));
+  if (realNodeModules !== realSource) {
+    targets.push(nodeModulesDir);
+  } else {
+    console.log('\n🔗 node_modules/@looma/shared-core 是 workspace 符号链接，跳过（防止覆盖源码）');
+  }
+} catch {
+  targets.push(nodeModulesDir);
+}
+
+for (const targetDir of targets) {
   console.log(`📂 目标目录: ${targetDir}`);
   fs.mkdirSync(targetDir, { recursive: true });
 
@@ -83,6 +99,25 @@ if (fs.existsSync(targetPackageJsonPath)) {
     miniprogram: "."
   };
   fs.writeFileSync(targetPackageJsonPath, JSON.stringify(simplePackageJson, null, 2));
+}
+
+// 4.5 复制 @vant/weapp（dist 即小程序运行时产物，见其 package.json 的 miniprogram 字段）
+const vantNpmDir = path.join(miniprogramNpmDir, '@vant/weapp');
+const vantSource = path.join(projectRoot, 'node_modules/@vant/weapp/dist');
+if (fs.existsSync(vantSource)) {
+  console.log(`\n📦 复制 @vant/weapp: ${vantSource}`);
+  fs.mkdirSync(vantNpmDir, { recursive: true });
+  fs.cpSync(vantSource, vantNpmDir, { recursive: true, dereference: true });
+  const vantVersion = JSON.parse(
+    fs.readFileSync(path.join(projectRoot, 'node_modules/@vant/weapp/package.json'), 'utf8')
+  ).version;
+  fs.writeFileSync(
+    path.join(vantNpmDir, 'package.json'),
+    JSON.stringify({ name: '@vant/weapp', version: vantVersion, miniprogram: '.' }, null, 2)
+  );
+  console.log(`   📋 @vant/weapp@${vantVersion} → miniprogram_npm/@vant/weapp`);
+} else {
+  console.log(`\n⚠️  未找到 @vant/weapp，跳过（先 pnpm install）`);
 }
 
 // 5. 验证目录结构

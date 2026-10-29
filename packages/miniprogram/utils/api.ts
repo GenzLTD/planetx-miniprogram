@@ -6,7 +6,7 @@
  */
 
 import {
-  createMiniApiClient,
+  createApiClient as createMiniApiClient,
   createAuthApi,
   createGameApi,
   createChatApi,
@@ -17,7 +17,7 @@ import {
   createPaymentApi,
   createTimelineApi,
   LOOMA_TOKEN_KEY,
-  type MiniApiClient,
+  type ApiClient as MiniApiClient,
   type WechatAuthRequest,
   type GameProfile,
   type ProfileSyncRequest,

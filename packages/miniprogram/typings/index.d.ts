@@ -10,6 +10,7 @@ interface IAppOption {
     userInfo: any
     apiBase: string
     device: any
+    navBar: any
   }
   wechatLogin(): void
   loadProfile(): void
@@ -55,6 +56,22 @@ declare const wx: {
   // System info
   getSystemInfoSync(): SystemInfo
   getSystemInfo(options: GetSystemInfoOptions): void
+
+  // Window & menu button (2.20.0+，自定义导航自适应用)
+  getWindowInfo(): {
+    statusBarHeight: number
+    windowWidth: number
+    windowHeight: number
+    safeArea?: SystemInfo['safeArea']
+  }
+  getMenuButtonBoundingClientRect(): {
+    top: number
+    height: number
+    width: number
+    right: number
+    bottom: number
+    left: number
+  }
   
   // Other common APIs
   getSetting(options: GetSettingOptions): void

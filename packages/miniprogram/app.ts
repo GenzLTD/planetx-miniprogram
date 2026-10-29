@@ -9,6 +9,7 @@ import { enterApp } from './utils/enter'
 import { store } from './utils/store'
 import { authApi, gameApi, API_BASE, referralApi } from './utils/api'
 import { getDeviceInfo } from './utils/device'
+import { getNavBarMetrics } from './utils/navigation'
 
 App({
   globalData: {
@@ -16,10 +17,14 @@ App({
     userInfo: null as any,
     apiBase: API_BASE,
     device: null as any,
+    navBar: null as ReturnType<typeof getNavBarMetrics> | null,
   },
 
   onLaunch() {
     console.log('[App] onLaunch - PlanetX starting...')
+
+    // 胶囊自适应导航高度（自定义导航页直接读 globalData.navBar）
+    this.globalData.navBar = getNavBarMetrics()
 
     // Detect platform (HarmonyOS compatible, 3.7.0+)
     const device = getDeviceInfo()

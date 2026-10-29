@@ -9,7 +9,8 @@
     "build:npm": "node ../shared-core/scripts/build-mini.mjs && node scripts/create-miniprogram-npm.js && node scripts/quick-check.js"
   },
   "dependencies": {
-    "@looma/shared-core": "workspace:*"
+    "@looma/shared-core": "workspace:*",
+    "@vant/weapp": "^1.11.0"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
