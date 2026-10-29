@@ -24,6 +24,7 @@ Page({
     resumes: [] as ResumeRow[],
     resumeTotal: 0,
     resumeError: '',
+    resumeEmptyHint: '登录后展示已入库简历。解析成功的简历会自动入库。',
   },
 
   onShow() {
@@ -65,13 +66,23 @@ Page({
 
   async loadResumes() {
     if (!store.get('token')) {
-      this.setData({ resumes: [], resumeTotal: 0, resumeError: '' })
+      this.setData({
+        resumes: [],
+        resumeTotal: 0,
+        resumeError: '',
+        resumeEmptyHint: '登录后展示已入库简历。解析成功的简历会自动入库。',
+      })
       return
     }
     try {
       const resp = await resumeApi.list()
       const resumes = (resp.resumes || []).map((r) => decorateResumeRow(r)).filter(isNavigable)
-      this.setData({ resumes, resumeTotal: resp.total ?? resumes.length, resumeError: '' })
+      this.setData({
+        resumes,
+        resumeTotal: resp.total ?? resumes.length,
+        resumeError: '',
+        resumeEmptyHint: '暂无入库简历。上方「解析简历」成功后会自动入库。',
+      })
     } catch (err: any) {
       this.setData({ resumes: [], resumeTotal: 0, resumeError: err?.message || '列表加载失败' })
     }
@@ -103,18 +114,30 @@ Page({
         return
       }
       // parse → ingest 闭环：解析成功即入库（extracted 随 body → processed）
-      const parseResp = await resumeApi.parse(text) as { extracted?: Record<string, unknown> }
+      // parse 必须走 careerApi.parse（显式 120s）——resumeApi.parse 走客户端
+      // 默认 10s 超时，LLM 解析常超 10s，且服务端可能已扣额度，超时会扣死闭环。
+      const parseResp = await careerApi.parse(text) as { extracted?: Record<string, unknown> }
       const body = buildIngestBody(text, parseResp)
       if (!body) {
         // 无 extracted：不入库，解析结果原样展示供排查
         this.setData({ result: JSON.stringify(parseResp ?? {}, null, 2), busy: false })
         return
       }
-      const ingested = await resumeApi.ingest(body) as { resume_id?: string; status?: string }
-      this.setData({
-        result: `已入库 #${ingested.resume_id ?? '?'}（${ingested.status || 'stored'}）`,
-        busy: false,
-      })
+      try {
+        const ingested = await resumeApi.ingest(body) as { resume_id?: string; status?: string }
+        this.setData({
+          result: `已入库 #${ingested.resume_id ?? '?'}（${ingested.status || 'stored'}）`,
+          busy: false,
+        })
+      } catch (err: any) {
+        // 入库失败也回显解析结果：解析已扣额度，避免用户以为白跑而重试再扣
+        this.setData({
+          result: JSON.stringify(parseResp ?? {}, null, 2),
+          error: `解析成功但入库失败：${err?.message || '请求失败'}（下方为解析结果，可复制留存）`,
+          busy: false,
+        })
+        return
+      }
       this.loadResumes()
     } catch (err: any) {
       this.setData({

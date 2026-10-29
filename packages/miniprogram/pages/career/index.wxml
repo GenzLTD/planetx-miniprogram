@@ -28,7 +28,7 @@
     <text class="meta" wx:if="{{item.dateLabel}}">{{item.dateLabel}}</text>
   </view>
   <view wx:if="{{resumeError}}" class="meta">简历列表加载失败：{{resumeError}}</view>
-  <view wx:elif="{{resumes.length === 0}}" class="meta">暂无入库简历。上方「解析简历」成功后会自动入库。</view>
+  <view wx:elif="{{resumes.length === 0}}" class="meta">{{resumeEmptyHint}}</view>
   <view class="section">职位库</view>
   <view wx:for="{{jobs}}" wx:key="index" class="job">
     <text class="title">{{item.title}}</text>

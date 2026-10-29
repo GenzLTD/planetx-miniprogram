@@ -12,6 +12,7 @@ jest.mock('../../../utils/api', () => ({
   careerApi: {
     jobs: jest.fn(),
     match: jest.fn(),
+    parse: jest.fn(),
   },
 }))
 
@@ -26,7 +27,7 @@ jest.mock('../../../utils/store', () => ({
 const mockWx = { navigateTo: jest.fn(), showToast: jest.fn() }
 ;(global as any).wx = mockWx
 
-import { resumeApi } from '../../../utils/api'
+import { resumeApi, careerApi } from '../../../utils/api'
 import { ensureConsent } from '../../../utils/consent'
 import { store } from '../../../utils/store'
 
@@ -71,6 +72,11 @@ const api = resumeApi as unknown as {
   parse: jest.Mock
   ingest: jest.Mock
   list: jest.Mock
+}
+const careerApiM = careerApi as unknown as {
+  parse: jest.Mock
+  match: jest.Mock
+  jobs: jest.Mock
 }
 const consent = ensureConsent as unknown as jest.Mock
 const token = store.get as unknown as jest.Mock
@@ -119,12 +125,14 @@ describe('onSubmit parse→ingest 闭环', () => {
     return ctx
   }
 
-  it('parse 成功 → 组 ingest（原文 trim + extracted）→ 成功展示 + 重拉列表', async () => {
-    api.parse.mockResolvedValue({ extracted: { name: '李四' } })
+  it('parse（careerApi 显式 120s）成功 → 组 ingest（原文 trim + extracted）→ 成功展示 + 重拉列表', async () => {
+    careerApiM.parse.mockResolvedValue({ extracted: { name: '李四' } })
     api.ingest.mockResolvedValue({ resume_id: '42', status: 'processed' })
     const ctx = page()
     await ctx.onSubmit()
-    expect(api.parse).toHaveBeenCalledWith('简历原文')
+    // 阻塞项回归：parse 必须走 careerApi（120s），不得退回 resumeApi.parse（默认 10s）
+    expect(careerApiM.parse).toHaveBeenCalledWith('简历原文')
+    expect(api.parse).not.toHaveBeenCalled()
     expect(api.ingest).toHaveBeenCalledWith({
       markdown: '简历原文',
       filename: 'resume-李四.md',
@@ -135,8 +143,8 @@ describe('onSubmit parse→ingest 闭环', () => {
     expect(api.list).toHaveBeenCalled()
   })
 
-  it('parse 无 extracted → 不 ingest，解析结果原样 JSON 展示', async () => {
-    api.parse.mockResolvedValue({ extracted: null })
+  it('无 extracted（careerApi.parse）→ 不 ingest，解析结果原样 JSON 展示', async () => {
+    careerApiM.parse.mockResolvedValue({ extracted: null })
     const ctx = page()
     await ctx.onSubmit()
     expect(api.ingest).not.toHaveBeenCalled()
@@ -144,14 +152,18 @@ describe('onSubmit parse→ingest 闭环', () => {
     expect(ctx.data.error).toBe('')
   })
 
-  it('ingest 失败 → error 落消息，busy 复位', async () => {
-    api.parse.mockResolvedValue({ extracted: { name: 'a' } })
+  it('ingest 失败 → 回显解析结果 + error 落「入库失败」，busy 复位不重拉列表', async () => {
+    const parsed = { extracted: { name: 'a' } }
+    careerApiM.parse.mockResolvedValue(parsed)
     api.ingest.mockRejectedValue(new Error('ingest boom'))
     const ctx = page()
     await ctx.onSubmit()
-    expect(ctx.data.error).toBe('ingest boom')
+    // nit 修复：解析已扣额度，入库失败也要回显解析结果，避免用户重试再扣
+    expect(ctx.data.result).toBe(JSON.stringify(parsed, null, 2))
+    expect(ctx.data.error).toContain('入库失败')
+    expect(ctx.data.error).toContain('ingest boom')
     expect(ctx.data.busy).toBe(false)
-    expect(ctx.data.result).toBe('')
+    expect(api.list).not.toHaveBeenCalled()
   })
 
   it('未登录 / 未授权直接拦截', async () => {
@@ -159,18 +171,17 @@ describe('onSubmit parse→ingest 闭环', () => {
     const ctx = page()
     await ctx.onSubmit()
     expect(mockWx.showToast).toHaveBeenCalled()
-    expect(api.parse).not.toHaveBeenCalled()
+    expect(careerApiM.parse).not.toHaveBeenCalled()
     token.mockReturnValue('tok')
     consent.mockResolvedValueOnce(false)
     await ctx.onSubmit()
-    expect(api.parse).not.toHaveBeenCalled()
+    expect(careerApiM.parse).not.toHaveBeenCalled()
   })
 
   it('match 模式不 ingest，结果仍页内 JSON', async () => {
     const ctx = page()
     ctx.setData({ mode: 'match' })
-    const { careerApi } = jest.requireMock('../../../utils/api')
-    careerApi.match.mockResolvedValue({ score: 0.8 })
+    careerApiM.match.mockResolvedValue({ score: 0.8 })
     await ctx.onSubmit()
     expect(careerApi.match).toHaveBeenCalledWith('简历原文')
     expect(api.ingest).not.toHaveBeenCalled()
