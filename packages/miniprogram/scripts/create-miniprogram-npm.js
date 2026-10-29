@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { execSync } = require('child_process');
 
 console.log('🔧 创建 miniprogram_npm 目录结构\n');
@@ -120,6 +121,35 @@ if (fs.existsSync(vantSource)) {
   console.log(`\n⚠️  未找到 @vant/weapp，跳过（先 pnpm install）`);
 }
 
+// 4.6 对拍哈希
+// 口径由本脚本统一，两台机器跑同一条命令取同一个数，禁止各自用 shell 命令另算
+// （不同 shell 的排序 locale / 路径前缀 / 分隔符都会让同一棵树算出不同的值）。
+// 算法：相对 POSIX 路径排序 → 每行 "<文件sha256>␣␣<相对路径>" → LF 连接 → 再取 sha256
+function sha256(buf) {
+  return crypto.createHash('sha256').update(buf).digest('hex');
+}
+
+function listRelativeFiles(dir) {
+  const out = [];
+  const walk = (current, rel) => {
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const relPath = rel ? `${rel}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) walk(path.join(current, entry.name), relPath);
+      else if (entry.isFile()) out.push(relPath);
+    }
+  };
+  walk(dir, '');
+  // 默认 UTF-16 码位排序，跨机一致；勿用 localeCompare（受 ICU/locale 影响）
+  out.sort();
+  return out;
+}
+
+function treeHash(dir) {
+  const files = listRelativeFiles(dir);
+  const lines = files.map((rel) => `${sha256(fs.readFileSync(path.join(dir, rel)))}  ${rel}`);
+  return { hash: sha256(Buffer.from(lines.join('\n'), 'utf8')), files: files.length };
+}
+
 // 5. 验证目录结构
 console.log('\n🔍 验证目录结构:');
 const files = fs.readdirSync(sharedCoreNpmDir);
@@ -140,6 +170,24 @@ for (const file of requiredFiles) {
     console.log(`   ❌ ${file}: 缺失`);
     allFilesExist = false;
   }
+}
+
+// 6.5 打印对拍哈希（四项里的 shared-core / vant 两项以后都从这两行取）
+console.log('\n🔐 对拍哈希（口径统一于本脚本，勿用 shell 命令另算）:');
+const vantTreeDir = path.join(miniprogramNpmDir, '@vant/weapp');
+if (fs.existsSync(vantTreeDir)) {
+  const vantTree = treeHash(vantTreeDir);
+  console.log(`   @vant/weapp tree     : ${vantTree.hash}  (${vantTree.files} files)`);
+} else {
+  console.log('   @vant/weapp tree     : 未生成（先 pnpm install）');
+}
+const sharedCoreIndex = path.join(sharedCoreNpmDir, 'index.js');
+if (fs.existsSync(sharedCoreIndex)) {
+  console.log(
+    `   shared-core index.js : ${sha256(fs.readFileSync(sharedCoreIndex))}  (${fs.statSync(sharedCoreIndex).size} bytes)`
+  );
+} else {
+  console.log('   shared-core index.js : 缺失');
 }
 
 console.log('\n📋 完成！');
