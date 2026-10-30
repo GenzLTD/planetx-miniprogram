@@ -24,7 +24,8 @@
  * · 栈编排：pg :55433 + resume-service :3003 + api-gateway :3333
  *   （ZERVI_DEV_AUTH=1 时 /v1/auth/register|login 可拿 token）。
  */
-const USE_LOCAL_GATEWAY = false
+/** 仅开发者工具联调；默认 false，不得带着 true 提交。 */
+export const USE_LOCAL_GATEWAY = false
 const LOCAL_GATEWAY_ORIGIN = 'http://127.0.0.1:3333'
 
 // 显式 string：空串时若推断为字面量 ""，下游真值分支会收窄成 never

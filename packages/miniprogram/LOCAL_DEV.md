@@ -13,14 +13,18 @@ powershell -File scripts/local-dev-up/smoke_check.ps1
 
 Git Bash 等价：`up.sh` / `smoke_check.sh` / `down.sh`。
 
-本仓 `utils/config.ts`：
+本仓 `utils/config.ts`（临时；提交前改回 false）：
 
 ```ts
-const USE_LOCAL_GATEWAY = true  // 临时；提交前改回 false
-const LOCAL_GATEWAY_ORIGIN = 'http://127.0.0.1:3333'
+const USE_LOCAL_GATEWAY = true
+const LOCAL_GATEWAY_ORIGIN = 'http://127.0.0.1:3333' // 跨机改栈主机 LAN
 ```
 
-开发者工具：不校验合法域名 → 清缓存编译 → 求职 Tab。
+**登录**：`USE_LOCAL_GATEWAY` 时 `api.ts` 的 `wechatLogin` 已改走 `/v1/auth/register|login`（账号 `mp-devtools@local.test` / `Passw0rd!`）。  
+不要指望 `POST /v1/auth/wechat`——stub 会 HTTP 200 回 `{via:"legacy-stub"}` 却无 token，登录会卡死。共用账号则简历库互通；要隔离请改 `LOCAL_DEV_EMAIL`。
+
+开发者工具：不校验合法域名 → 清缓存编译 → 求职 Tab。  
+`GET /v1/game/profile`、`/v1/auth/profile` 回 stub、`/v1/jobs/*` 502 均为预期。鸿蒙真机 / `/v1/auth/huawei` 不走本路径。
 
 收尾：
 
@@ -34,7 +38,7 @@ powershell -File scripts/local-dev-up/down.ps1
 栈在 **另一台机**（推荐 ServBay）已 `up` 时：
 
 1. 向栈主机要局域网 IP（`up` 结束会打印；避开 WSL/`26.x` 虚拟网卡）。
-2. 本机只改 `config.ts`（**勿提交**）：
+2. 本机只改 `config.ts`（**勿提交**）；`api.ts` 的 local_auth 旁路已入库，开关打开即生效：
 
    ```ts
    const USE_LOCAL_GATEWAY = true

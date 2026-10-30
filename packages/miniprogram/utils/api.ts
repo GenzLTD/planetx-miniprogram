@@ -30,7 +30,11 @@ import {
 } from '@looma/shared-core'
 import { eventBus } from './event-bus'
 import { store } from './store'
-import { API_BASE } from './config'
+import { API_BASE, USE_LOCAL_GATEWAY } from './config'
+
+/** 本机/LAN 联调共用账号（gateway local_auth）。要隔离简历库请换自己的 email。 */
+const LOCAL_DEV_EMAIL = 'mp-devtools@local.test'
+const LOCAL_DEV_PASSWORD = 'Passw0rd!'
 
 // ============================================================
 // 单例客户端（所有 API 模块共享）
@@ -57,8 +61,29 @@ const apiClient = client as any
 
 // Auth API 适配器（保持原有接口兼容性）
 export const authApi = {
-  // 使用 shared-core 的 wechat 方法，但保持原有名称 wechatLogin
-  wechatLogin: (code: string) => {
+  /**
+   * 开发者工具启动仍走 wechatLogin 名义。
+   * USE_LOCAL_GATEWAY 时：/v1/auth/wechat → legacy stub 只有 {via}、无 token，
+   * 改打 gateway local_auth register/login，并把 token 规范成 access_token（app.ts 只认它）。
+   */
+  wechatLogin: async (code: string) => {
+    if (USE_LOCAL_GATEWAY) {
+      try {
+        await apiClient.post('/v1/auth/register', {
+          email: LOCAL_DEV_EMAIL,
+          password: LOCAL_DEV_PASSWORD,
+          name: 'mp-devtools',
+        })
+      } catch {
+        // 409 email_taken 等：已有账号，改 login
+      }
+      const data: any = await apiClient.post('/v1/auth/login', {
+        email: LOCAL_DEV_EMAIL,
+        password: LOCAL_DEV_PASSWORD,
+      })
+      const token = data?.access_token || data?.token
+      return { ...data, access_token: token, token, user: data?.user }
+    }
     const request: WechatAuthRequest = { code }
     return createAuthApi(apiClient).wechat(request)
   },
