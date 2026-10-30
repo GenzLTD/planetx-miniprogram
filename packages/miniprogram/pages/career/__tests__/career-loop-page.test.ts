@@ -152,6 +152,16 @@ describe('onSubmit parse→ingest 闭环', () => {
     expect(ctx.data.error).toBe('')
   })
 
+  it('extracted 空对象 → 与「无 extracted」同路径：不 ingest，JSON 原样展示（徽标 nit 回归钉）', async () => {
+    careerApiM.parse.mockResolvedValue({ extracted: {} })
+    const ctx = page()
+    await ctx.onSubmit()
+    expect(api.ingest).not.toHaveBeenCalled()
+    expect(api.list).not.toHaveBeenCalled()
+    expect(ctx.data.result).toBe(JSON.stringify({ extracted: {} }, null, 2))
+    expect(ctx.data.busy).toBe(false)
+  })
+
   it('ingest 失败 → 回显解析结果 + error 落「入库失败」，busy 复位不重拉列表', async () => {
     const parsed = { extracted: { name: 'a' } }
     careerApiM.parse.mockResolvedValue(parsed)

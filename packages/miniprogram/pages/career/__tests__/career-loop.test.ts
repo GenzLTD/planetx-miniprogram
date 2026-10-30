@@ -36,11 +36,17 @@ describe('buildIngestBody', () => {
     expect(buildIngestBody('x', { extracted: 'oops' as any })).toBeNull()
   })
   it('原文空串 → null（防御，页面层其实已拦）', () => {
-    expect(buildIngestBody('   ', { extracted: {} })).toBeNull()
+    expect(buildIngestBody('   ', { extracted: { name: 'a' } })).toBeNull()
   })
-  it('空 extracted 对象也算可入库（服务端 processed 语义由 extracted 存在决定）', () => {
-    const body = buildIngestBody('原文', { extracted: {} })
-    expect(body).toEqual({ markdown: '原文', filename: 'resume.md', extracted: {} })
+  it('空 extracted 对象 → null 不入库：与列表徽标「未解析」同口径（hasKeys 单源），{} 不冒充 processed', () => {
+    expect(buildIngestBody('原文', { extracted: {} })).toBeNull()
+  })
+  it('有键（哪怕值是空串）仍可入库：hasKeys 只看键数，与徽标判定一致', () => {
+    expect(buildIngestBody('原文', { extracted: { name: '' } })).toEqual({
+      markdown: '原文',
+      filename: 'resume.md',
+      extracted: { name: '' },
+    })
   })
 })
 
