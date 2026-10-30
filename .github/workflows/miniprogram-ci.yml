@@ -5,6 +5,9 @@ name: miniprogram-ci
 # 刻意不做：全仓矩阵 / E2E / 真机 / 构建产物 —— 先确认这一条能稳定跑通再扩。
 
 on:
+  # 手动重跑入口：用于「门禁自测」（故意置开关看会不会红）与合入前复验，
+  # 不占用 push/PR 的 paths 过滤，可在任意分支 dispatch。
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
