@@ -1,0 +1,73 @@
+name: miniprogram-ci
+
+# 最小门禁：只做 client 侧两道闸 —— jest 全量 + 小程序 tsc。
+# 目的单一：把「API_ORIGIN 空串铁律」从人肉检查变成机器检查（config.test.ts）。
+# 刻意不做：全仓矩阵 / E2E / 真机 / 构建产物 —— 先确认这一条能稳定跑通再扩。
+
+on:
+  # 手动重跑入口：用于「门禁自测」（故意置开关看会不会红）与合入前复验，
+  # 不占用 push/PR 的 paths 过滤，可在任意分支 dispatch。
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/miniprogram/**'
+      - 'packages/shared-core/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'jest.config.js'
+      - 'jest.setup.js'
+      - 'tsconfig.base.json'
+      - '.github/workflows/miniprogram-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/miniprogram/**'
+      - 'packages/shared-core/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'jest.config.js'
+      - 'jest.setup.js'
+      - 'tsconfig.base.json'
+      - '.github/workflows/miniprogram-ci.yml'
+
+# 同分支新推送取消旧跑：省钱，也避免旧跑把「已被后续提交修掉的错」留在列表里
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: jest + tsc
+    # 钉具体镜像而非 ubuntu-latest：latest 已于 2026-10-19 起迁 Ubuntu 26，
+    # 门禁要的是「同输入同结果」，镜像漂移应由人显式升级而不是某天自己变。
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # 版本由 package.json 的 packageManager 字段决定（pnpm@11.7.0），不在此重复钉版本
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # frozen：lock 与 package.json 不一致时直接失败，而不是现场解析出新版本
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: jest
+        run: npx jest
+
+      - name: tsc (miniprogram)
+        run: npx tsc -p packages/miniprogram/tsconfig.json --noEmit
