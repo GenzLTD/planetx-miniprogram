@@ -9,7 +9,7 @@
  */
 
 /**
- * 本地联调开关（local-dual-origin）——指本机 zervi-rust api-gateway :3333。
+ * 本地联调开关（local-dual-origin）——指 zervi-rust api-gateway :3333。
  *
  * 打开后 stage3 读写真面（detail/permission/templates/blacklist + parse/ingest/list）
  * 走网关显式路由 → resume-service(:3003)；未迁移面（compliance/poetry/...）
@@ -18,9 +18,11 @@
  * ⚠️ 纪律：
  * · 默认必须 false —— 开发者本机联调临时置 true，提交前必须改回；
  *   config.test.ts 会拦截「带着 true 提交」（USE_LOCAL_GATEWAY 守卫断言）。
- * · 只对开发者工具有效（127.0.0.1）；真机连不到本机回环，行为等同空串。
- * · 本机编排见 zervi-rust 侧联调记录：pg :55433 + resume-service :3003 +
- *   api-gateway :3333（ZERVI_DEV_AUTH=1 时 /v1/auth/register|login 可拿 token）。
+ * · 开发者工具：同机用 127.0.0.1；Surface/Mac/Dell 指栈主机局域网 IP
+ *   （见 LOCAL_DEV.md / zervi-rust scripts/local-dev-up/FLEET.md）。真机预览仍受
+ *   合法域名与明文 HTTP 限制，本路径优先开发者工具。
+ * · 栈编排：pg :55433 + resume-service :3003 + api-gateway :3333
+ *   （ZERVI_DEV_AUTH=1 时 /v1/auth/register|login 可拿 token）。
  */
 const USE_LOCAL_GATEWAY = false
 const LOCAL_GATEWAY_ORIGIN = 'http://127.0.0.1:3333'
