@@ -8,6 +8,6 @@ project.private.config.json
 packages/miniprogram/utils/config.local.ts
 *.pem
 *.key
-# pnpm-lock.yaml 入库：CI 门禁用 --frozen-lockfile 保证可复现（docker/ci-miniprogram-guard）
+# pnpm-lock.yaml 入库：CI 门禁（.github/workflows/miniprogram-ci.yml）用 --frozen-lockfile 保证可复现
 # package-lock.json 仍忽略：本仓唯一包管理器是 pnpm（见 package.json packageManager）
 package-lock.json
