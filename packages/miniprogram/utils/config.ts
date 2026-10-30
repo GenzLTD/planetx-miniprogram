@@ -7,8 +7,26 @@
  * 在这一源给出 HTTPS 合法域名之前，这里保持空字符串：
  * 请求会失败，不会落到 ServBay、腾讯云或另一本账。
  */
+
+/**
+ * 本地联调开关（local-dual-origin）——指本机 zervi-rust api-gateway :3333。
+ *
+ * 打开后 stage3 读写真面（detail/permission/templates/blacklist + parse/ingest/list）
+ * 走网关显式路由 → resume-service(:3003)；未迁移面（compliance/poetry/...）
+ * 由网关 fallback 反代回 looma Flask :5200 —— 小程序侧仍是单源，无双源逻辑。
+ *
+ * ⚠️ 纪律：
+ * · 默认必须 false —— 开发者本机联调临时置 true，提交前必须改回；
+ *   config.test.ts 会拦截「带着 true 提交」（USE_LOCAL_GATEWAY 守卫断言）。
+ * · 只对开发者工具有效（127.0.0.1）；真机连不到本机回环，行为等同空串。
+ * · 本机编排见 zervi-rust 侧联调记录：pg :55433 + resume-service :3003 +
+ *   api-gateway :3333（ZERVI_DEV_AUTH=1 时 /v1/auth/register|login 可拿 token）。
+ */
+const USE_LOCAL_GATEWAY = false
+const LOCAL_GATEWAY_ORIGIN = 'http://127.0.0.1:3333'
+
 // 显式 string：空串时若推断为字面量 ""，下游真值分支会收窄成 never
-export const API_ORIGIN: string = ''
+export const API_ORIGIN: string = USE_LOCAL_GATEWAY ? LOCAL_GATEWAY_ORIGIN : ''
 
 export const API_BASE = API_ORIGIN
 export const SAAS_BASE = API_ORIGIN
