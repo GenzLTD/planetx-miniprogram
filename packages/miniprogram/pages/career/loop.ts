@@ -7,8 +7,10 @@
  *   extracted 带上即 processed；不带是 stored（仅存原文）
  * · GET /v1/resume/list → { resumes: [{id,title,filename,file_size,uploaded_at,extracted}], total }
  *
- * 铁律：parse 响应缺 extracted 时不组 ingest body（调用方不得入库），
- * 把解析结果按原样展示，让用户看到失败原因而不是静默丢数据。
+ * 铁律：parse 响应缺 extracted（或 extracted 是无键空对象）时不组 ingest body
+ * （调用方不得入库），把解析结果按原样展示，让用户看到失败原因而不是静默丢数据。
+ * 「有实质 extracted」唯一判定 = hasKeys：列表徽标与入库组包共用同一把尺子，
+ * 避免「入库记 processed、徽标显示未解析」对空对象各说各话。
  */
 import type { ParsedResume } from "@looma/shared-core";
 
@@ -48,12 +50,15 @@ export function filenameFromExtracted(extracted: ParsedResume): string {
 }
 
 /**
- * parse → ingest 组包。extracted 缺失/非对象时返回 null（不入库），
+ * parse → ingest 组包。extracted 缺失/非对象/无键空对象时返回 null（不入库），
  * markdown 用用户原文（parse 只产 extracted，原文在客户端手里）。
+ *
+ * 空对象判定复用 hasKeys（与列表徽标同口径）：{} 若入库，服务端会按
+ * extracted 存在记 processed，而徽标按无实质内容显示未解析——两头矛盾。
  */
 export function buildIngestBody(text: string, parseResp: ParseResponse): IngestBody | null {
   const extracted = parseResp?.extracted as unknown
-  if (!extracted || typeof extracted !== "object" || Array.isArray(extracted)) return null
+  if (!hasKeys(extracted)) return null
   const markdown = text.trim()
   if (!markdown) return null
   return { markdown, filename: filenameFromExtracted(extracted as ParsedResume), extracted: extracted as ParsedResume }
