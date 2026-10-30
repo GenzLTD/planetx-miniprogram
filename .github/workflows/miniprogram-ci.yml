@@ -41,18 +41,20 @@ permissions:
 jobs:
   guard:
     name: jest + tsc
-    runs-on: ubuntu-latest
+    # 钉具体镜像而非 ubuntu-latest：latest 已于 2026-10-19 起迁 Ubuntu 26，
+    # 门禁要的是「同输入同结果」，镜像漂移应由人显式升级而不是某天自己变。
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # 版本由 package.json 的 packageManager 字段决定（pnpm@11.7.0），不在此重复钉版本
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
