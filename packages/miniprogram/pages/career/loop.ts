@@ -3,7 +3,8 @@
  *
  * 服务端口径（zervi-rust resume-service）：
  * · POST /v1/resume/parse → { extracted }（不落库）
- * · POST /v1/resume/ingest { markdown, filename?, extracted? } → { resume_id, status }
+ * · POST /v1/resume/ingest { markdown, filename?, extracted? } → { resume_id, status, matches?, total_evaluated? }
+ *   matches 由服务端内部打 /v1/jobs/match（库内职位），失败不阻断入库
  *   extracted 带上即 processed；不带是 stored（仅存原文）
  * · GET /v1/resume/list → { resumes: [{id,title,filename,file_size,uploaded_at,extracted}], total }
  *
