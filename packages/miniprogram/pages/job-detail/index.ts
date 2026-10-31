@@ -9,8 +9,8 @@
  * 所以正文名随写入方而变。已知变体：jd（seed-demo）、desc（存量库）、
  * description + requirements（解析产物）→ 按此顺序回退，任一命中即渲染。
  *
- * 匹配入口不放在本页：/v1/jobs/match 是 LLM 即席（不查库），
- * 与本页「库内真实职位」不是同一条链路，混放会误导预期。
+ * 匹配入口不放在本页：/v1/jobs/match 在求职 Tab 产出带 job_id 的库内结果，
+ * 点进本页只读详情，避免在详情里再跑一遍匹配。
  */
 import { careerApi } from '../../utils/api'
 

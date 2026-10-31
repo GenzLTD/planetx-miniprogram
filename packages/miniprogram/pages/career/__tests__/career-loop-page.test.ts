@@ -139,6 +139,7 @@ describe('onSubmit parse→ingest 闭环', () => {
       extracted: { name: '李四' },
     })
     expect(ctx.data.result).toBe('已入库 #42（processed）')
+    expect(ctx.data.matches).toEqual([])
     expect(ctx.data.busy).toBe(false)
     expect(api.list).toHaveBeenCalled()
   })
@@ -188,14 +189,37 @@ describe('onSubmit parse→ingest 闭环', () => {
     expect(careerApiM.parse).not.toHaveBeenCalled()
   })
 
-  it('match 模式不 ingest，结果仍页内 JSON', async () => {
+  it('match 模式不 ingest，有 job_id 的结果可跳详情', async () => {
     const ctx = page()
     ctx.setData({ mode: 'match' })
-    careerApiM.match.mockResolvedValue({ score: 0.8 })
+    careerApiM.match.mockResolvedValue({
+      matches: [
+        { job_id: 'demo-1', title: '高级 Rust 后端工程师', score: 0.8, reasons: ['库内'] },
+        { title: '无 id 丢弃' },
+      ],
+    })
     await ctx.onSubmit()
     expect(careerApi.match).toHaveBeenCalledWith('简历原文')
     expect(api.ingest).not.toHaveBeenCalled()
-    expect(ctx.data.result).toBe(JSON.stringify({ score: 0.8 }, null, 2))
+    expect(ctx.data.matches).toEqual([
+      { id: 'demo-1', title: '高级 Rust 后端工程师', score: '80%', reasons: '库内' },
+    ])
+    expect(ctx.data.result).toBe('')
+  })
+
+  it('parse→ingest 带回 matches 时展示可跳转职位', async () => {
+    careerApiM.parse.mockResolvedValue({ extracted: { name: '李四' } })
+    api.ingest.mockResolvedValue({
+      resume_id: '42',
+      status: 'processed',
+      matches: [{ job_id: 'demo-1', title: 'Rust', score: 1, reasons: ['重合'] }],
+    })
+    const ctx = page()
+    await ctx.onSubmit()
+    expect(ctx.data.matches).toEqual([
+      { id: 'demo-1', title: 'Rust', score: '100%', reasons: '重合' },
+    ])
+    expect(ctx.data.result).toBe('已入库 #42（processed）')
   })
 })
 

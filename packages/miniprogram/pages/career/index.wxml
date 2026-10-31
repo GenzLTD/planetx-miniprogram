@@ -15,6 +15,17 @@
   </button>
   <view wx:if="{{error}}" class="error">{{error}}</view>
   <view wx:if="{{result}}" class="result">{{result}}</view>
+  <view wx:if="{{matches.length}}" class="section">匹配结果（点进库内职位）</view>
+  <view
+    wx:for="{{matches}}"
+    wx:key="id"
+    class="job"
+    bindtap="openJob"
+    data-id="{{item.id}}"
+  >
+    <text class="title">{{item.title}}</text>
+    <text class="meta">{{item.score}} {{item.reasons}}</text>
+  </view>
   <view class="section">我的简历</view>
   <view class="modes">
     <view class="mode" bindtap="goTemplates">模板</view>
