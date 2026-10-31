@@ -38,8 +38,8 @@
     <view class="failed-icon">⚠️</view>
     <text class="failed-text">连接失败，请检查网络或后端服务</text>
     <view class="btn-primary" bindtap="handleRetryLogin">重新连接</view>
-    <view wx:if="{{devMode}}" class="btn-skip" bindtap="handleSkipLogin">
-      跳过登录 (开发模式)
+    <view wx:if="{{allowDevSkip}}" class="btn-skip" bindtap="handleSkipLogin">
+      跳过登录（仅本地联调）
     </view>
   </view>
 </view>

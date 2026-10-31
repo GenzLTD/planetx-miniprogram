@@ -1,8 +1,35 @@
 <view class="legal-page">
   <view class="legal-h1">隐私政策</view>
   <view class="legal-meta">运营主体 {{operator}} · {{contact}}</view>
-  <text class="legal-body">{{summary}}</text>
-  <view class="legal-body" style="margin-top: 24rpx;">
-    您可撤回授权、申请更正或注销账号。注销后个人信息将匿名化，审计日志按法规留存。
+  <text class="legal-body">{{privacyFull}}</text>
+
+  <view class="legal-h2">用户协议</view>
+  <text class="legal-body">{{terms}}</text>
+
+  <view class="legal-h2">授权管理</view>
+  <view class="legal-hint">可撤回您已授予的处理范围。未登录或未授权项显示为未授权。</view>
+  <view wx:if="{{loadingScopes}}" class="legal-hint">加载授权状态…</view>
+  <view
+    wx:for="{{scopes}}"
+    wx:key="scope"
+    class="scope-row"
+  >
+    <view class="scope-meta">
+      <text class="scope-label">{{item.label}}</text>
+      <text class="scope-state">{{item.granted ? '已授权' : '未授权'}}</text>
+    </view>
+    <view
+      wx:if="{{item.granted}}"
+      class="scope-btn"
+      data-scope="{{item.scope}}"
+      bindtap="handleRevoke"
+    >撤回</view>
   </view>
+
+  <view class="legal-h2">账号注销</view>
+  <view class="legal-hint">
+    注销后将匿名化邮箱、openid 等标识信息；审计日志按法规留存。当前可完成本机退出并邮件申请服务端注销。
+  </view>
+  <view class="danger-btn" bindtap="handleDeleteAccount">申请注销账号</view>
+  <view class="link-btn" bindtap="handleCopyContact">复制运营联系邮箱</view>
 </view>

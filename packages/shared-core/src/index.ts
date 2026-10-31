@@ -365,7 +365,12 @@ export {
 } from "./constants/quota";
 
 export { API_ROUTES } from "./constants/routes";
-export { LEGAL, LEGAL_PRIVACY_SUMMARY } from "./constants/legal";
+export {
+  LEGAL,
+  LEGAL_PRIVACY_SUMMARY,
+  LEGAL_PRIVACY_FULL,
+  LEGAL_TERMS_SUMMARY,
+} from "./constants/legal";
 
 export {
   CLAIM_LABEL,

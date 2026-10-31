@@ -2,7 +2,7 @@
   "name": "@looma/miniprogram",
   "private": true,
   "version": "1.0.0",
-  "description": "PlanetX miniprogram shell, AppID wx842b6837e6898789",
+  "description": "PlanetX miniprogram shell, AppID wx842b6837e6898789 (see SUBMIT_GATES.md before upload)",
   "main": "app.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",

@@ -23,3 +23,69 @@
   line-height: 1.7;
   white-space: pre-wrap;
 }
+
+.legal-h2 {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 48rpx 0 16rpx;
+}
+
+.legal-hint {
+  font-size: 24rpx;
+  color: #8888aa;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+}
+
+.scope-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.06);
+}
+
+.scope-meta {
+  flex: 1;
+  padding-right: 16rpx;
+}
+
+.scope-label {
+  display: block;
+  font-size: 28rpx;
+  color: #e8e8f0;
+}
+
+.scope-state {
+  display: block;
+  font-size: 22rpx;
+  color: #8888aa;
+  margin-top: 4rpx;
+}
+
+.scope-btn {
+  font-size: 24rpx;
+  color: #ff8888;
+  padding: 12rpx 20rpx;
+  border: 1rpx solid rgba(255, 136, 136, 0.4);
+  border-radius: 8rpx;
+}
+
+.danger-btn {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #ffffff;
+  background: #a03030;
+  padding: 24rpx;
+  border-radius: 12rpx;
+}
+
+.link-btn {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #C8FF50;
+  padding: 16rpx;
+}

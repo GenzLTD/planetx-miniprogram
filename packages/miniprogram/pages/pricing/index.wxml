@@ -5,14 +5,18 @@
     <view class="header-title">升级会员</view>
     <view class="header-sub">
       当前：<text class="tier-highlight">{{currentTierLabel}}</text>
-      <text wx:if="{{stubMode}}" class="stub-badge">内测模式</text>
+      <text wx:if="{{paymentsClosed}}" class="stub-badge">付费暂未开放</text>
     </view>
   </view>
 
-  <view class="pay-steps" wx:if="{{payStep}}">
+  <view wx:if="{{paymentsClosed}}" class="pay-closed-hint">
+    商户与真实微信支付未就绪前，不提供购买与模拟支付。当前仅展示套餐说明。
+  </view>
+
+  <view class="pay-steps" wx:if="{{payStep && !paymentsClosed}}">
     <text class="pay-step {{payStep === 'order' ? 'now' : ''}}">下单</text>
     <text class="pay-arrow">→</text>
-    <text class="pay-step {{payStep === 'notify' ? 'now' : ''}}">{{stubMode ? '模拟回调' : '微信支付'}}</text>
+    <text class="pay-step {{payStep === 'notify' ? 'now' : ''}}">微信支付</text>
     <text class="pay-arrow">→</text>
     <text class="pay-step {{payStep === 'status' || payStep === 'done' ? 'now' : ''}}">订阅状态</text>
   </view>
