@@ -15,6 +15,7 @@
   </button>
   <view wx:if="{{error}}" class="error">{{error}}</view>
   <view wx:if="{{result}}" class="result">{{result}}</view>
+  <view wx:if="{{matchHint}}" class="meta">{{matchHint}}</view>
   <view wx:if="{{matches.length}}" class="section">匹配结果（点进库内职位）</view>
   <view
     wx:for="{{matches}}"

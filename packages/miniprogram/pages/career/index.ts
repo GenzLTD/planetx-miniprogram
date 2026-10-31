@@ -21,6 +21,7 @@ Page({
     error: '',
     jobs: [] as Array<{ id: string; title: string; company: string; salary: string }>,
     matches: [] as Array<{ id: string; title: string; score: string; reasons: string }>,
+    matchHint: '',
     // 我的简历（GET /v1/resume/list）
     resumes: [] as ResumeRow[],
     resumeTotal: 0,
@@ -36,7 +37,7 @@ Page({
   },
 
   onMode(e: any) {
-    this.setData({ mode: e.currentTarget.dataset.mode, result: '', error: '', matches: [] })
+    this.setData({ mode: e.currentTarget.dataset.mode, result: '', error: '', matches: [], matchHint: '' })
   },
 
   goTemplates() {
@@ -68,7 +69,9 @@ Page({
   },
 
   applyMatchPayload(resp: unknown, note: string) {
-    const raw = resp && typeof resp === 'object' ? (resp as { matches?: unknown }) : {}
+    const raw = resp && typeof resp === 'object'
+      ? (resp as { matches?: unknown; match_status?: string; match_error?: string })
+      : {}
     const list = Array.isArray(raw.matches) ? raw.matches : []
     const matches = list
       .map((item) => {
@@ -85,8 +88,18 @@ Page({
         return { id, title, score, reasons }
       })
       .filter((row) => row.id)
-    const result = note || (matches.length ? '' : JSON.stringify(resp ?? {}, null, 2))
-    this.setData({ matches, result })
+    const hints: Record<string, string> = {
+      ok: matches.length ? '' : '没有达到推荐门槛的库内职位。',
+      no_fit: '库内没有足够相关的职位。',
+      empty_library: '职位库为空。',
+      unavailable: '匹配服务暂时不可用，简历已保留。可稍后点「计算匹配」。',
+      quota_exceeded: '当日匹配配额已用尽，简历已保留。',
+      skipped_duplicate: '同一份简历已入库，未重复匹配。可点「计算匹配」。',
+    }
+    const status = String(raw.match_status || (matches.length ? 'ok' : ''))
+    const matchHint = raw.match_error || hints[status] || ''
+    const result = note || (matches.length || matchHint ? '' : JSON.stringify(resp ?? {}, null, 2))
+    this.setData({ matches, result, matchHint })
   },
 
   openJob(e: any) {
@@ -137,7 +150,7 @@ Page({
       wx.showToast({ title: '需要授权后才能处理简历', icon: 'none' })
       return
     }
-    this.setData({ busy: true, result: '', error: '', matches: [] })
+    this.setData({ busy: true, result: '', error: '', matches: [], matchHint: '' })
     try {
       if (this.data.mode === 'match') {
         const resp = await careerApi.match(text)
@@ -156,10 +169,12 @@ Page({
         return
       }
       try {
-        const ingested = await resumeApi.ingest(body) as {
+        const ingested = await careerApi.ingest(body) as {
           resume_id?: string
           status?: string
           matches?: unknown
+          match_status?: string
+          match_error?: string
         }
         this.applyMatchPayload(ingested, `已入库 #${ingested.resume_id ?? '?'}（${ingested.status || 'stored'}）`)
         this.setData({ busy: false })
