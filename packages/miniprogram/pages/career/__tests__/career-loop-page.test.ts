@@ -224,3 +224,37 @@ describe('onShow', () => {
     expect(ctx.loadResumes).toHaveBeenCalled()
   })
 })
+
+describe('openJob', () => {
+  it('带 id 跳 job-detail（id 做 URL 编码）', () => {
+    const ctx = makePage()
+    ctx.openJob({ currentTarget: { dataset: { id: 'demo-1' } } })
+    expect(mockWx.navigateTo).toHaveBeenCalledWith({
+      url: '/pages/job-detail/index?id=demo-1',
+    })
+  })
+  it('无 id 不跳（列表行的旧结构不应导航到空详情）', () => {
+    const ctx = makePage()
+    ctx.openJob({ currentTarget: { dataset: { id: '' } } })
+    expect(mockWx.navigateTo).not.toHaveBeenCalled()
+  })
+})
+
+describe('loadJobs', () => {
+  it('保留 id 供详情导航；salary 兼容 salary_range', async () => {
+    const ctx = makePage()
+    careerApiM.jobs.mockResolvedValue({
+      jobs: [{ id: 'demo-1', title: '前端', company: '深伯乐', salary_range: '25-40K' }],
+    })
+    await ctx.loadJobs()
+    expect(ctx.data.jobs).toEqual([
+      { id: 'demo-1', title: '前端', company: '深伯乐', salary: '25-40K' },
+    ])
+  })
+  it('接口失败：清空列表且不抛', async () => {
+    const ctx = makePage()
+    careerApiM.jobs.mockRejectedValue(new Error('502'))
+    await ctx.loadJobs()
+    expect(ctx.data.jobs).toEqual([])
+  })
+})

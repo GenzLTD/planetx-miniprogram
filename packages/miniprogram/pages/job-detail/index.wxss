@@ -1,0 +1,162 @@
+/* 职位详情 — 与 career 页同基调（深色 #0a0a1a / 主文 #f4f4f8 / 强调 #c8ff50） */
+.job-page {
+  min-height: 100vh;
+  background: #0a0a1a;
+  color: #f4f4f8;
+  padding: 32rpx 24rpx 120rpx;
+  box-sizing: border-box;
+}
+
+.job-header {
+  margin-bottom: 24rpx;
+}
+
+.job-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.job-subtitle {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #6a6a80;
+}
+
+/* 骨架 */
+.job-skeleton {
+  margin-top: 16rpx;
+}
+
+.job-skel-card {
+  padding: 28rpx 24rpx;
+  border-radius: 16rpx;
+  background: #12121f;
+  border: 1rpx solid rgba(255, 255, 255, 0.06);
+}
+
+.job-skel-line {
+  height: 20rpx;
+  margin-bottom: 16rpx;
+  border-radius: 8rpx;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.job-skel-line:last-child {
+  margin-bottom: 0;
+}
+
+.w60 { width: 60%; }
+.w40 { width: 40%; }
+.w80 { width: 80%; }
+
+/* 错误 */
+.job-error {
+  margin-top: 24rpx;
+  padding: 28rpx 24rpx;
+  border-radius: 16rpx;
+  background: rgba(255, 96, 96, 0.08);
+  border: 1rpx solid rgba(255, 96, 96, 0.3);
+}
+
+.job-error-text {
+  display: block;
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: #ffb4b4;
+}
+
+.job-retry {
+  display: inline-block;
+  margin-top: 20rpx;
+  margin-right: 16rpx;
+  padding: 10rpx 28rpx;
+  border-radius: 999rpx;
+  background: rgba(200, 255, 80, 0.12);
+  border: 1rpx solid rgba(200, 255, 80, 0.35);
+}
+
+.job-retry text {
+  font-size: 24rpx;
+  color: #c8ff50;
+  font-weight: 600;
+}
+
+.job-cta {
+  display: inline-block;
+  margin-top: 20rpx;
+  padding: 10rpx 28rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.16);
+}
+
+.job-cta text {
+  font-size: 24rpx;
+  color: #d8d8e8;
+}
+
+/* 内容卡片 */
+.job-card {
+  padding: 28rpx 24rpx;
+  border-radius: 16rpx;
+  background: #12121f;
+  border: 1rpx solid rgba(255, 255, 255, 0.06);
+}
+
+.job-card-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.job-card-company {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #b8b8c8;
+}
+
+.job-tags {
+  margin-top: 18rpx;
+}
+
+.job-tag {
+  display: inline-block;
+  margin-right: 12rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+  font-size: 22rpx;
+  color: #d8d8e8;
+}
+
+/* 正文 */
+.job-section {
+  margin-top: 28rpx;
+}
+
+.job-section-title {
+  display: block;
+  margin-bottom: 14rpx;
+  font-size: 24rpx;
+  color: #8a8aa0;
+  letter-spacing: 1rpx;
+}
+
+.job-jd {
+  display: block;
+  font-size: 28rpx;
+  line-height: 1.75;
+  color: #e6e6f0;
+  white-space: pre-wrap;
+}
+
+.job-jd-empty {
+  display: block;
+  font-size: 26rpx;
+  color: #8a8aa0;
+}

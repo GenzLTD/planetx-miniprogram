@@ -30,7 +30,7 @@
   <view wx:if="{{resumeError}}" class="meta">简历列表加载失败：{{resumeError}}</view>
   <view wx:elif="{{resumes.length === 0}}" class="meta">{{resumeEmptyHint}}</view>
   <view class="section">职位库</view>
-  <view wx:for="{{jobs}}" wx:key="index" class="job">
+  <view wx:for="{{jobs}}" wx:key="id" class="job" bindtap="openJob" data-id="{{item.id}}">
     <text class="title">{{item.title}}</text>
     <text class="meta">{{item.company}} {{item.salary}}</text>
   </view>

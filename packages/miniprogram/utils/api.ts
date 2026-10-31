@@ -139,6 +139,8 @@ export const careerApi = {
   match: (resumeText: string) =>
     apiClient.post('/v1/jobs/match', { resume_text: resumeText }, { timeout: 120000 }),
   jobs: () => apiClient.get('/v1/jobs/list'),
+  // 职位详情：GET /v1/jobs/:job_id（job-service 真查库，seed-demo 灌入即可读）
+  jobDetail: (id: string) => apiClient.get(`/v1/jobs/${encodeURIComponent(id)}`),
   resumes: () => apiClient.get('/v1/resume/list'),
 }
 

@@ -19,7 +19,7 @@ Page({
     busy: false,
     result: '',
     error: '',
-    jobs: [] as Array<{ title: string; company: string; salary: string }>,
+    jobs: [] as Array<{ id: string; title: string; company: string; salary: string }>,
     // 我的简历（GET /v1/resume/list）
     resumes: [] as ResumeRow[],
     resumeTotal: 0,
@@ -53,7 +53,9 @@ Page({
   async loadJobs() {
     try {
       const resp = await careerApi.jobs() as { jobs?: Array<Record<string, string>> }
+      // 保留 id：详情页 GET /v1/jobs/:job_id 的唯一入口（无 id 的行不可导航）
       const jobs = (resp.jobs || []).slice(0, 20).map((job) => ({
+        id: job.id || '',
         title: job.title || '未命名职位',
         company: job.company || '',
         salary: job.salary_range || job.salary || '',
@@ -62,6 +64,12 @@ Page({
     } catch {
       this.setData({ jobs: [] })
     }
+  },
+
+  openJob(e: any) {
+    const id = String(e?.currentTarget?.dataset?.id || '').trim()
+    if (!id) return
+    wx.navigateTo({ url: `/pages/job-detail/index?id=${encodeURIComponent(id)}` })
   },
 
   async loadResumes() {

@@ -1,0 +1,47 @@
+<scroll-view class="job-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="job-header">
+    <text class="job-title">{{job.title || '职位详情'}}</text>
+    <text class="job-subtitle" wx:if="{{jobId}}">ID · {{jobId}}</text>
+  </view>
+
+  <!-- 加载态 -->
+  <view class="job-skeleton" wx:if="{{loading}}">
+    <view class="job-skel-card">
+      <view class="job-skel-line w60"></view>
+      <view class="job-skel-line w40"></view>
+      <view class="job-skel-line w80"></view>
+      <view class="job-skel-line w80"></view>
+    </view>
+  </view>
+
+  <!-- 错误态 -->
+  <view class="job-error" wx:if="{{error && !loading}}">
+    <text class="job-error-text">{{error}}</text>
+    <view class="job-retry" bindtap="loadDetail" wx:if="{{jobId}}">
+      <text>重试</text>
+    </view>
+    <view class="job-cta" bindtap="goBack">
+      <text>返回 →</text>
+    </view>
+  </view>
+
+  <!-- 内容 -->
+  <block wx:if="{{job && !loading}}">
+    <view class="job-card">
+      <text class="job-card-title">{{job.title || '未命名职位'}}</text>
+      <text class="job-card-company" wx:if="{{job.company}}">{{job.company}}</text>
+      <view class="job-tags">
+        <text class="job-tag" wx:if="{{job.location}}">{{job.location}}</text>
+        <text class="job-tag" wx:if="{{job.salary || job.salary_range}}">{{job.salary || job.salary_range}}</text>
+      </view>
+    </view>
+
+    <view class="job-section" wx:if="{{jdText}}">
+      <text class="job-section-title">职位描述</text>
+      <text class="job-jd" user-select>{{jdText}}</text>
+    </view>
+    <view class="job-section" wx:else>
+      <text class="job-jd-empty">该职位暂无 JD 文本。</text>
+    </view>
+  </block>
+</scroll-view>
