@@ -13,6 +13,17 @@ import {
 
 const cache: Partial<Record<ConsentScope, boolean>> = {}
 
+/** 撤回授权或注销后清本地缓存；scope 省略则全清 */
+export function clearConsentCache(scope?: ConsentScope): void {
+  if (scope) {
+    delete cache[scope]
+    return
+  }
+  for (const key of Object.keys(cache) as ConsentScope[]) {
+    delete cache[key]
+  }
+}
+
 export async function ensureConsent(scope: ConsentScope): Promise<boolean> {
   if (cache[scope]) return true
 

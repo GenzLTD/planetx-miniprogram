@@ -2,7 +2,7 @@
   "miniprogramRoot": "./",
   "projectname": "planetx-miniprogram",
   "description": "PlanetX miniprogram for one contract and one ledger",
-  "appid": "wx6563950292092013",
+  "appid": "wx842b6837e6898789",
   "setting": {
     "urlCheck": true,
     "es6": true,

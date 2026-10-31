@@ -40,7 +40,10 @@ interface PricingCard {
 Page({
   data: {
     loading: true,
-    stubMode: true,
+    /** 缺省 false：避免首屏误显「内测/模拟」；以 providers.stub_mode 为准 */
+    stubMode: false,
+    /** 首发策略：stub / 未接商户时关闭付费，禁止用户走模拟回调 */
+    paymentsClosed: true,
     currentTier: 'free' as string,
     currentTierLabel: '免费版',
     plans: [] as PricingCard[],
@@ -84,6 +87,8 @@ Page({
       ])
       // 拿不到 providers 时缺省 false：宁可让用户看到真实支付报错，也不把生产误判成模拟支付
       const stubMode = providers?.stub_mode === true
+      // 首发：stub（模拟回调）未接商户 → 关闭付费入口；仅真实 wx.requestPayment 路径可开放
+      const paymentsClosed = stubMode === true
       const currentTier = this.data.currentTier
       const currentOrder = TIER_ORDER[currentTier] ?? 0
 
@@ -102,9 +107,9 @@ Page({
         } else if (isLower) {
           buttonText = '已拥有更高版本'
           disabled = true
-        } else if (stubMode && plan.tier !== 'free') {
-          buttonText = '微信支付（内测）'
-          disabled = false
+        } else if (paymentsClosed && plan.tier !== 'free') {
+          buttonText = '暂未开放付费'
+          disabled = true
         } else if (!stubMode && plan.tier !== 'free') {
           buttonText = `微信支付 ¥${plan.price_monthly}`
           disabled = false
@@ -128,6 +133,7 @@ Page({
       this.setData({
         loading: false,
         stubMode,
+        paymentsClosed,
         plans: cards,
       })
     } catch (err: any) {
@@ -145,14 +151,16 @@ Page({
     const tier = e.currentTarget?.dataset?.tier
     if (!tier || this.data.paying) return
 
+    // 提审 / 首发：禁止模拟支付进用户路径
+    if (this.data.paymentsClosed || this.data.stubMode) {
+      wx.showToast({ title: '会员付费暂未开放', icon: 'none' })
+      return
+    }
+
     this.setData({ selectedTier: tier, paying: true })
 
     try {
-      if (this.data.stubMode) {
-        await this.doStubPay(tier)
-      } else {
-        await this.doWechatPay(tier)
-      }
+      await this.doWechatPay(tier)
     } catch (err: any) {
       this.setData({ paying: false, polling: false, payStep: '' })
       const msg = err?.message || err?.errMsg || '支付失败，请重试'

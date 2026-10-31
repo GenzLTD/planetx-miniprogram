@@ -18,7 +18,11 @@
 
 ## 支付
 
-商户号下来之前，会员页走下单、模拟回调、核对订阅。登录沿用启动页的微信登录。区域写在这一单的 `region=CN` 上。生产换成 `wx.requestPayment`，核销链不变。不再使用 `touristappid` 那份独立模拟器。
+**首发策略（提审）：** 商户号与真实 `wx.requestPayment` 未就绪时，会员页**关闭付费入口**，不向用户提供模拟回调购买。`providers.stub_mode=true` 时按钮为「暂未开放付费」。
+
+商户就绪后：下单 → `wx.requestPayment` → 轮询订阅 → refresh JWT；区域写在订单 `region=CN`。开发者本机可用 stub 自测，但不得打进提审包用户路径。
+
+上架闸门清单见 [`packages/miniprogram/SUBMIT_GATES.md`](packages/miniprogram/SUBMIT_GATES.md)。
 
 ## 打开
 

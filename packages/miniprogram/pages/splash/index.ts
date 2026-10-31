@@ -1,21 +1,30 @@
 /**
  * Splash Page - entry point
  * P-01：首次启动须同意隐私政策后才发起微信登录。
+ * 提审纪律：「跳过登录」仅在指向本机网关的开发构建可见，不得进生产包。
  */
 import { eventBus } from '../../utils/event-bus'
 import { store } from '../../utils/store'
 import { enterApp } from '../../utils/enter'
+import { API_ORIGIN } from '../../utils/config'
 import { LEGAL, LEGAL_PRIVACY_SUMMARY } from '@looma/shared-core'
 
 const LOGIN_TIMEOUT_MS = 5000
 const PRIVACY_KEY = LEGAL.privacyAcceptedKey
 const AGE_KEY = LEGAL.ageConfirmedKey
 
+/** 仅本地联调（127.0.0.1 / localhost）允许开发跳过；空 API_ORIGIN / 生产域名一律禁止 */
+function allowDevSkipLogin(): boolean {
+  const origin = (API_ORIGIN || '').trim().toLowerCase()
+  if (!origin) return false
+  return origin.includes('127.0.0.1') || origin.includes('localhost')
+}
+
 Page({
   data: {
     loading: true,
     loginFailed: false,
-    devMode: false,
+    allowDevSkip: false,
     showPrivacyGate: false,
     privacyChecked: false,
     ageChecked: false,
@@ -38,12 +47,12 @@ Page({
       if (data.success) {
         enterApp()
       } else {
-        this.setData({ loading: false, loginFailed: true, devMode: true })
+        this.setData({ loading: false, loginFailed: true, allowDevSkip: allowDevSkipLogin() })
       }
     }
     this._expiredHandler = () => {
       this.clearTimer()
-      this.setData({ loading: false, loginFailed: true, devMode: true })
+      this.setData({ loading: false, loginFailed: true, allowDevSkip: allowDevSkipLogin() })
     }
     eventBus.on('auth:login', this._authHandler)
     eventBus.on('auth:expired', this._expiredHandler)
@@ -64,7 +73,7 @@ Page({
     }
 
     this._timer = setTimeout(() => {
-      this.setData({ loading: false, loginFailed: true, devMode: true })
+      this.setData({ loading: false, loginFailed: true, allowDevSkip: allowDevSkipLogin() })
     }, LOGIN_TIMEOUT_MS)
   },
 
@@ -109,24 +118,28 @@ Page({
       enterApp()
       return
     }
-    this.setData({ showPrivacyGate: false, loading: true, loginFailed: false })
+    this.setData({ showPrivacyGate: false, loading: true, loginFailed: false, allowDevSkip: false })
     this._timer = setTimeout(() => {
-      this.setData({ loading: false, loginFailed: true, devMode: true })
+      this.setData({ loading: false, loginFailed: true, allowDevSkip: allowDevSkipLogin() })
     }, LOGIN_TIMEOUT_MS)
     const app = getApp() as any
     app.wechatLogin()
   },
 
   handleRetryLogin() {
-    this.setData({ loading: true, loginFailed: false, devMode: false })
+    this.setData({ loading: true, loginFailed: false, allowDevSkip: false })
     this._timer = setTimeout(() => {
-      this.setData({ loading: false, loginFailed: true, devMode: true })
+      this.setData({ loading: false, loginFailed: true, allowDevSkip: allowDevSkipLogin() })
     }, LOGIN_TIMEOUT_MS)
     const app = getApp() as any
     app.wechatLogin()
   },
 
   handleSkipLogin() {
+    if (!allowDevSkipLogin()) {
+      wx.showToast({ title: '生产构建不可跳过登录', icon: 'none' })
+      return
+    }
     store.set('token', 'dev-mode-token')
     enterApp()
   },
