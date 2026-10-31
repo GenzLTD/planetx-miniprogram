@@ -119,6 +119,17 @@ describe('onLoad', () => {
     expect(ctx.data.jdText).toBe('主描述\n\n要求 A')
   })
 
+  it('所有正文字段缺失：jdText 为空串（空态由 wxml 依据 jdText 判定）', async () => {
+    const ctx = makePage()
+    jobDetail.mockResolvedValue({ id: 'empty-1', title: '无正文职位', company: '某公司' })
+    await ctx.onLoad({ id: 'empty-1' })
+    expect(ctx.data.loading).toBe(false)
+    expect(ctx.data.error).toBe('')
+    expect(ctx.data.jdText).toBe('')
+    // 标题仍应渲染，空态只影响正文区
+    expect(ctx.data.job.title).toBe('无正文职位')
+  })
+
   it('请求失败：job 清空、error 落文案、jobId 保留供重试', async () => {
     const ctx = makePage()
     jobDetail.mockRejectedValue(new Error('502'))
