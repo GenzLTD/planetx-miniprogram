@@ -3,7 +3,8 @@
  *
  * 钉子：
  * · 无 id 不发请求（防止从旧列表结构导航进来打空 id 请求）
- * · jd 优先，缺失时 description + requirements 拼接（服务端两种字段形态都见过）
+ * · jd 优先，缺失时回退 description / desc / requirements（服务端无正文 schema，
+ *   三种字段形态都实际见过：seed-demo 用 jd、存量库用 desc、解析产物用 description）
  * · 失败保留 jobId 供重试，error 落文案、job 清空
  */
 jest.mock('../../../utils/api', () => ({
@@ -91,6 +92,31 @@ describe('onLoad', () => {
     })
     await ctx.onLoad({ id: 'demo-2' })
     expect(ctx.data.jdText).toBe('负责 AI 求职产品\n\n5 年 + 产品经验')
+  })
+
+  it('只有 desc（存量库形态）：回退渲染，不显示暂无 JD', async () => {
+    const ctx = makePage()
+    jobDetail.mockResolvedValue({
+      id: 'legacy-1',
+      title: '高级 Rust 后端工程师',
+      company: '某科技',
+      desc: '负责网关与 resume-service，Rust/Tokio/Postgres。',
+    })
+    await ctx.onLoad({ id: 'legacy-1' })
+    expect(ctx.data.jdText).toBe('负责网关与 resume-service，Rust/Tokio/Postgres。')
+  })
+
+  it('description 与 desc 同时存在：取 description，不重复拼接', async () => {
+    const ctx = makePage()
+    jobDetail.mockResolvedValue({
+      id: 'both-1',
+      title: '双字段职位',
+      description: '主描述',
+      desc: '旧描述',
+      requirements: '要求 A',
+    })
+    await ctx.onLoad({ id: 'both-1' })
+    expect(ctx.data.jdText).toBe('主描述\n\n要求 A')
   })
 
   it('请求失败：job 清空、error 落文案、jobId 保留供重试', async () => {
