@@ -55,12 +55,47 @@ const apiClient = client as any
 // API 模块工厂（适配小程序现有接口）
 // ============================================================
 
+/** 网关 local_auth 回 `token`；小程序启动路径认 `access_token`。 */
+function asAccessTokenSession(data: any) {
+  if (!data || typeof data !== 'object') return data
+  const access_token = data.access_token || data.token
+  return access_token ? { ...data, access_token } : data
+}
+
+/**
+ * 本机栈（ZERVI_DEV_AUTH）只签发 register/login。
+ * /v1/auth/wechat 会 fallback 到 legacy stub：HTTP 200 且无 token。
+ */
+async function localGatewaySession() {
+  const email = 'mp-devtools@local.test'
+  const password = 'Passw0rd!'
+  const login = async () =>
+    asAccessTokenSession(await apiClient.post('/v1/auth/login', { email, password }))
+  try {
+    return await login()
+  } catch {
+    try {
+      await apiClient.post('/v1/auth/register', { email, password, name: 'devtools' })
+    } catch {
+      // 409 等：账号可能已存在，继续 login
+    }
+    return await login()
+  }
+}
+
 // Auth API 适配器（保持原有接口兼容性）
 export const authApi = {
   // 使用 shared-core 的 wechat 方法，但保持原有名称 wechatLogin
-  wechatLogin: (code: string) => {
+  wechatLogin: async (code: string) => {
     const request: WechatAuthRequest = { code }
-    return createAuthApi(apiClient).wechat(request)
+    const data: any = asAccessTokenSession(await createAuthApi(apiClient).wechat(request))
+    if (data?.access_token) return data
+    // 联调栈：wechat 未接线，走网关 local_auth（resume 面需要 JWT）
+    if (API_BASE && data?.via === 'legacy-stub') {
+      console.log('[auth] /v1/auth/wechat hit legacy-stub — using local_auth register/login')
+      return await localGatewaySession()
+    }
+    return data
   },
   
   // 绑定邮箱（小程序特有）

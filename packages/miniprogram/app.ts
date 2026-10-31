@@ -134,6 +134,11 @@ App({
     // Load game profile (XP, level, personality, fleet)
     gameApi.getProfile().then((data: any) => {
       console.log('[App] Game profile loaded:', JSON.stringify(data)?.slice(0, 150))
+      // 本机栈未接 game 面：网关 fallback 回声，不能当画像写入
+      if (data?.via === 'legacy-stub') {
+        console.log('[App] skip game profile — legacy-stub (career 不依赖此面)')
+        return
+      }
       store.applyGameProfile(data)
     }).catch((err: any) => {
       console.warn('[App] Game profile error (non-critical):', err?.message || err)
@@ -149,6 +154,10 @@ App({
 
     // Also load auth profile for user info
     authApi.profile().then((data: any) => {
+      if (data?.via === 'legacy-stub') {
+        console.log('[App] skip auth profile — /v1/auth/profile 是 stub；登录态已在 local_auth')
+        return
+      }
       console.log('[App] Auth profile loaded')
       store.set('user', data)
       this.globalData.userInfo = data
