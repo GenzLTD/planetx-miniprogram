@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PlanetX · 星际人格测试 | 找到你的星球身份</title>
+
+<!-- Open Graph / 微信朋友圈分享卡片 -->
+<meta property="og:title" content="🪐 PlanetX · 星际人格测试">
+<meta property="og:description" content="不是逃离地球，是重装登陆新坐标。8道题解锁你的星际身份，3人成团探索隐藏星图。">
+<meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'><rect fill='%2314194A' width='1200' height='630'/><circle cx='600' cy='240' r='180' fill='none' stroke='%23FF7B32' stroke-width='2' opacity='0.3'/><text x='600' y='260' text-anchor='middle' font-size='120' font-family='sans-serif' fill='%23FF7B32' font-weight='bold'>PlanetX</text><text x='600' y='340' text-anchor='middle' font-size='28' font-family='sans-serif' fill='%23A1A3B7'>星际人格测试 · 找到你的星球身份</text><text x='600' y='500' text-anchor='middle' font-size='22' font-family='sans-serif' fill='%23AD3BFF'>🪐 8道题 → 6种星际身份 → 3人舰队组队</text></svg>">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://app.genz.ltd">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PlanetX">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🪐 PlanetX · 星际人格测试">
+<meta name="twitter:description" content="8道题解锁你的星际身份，3人成团探索隐藏星图。00后共创实验室。">
+<meta name="twitter:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'><rect fill='%2314194A' width='1200' height='630'/><circle cx='600' cy='240' r='180' fill='none' stroke='%23FF7B32' stroke-width='2' opacity='0.3'/><text x='600' y='260' text-anchor='middle' font-size='120' font-family='sans-serif' fill='%23FF7B32' font-weight='bold'>PlanetX</text><text x='600' y='340' text-anchor='middle' font-size='28' font-family='sans-serif' fill='%23A1A3B7'>星际人格测试 · 找到你的星球身份</text><text x='600' y='500' text-anchor='middle' font-size='22' font-family='sans-serif' fill='%23AD3BFF'>🪐 8道题 → 6种星际身份 → 3人舰队组队</text></svg>">
+
+<!-- WeChat specific -->
+<meta itemprop="name" content="PlanetX · 星际人格测试">
+<meta itemprop="description" content="不是逃离地球，是重装登陆新坐标。8道题解锁你的星际身份。">
+<meta itemprop="image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect fill='%2314194A' width='300' height='300' rx='20'/><text x='150' y='120' text-anchor='middle' font-size='60' font-family='sans-serif'>🪐</text><text x='150' y='180' text-anchor='middle' font-size='28' font-family='sans-serif' fill='%23FF7B32' font-weight='bold'>PlanetX</text><text x='150' y='220' text-anchor='middle' font-size='14' font-family='sans-serif' fill='%23A1A3B7'>星际人格测试</text></svg>">
+
+<!-- PWA Manifest & Icons -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-title" content="PlanetX">
+
+<!-- Theme color for mobile browsers -->
+<meta name="theme-color" content="#14194A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+/* ===== CSS Variables: PlanetX 情绪板色系 ===== */
+:root {
+  --primary: #FF7B32;
+  --primary-glow: rgba(255,123,50,0.35);
+  --primary-soft: rgba(255,123,50,0.12);
+  --purple: #AD3BFF;
+  --purple-glow: rgba(173,59,255,0.4);
+  --purple-soft: rgba(173,59,255,0.15);
+  --green: #21EB6C;
+  --green-glow: rgba(33,235,108,0.3);
+  --green-soft: rgba(33,235,108,0.12);
+  --yellow: #FFC330;
+  --yellow-glow: rgba(255,195,48,0.3);
+  --yellow-soft: rgba(255,195,48,0.15);
+  --gold: #FFC330;
+  --gold-glow: rgba(255,195,48,0.3);
+  --cyan: #21EB6C;
+  --magenta: #AD3BFF;
+  --mist: #A1A3B7;
+  --bg: #14194A;
+  --bg-soft: #1A1F55;
+  --card: rgba(20,25,74,0.72);
+  --card-solid: #1A1F55;
+  --border: rgba(255,255,255,0.08);
+  --border-light: rgba(255,255,255,0.15);
+  --xp-bar-bg: rgba(255,255,255,0.08);
+  --text-primary: #FFFFFF;
+  --text-secondary: #D0D1DB;
+  --text-tertiary: #A1A3B7;
+  --text-quaternary: #727592;
+  
+  --font-xl: clamp(1.6rem, 5vw, 2.4rem);
+  --font-lg: clamp(1rem, 3.5vw, 1.3rem);
+  --font-md: 0.9rem;
+  --font-sm: 0.75rem;
+  --font-xs: 0.65rem;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; -webkit-font-smoothing:antialiased; }
+body {
+  font-family: 'Inter', 'Source Han Sans SC', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  background: radial-gradient(ellipse at 50% 0%, #1d2363 0%, #14194A 45%, #0d1138 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  overflow-x:hidden;
+}
+
+/* ===== Glassmorphism Base ===== */
+.game-card, .quiz-container, .result-card, .xp-section, .mission-card, .stat-card, .share-panel, .mission-share-panel, .nav-tabs, .toast, .achievement-popup {
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
+/* ===== Starfield ===== */
+.stars {
+  position:fixed; top:0;left:0; width:100%;height:100%;
+  pointer-events:none; z-index:0;
+}
+.star {
+  position:absolute; border-radius:50%;
+  background:rgba(255,255,255,0.85);
+  animation: starPulse var(--d) ease-in-out infinite;
+  animation-delay: var(--dl);
+}
+@keyframes starPulse {
+  0%,100% { opacity:0.15; transform:scale(1); }
+  50% { opacity:0.8; transform:scale(2.2); }
+}
+
+/* ===== Main Container ===== */
+.app {
+  position:relative; z-index:1;
+  width:100%; max-width:420px;
+  padding:16px 12px 32px;
+  display:flex; flex-direction:column; gap:20px;
+}
+
+/* ===== Screen Transition ===== */
+.screen {
+  display:none;
+  animation: screenIn 0.4s ease;
+}
+.screen.active { display:block; }
+@keyframes screenIn {
+  from { opacity:0; transform:translateY(16px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ===== Header ===== */
+.header {
+  text-align:center; padding:8px 0;
+}
+.logo {
+  font-size:var(--font-xl); font-weight:900; letter-spacing:0.06em;
+  color:var(--text-primary);
+  text-shadow: 0 0 30px var(--purple-glow), 0 0 60px rgba(173,59,255,0.1);
+}
+.logo .x {
+  display:inline-block; color:var(--purple);
+  animation: xSpin 8s linear infinite;
+  text-shadow: 0 0 20px var(--purple-glow);
+}
+@keyframes xSpin {
+  100% { transform:rotate(360deg); }
+}
+.subtitle {
+  font-size:var(--font-xs); color:var(--mist);
+  letter-spacing:0.2em; margin-top:2px;
+}
+
+/* ===== XP Bar ===== */
+.xp-section {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:12px 14px;
+}
+.xp-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:8px;
+}
+.xp-label { font-size:var(--font-xs); color:var(--mist); letter-spacing:0.1em; }
+.xp-value { font-size:var(--font-sm); color:var(--green); font-weight:700; }
+.xp-bar-outer {
+  height:6px; background:var(--xp-bar-bg); border-radius:3px;
+  overflow:hidden;
+}
+.xp-bar-inner {
+  height:100%; border-radius:3px;
+  background:linear-gradient(90deg, var(--purple), var(--green));
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  width: var(--xp);
+}
+
+/* ===== Level Badge ===== */
+.level-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:linear-gradient(135deg, var(--purple-soft), var(--green-soft));
+  border:1px solid rgba(33,235,108,0.25);
+  border-radius:20px; padding:4px 12px;
+  font-size:var(--font-xs); color:var(--green); font-weight:700;
+}
+
+/* ===== Game Section Card ===== */
+.game-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:16px;
+  cursor:pointer; transition: all 0.3s ease;
+  position:relative; overflow:hidden;
+}
+.game-card:hover, .game-card:active {
+  border-color:rgba(255,123,50,0.3);
+  box-shadow: 0 0 24px rgba(255,123,50,0.08);
+  transform: translateY(-2px);
+}
+.game-card::before {
+  content:''; position:absolute;
+  top:0;left:0; width:100%;height:2px;
+  background:linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.game-card:hover::before { opacity:0.6; }
+
+.game-card-icon { font-size:2rem; margin-bottom:8px; }
+.game-card-title { font-size:var(--font-lg); font-weight:700; margin-bottom:4px; }
+.game-card-desc { font-size:var(--font-xs); color:var(--mist); line-height:1.5; }
+.game-card-tag {
+  display:inline-block; margin-top:8px;
+  padding:3px 10px; border-radius:10px;
+  font-size:var(--font-xs); font-weight:600;
+}
+.tag-new { background:rgba(173,59,255,0.15); color:var(--magenta); }
+.tag-hot { background:rgba(255,195,48,0.15); color:var(--gold); }
+.tag-team { background:rgba(33,235,108,0.15); color:var(--cyan); }
+
+/* ===== Mission Cards ===== */
+.missions { display:flex; flex-direction:column; gap:10px; }
+.mission-card {
+  display:flex; align-items:center; gap:12px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:14px;
+  transition: all 0.3s ease; cursor:pointer;
+}
+.mission-card:hover { border-color:rgba(255,123,50,0.25); }
+.mission-card.locked { opacity:0.4; pointer-events:none; }
+.mission-icon {
+  font-size:1.8rem; flex-shrink:0;
+  width:44px; height:44px; display:flex;
+  align-items:center; justify-content:center;
+}
+.mission-info { flex:1; }
+.mission-name { font-size:var(--font-md); font-weight:700; }
+.mission-reward { font-size:var(--font-xs); color:var(--green); margin-top:2px; }
+.mission-status {
+  font-size:var(--font-xs); padding:4px 10px;
+  border-radius:10px; flex-shrink:0;
+}
+.status-todo { background:var(--border); color:var(--mist); }
+.status-done { background:var(--green-soft); color:var(--green); }
+.status-claim { background:rgba(255,195,48,0.2); color:var(--gold); animation: claimPulse 1.5s ease-in-out infinite; }
+@keyframes claimPulse {
+  0%,100% { box-shadow: 0 0 0 rgba(255,195,48,0); }
+  50% { box-shadow: 0 0 12px rgba(255,195,48,0.4); }
+}
+
+/* ===== Personality Quiz ===== */
+.quiz-container {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:20px 16px;
+}
+.quiz-progress {
+  display:flex; gap:4px; margin-bottom:16px;
+}
+.quiz-dot {
+  flex:1; height:4px; border-radius:2px;
+  background:var(--xp-bar-bg); transition:background 0.3s;
+}
+.quiz-dot.done { background:var(--primary); }
+.quiz-dot.current { background:var(--purple); }
+.quiz-question {
+  font-size:var(--font-lg); font-weight:700;
+  margin-bottom:16px; line-height:1.4;
+}
+.quiz-options { display:flex; flex-direction:column; gap:8px; }
+.quiz-option {
+  background:var(--xp-bar-bg); border:1px solid var(--border);
+  border-radius:10px; padding:14px; font-size:var(--font-md);
+  cursor:pointer; transition:all 0.2s; text-align:left;
+  color:var(--text-primary);
+}
+.quiz-option:hover, .quiz-option:active {
+  border-color:var(--primary); background:rgba(255,123,50,0.05);
+}
+.quiz-option.selected {
+  border-color:var(--primary); background:rgba(255,123,50,0.1);
+  box-shadow: 0 0 12px rgba(255,123,50,0.1);
+}
+
+/* ===== Result Screen ===== */
+.result-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:24px 16px; text-align:center;
+}
+.result-type {
+  font-size:2.5rem; margin-bottom:8px;
+}
+.result-name {
+  font-size:var(--font-lg); font-weight:900;
+  color:var(--primary); margin-bottom:4px;
+}
+.result-subtitle {
+  font-size:var(--font-xs); color:var(--mist); margin-bottom:16px;
+  letter-spacing:0.08em;
+}
+.result-traits {
+  display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+  margin-bottom:16px;
+}
+.result-trait {
+  padding:4px 12px; border-radius:12px;
+  font-size:var(--font-xs); font-weight:600;
+  background:rgba(173,59,255,0.2); color:#D7B6FF;
+}
+
+/* ===== Team Screen ===== */
+.team-header {
+  text-align:center; padding:8px 0;
+}
+.team-name {
+  font-size:var(--font-lg); font-weight:900;
+  color:var(--cyan);
+}
+.team-code {
+  display:inline-block; margin-top:6px;
+  padding:6px 16px; background:rgba(33,235,108,0.1);
+  border:1px dashed rgba(33,235,108,0.3);
+  border-radius:8px; font-size:var(--font-sm);
+  color:var(--cyan); letter-spacing:0.15em;
+  cursor:pointer;
+}
+.team-members {
+  display:flex; gap:10px; justify-content:center;
+  flex-wrap:wrap; margin-top:12px;
+}
+.team-member {
+  text-align:center; width:80px;
+}
+.member-avatar {
+  width:56px; height:56px; border-radius:50%;
+  background:var(--xp-bar-bg); border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; margin:0 auto 4px;
+  transition:all 0.3s;
+}
+.member-avatar.filled { border-color:var(--green); }
+.member-avatar.empty { opacity:0.5; }
+.member-name { font-size:var(--font-xs); color:var(--mist); }
+
+/* ===== Buttons ===== */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:6px; padding:12px 24px; border-radius:24px;
+  font-size:var(--font-md); font-weight:700; border:none;
+  cursor:pointer; transition:all 0.3s; letter-spacing:0.04em;
+  width:100%; text-align:center; text-decoration:none;
+}
+.btn-primary {
+  background:linear-gradient(135deg, var(--primary), #FF9F5A);
+  color:var(--text-primary); box-shadow: 0 4px 20px var(--primary-glow);
+}
+.btn-primary:hover, .btn-primary:active {
+  box-shadow: 0 6px 30px rgba(255,123,50,0.5);
+  transform: translateY(-1px);
+}
+.btn-lime {
+  background:linear-gradient(135deg, var(--green-soft), rgba(33,235,108,0.05));
+  border:1px solid rgba(33,235,108,0.3); color:var(--green);
+}
+.btn-lime:hover, .btn-lime:active {
+  background:rgba(33,235,108,0.15);
+  box-shadow: 0 0 20px var(--green-glow);
+}
+.btn-outline {
+  background:transparent; border:1px solid var(--border);
+  color:var(--mist);
+}
+.btn-outline:hover { border-color:var(--primary); color:var(--primary); }
+.btn-sm { padding:8px 16px; font-size:var(--font-xs); width:auto; }
+
+/* ===== Achievement Popup ===== */
+.achievement-popup {
+  position:fixed; top:50%; left:50%;
+  transform:translate(-50%,-50%) scale(0.8);
+  background:rgba(20,25,74,0.97); border:1px solid var(--gold);
+  border-radius:16px; padding:24px; text-align:center;
+  z-index:100; opacity:0; pointer-events:none;
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 0 60px rgba(255,195,48,0.3);
+  max-width:300px;
+}
+.achievement-popup.show {
+  opacity:1; transform:translate(-50%,-50%) scale(1);
+}
+.achievement-icon { font-size:3rem; margin-bottom:8px; }
+.achievement-title { font-size:var(--font-lg); font-weight:900; color:var(--gold); }
+.achievement-desc { font-size:var(--font-sm); color:var(--mist); margin-top:4px; }
+
+/* ===== Share Card Preview (canvas-free, pure CSS) ===== */
+.share-preview {
+  background:linear-gradient(135deg, #14194A 0%, #1A1055 50%, #0D1A3A 100%);
+  border:2px solid var(--border); border-radius:16px;
+  padding:20px; text-align:center; margin:16px 0;
+  position:relative; overflow:hidden;
+}
+.share-preview::before {
+  content:''; position:absolute; top:-30%; left:-30%;
+  width:160%; height:160%;
+  background:radial-gradient(circle at 30% 40%, rgba(255,123,50,0.04) 0%, transparent 50%),
+             radial-gradient(circle at 70% 60%, rgba(173,59,255,0.06) 0%, transparent 50%);
+  pointer-events:none;
+}
+.share-preview .sp-type { font-size:2.5rem; position:relative; z-index:1; }
+.share-preview .sp-name { font-size:var(--font-lg); font-weight:900; color:var(--primary); position:relative; z-index:1; }
+.share-preview .sp-tagline { font-size:var(--font-xs); color:var(--mist); margin:4px 0; position:relative; z-index:1; }
+.share-preview .sp-watermark {
+  font-size:0.55rem; color:var(--mist); opacity:0.4;
+  margin-top:8px; letter-spacing:0.2em; position:relative; z-index:1;
+}
+.share-qr { 
+  width:80px; height:80px; margin:12px auto 0;
+  background:rgba(255,123,50,0.05); border:1px dashed rgba(255,123,50,0.2);
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-size:var(--font-xs); color:var(--mist); position:relative; z-index:1;
+}
+
+/* ===== Share Panel (multi-platform) ===== */
+.share-panel, .mission-share-panel {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:16px; padding:16px; margin-top:12px;
+  animation: screenIn 0.3s ease;
+}
+.share-panel-title {
+  font-size:var(--font-sm); color:var(--mist);
+  text-align:center; margin-bottom:12px; letter-spacing:0.08em;
+}
+.share-platforms {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;
+  margin-bottom:12px;
+}
+.share-platform {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:12px 8px; border-radius:12px; cursor:pointer;
+  background:var(--xp-bar-bg); border:1px solid var(--border);
+  transition:all 0.2s;
+}
+.share-platform:hover, .share-platform:active {
+  border-color:var(--primary); background:rgba(255,123,50,0.05);
+}
+.share-platform-icon { font-size:1.5rem; }
+.share-platform-name { font-size:var(--font-xs); color:var(--mist); }
+.share-platform-tag { font-size:0.55rem; color:var(--primary); opacity:0.7; }
+
+.share-text-preview {
+  background:var(--xp-bar-bg); border:1px solid var(--border);
+  border-radius:8px; padding:10px 12px; margin-top:8px;
+  font-size:var(--font-xs); color:var(--mist); line-height:1.6;
+  white-space:pre-wrap; word-break:break-all;
+  max-height:120px; overflow-y:auto;
+}
+.share-text-preview .highlight { color:var(--primary); font-weight:600; }
+
+/* ===== Canvas container (hidden, for export) ===== */
+.export-canvas-wrap {
+  position:fixed; left:-9999px; top:0; z-index:-1;
+}
+
+/* ===== Toast ===== */
+.toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%);
+  background:rgba(20,25,74,0.95); border:1px solid var(--primary);
+  border-radius:24px; padding:12px 24px;
+  font-size:var(--font-sm); color:var(--primary); font-weight:700;
+  z-index:200; opacity:0; transition:all 0.3s; pointer-events:none;
+}
+.toast.show { opacity:1; top:40px; }
+
+/* ===== Nav Tabs ===== */
+.nav-tabs {
+  display:flex; gap:4px; background:var(--card);
+  border-radius:12px; padding:4px;
+}
+.nav-tab {
+  flex:1; padding:10px 8px; border-radius:10px;
+  text-align:center; font-size:var(--font-xs); font-weight:600;
+  cursor:pointer; transition:all 0.3s; border:none;
+  background:transparent; color:var(--mist);
+}
+.nav-tab.active {
+  background:rgba(255,123,50,0.1); color:var(--primary);
+}
+
+/* ===== Stats Grid ===== */
+.stats-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:8px;
+}
+.stat-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:14px; text-align:center;
+}
+.stat-value {
+  font-size:1.5rem; font-weight:900; color:var(--primary);
+}
+.stat-label { font-size:var(--font-xs); color:var(--mist); margin-top:2px; }
+
+/* ===== Consent Modal (profile_share 合规授权) ===== */
+.consent-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.6); z-index:150;
+  display:flex; align-items:center; justify-content:center;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+.consent-dialog {
+  background:var(--card-solid); border:1px solid var(--border);
+  border-radius:16px; padding:24px 20px; max-width:340px; width:90%;
+  text-align:center; animation: consentSlideUp 0.4s ease;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+@keyframes consentSlideUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.consent-icon { font-size:2.5rem; margin-bottom:8px; }
+.consent-title {
+  font-size:var(--font-lg); font-weight:700; color:var(--text-primary);
+  margin-bottom:4px;
+}
+.consent-scope {
+  font-size:var(--font-xs); color:var(--primary); font-weight:600;
+  margin-bottom:12px; letter-spacing:0.08em;
+}
+.consent-desc {
+  font-size:var(--font-xs); color:var(--mist); line-height:1.7;
+  margin-bottom:20px; text-align:left; white-space:pre-line;
+  background:var(--xp-bar-bg); border-radius:8px; padding:10px 12px;
+}
+.consent-actions {
+  display:flex; gap:8px;
+}
+.consent-btn {
+  flex:1; padding:11px 16px; border-radius:10px;
+  font-size:var(--font-sm); font-weight:700; cursor:pointer;
+  transition:all 0.2s; border:none;
+}
+.consent-decline {
+  background:var(--xp-bar-bg); color:var(--mist);
+}
+.consent-decline:hover { background:rgba(255,255,255,0.08); }
+.consent-agree {
+  background:linear-gradient(135deg, var(--primary), #FF9F5A);
+  color:var(--text-primary); box-shadow: 0 2px 12px rgba(255,123,50,0.25);
+}
+.consent-agree:hover { box-shadow: 0 4px 20px rgba(255,123,50,0.4); }
+
+/* ===== Responsive ===== */
+@media (max-width:375px) {
+  .app { padding:12px 8px 24px; gap:14px; }
+  .game-card { padding:14px; }
+  .quiz-question { font-size:1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Achievement Popup -->
+<div class="achievement-popup" id="achievementPopup">
+  <div class="achievement-icon" id="achIcon">🏆</div>
+  <div class="achievement-title" id="achTitle"></div>
+  <div class="achievement-desc" id="achDesc"></div>
+</div>
+
+<!-- ===== CONSENT MODAL (profile_share 合规授权) ===== -->
+<div class="consent-overlay" id="consentModal" style="display:none;">
+  <div class="consent-dialog">
+    <div class="consent-icon">🛡️</div>
+    <div class="consent-title">授权分享你的画像</div>
+    <div class="consent-scope" id="consentScope">分享人格分析结果</div>
+    <div class="consent-desc" id="consentDesc"></div>
+    <div class="consent-actions">
+      <button class="consent-btn consent-decline" id="consentDecline">暂不授权</button>
+      <button class="consent-btn consent-agree" id="consentAgree">✅ 同意授权</button>
+    </div>
+  </div>
+</div>
+
+<!-- App -->
+<div class="app" id="app">
+
+  <!-- ===== SCREEN: Loading ===== -->
+  <div class="screen active" id="screen-loading">
+    <div style="text-align:center;padding:60px 0;">
+      <div style="font-size:3rem;animation:xSpin 4s linear infinite;display:inline-block;">🪐</div>
+      <div style="font-size:var(--font-lg);font-weight:700;margin-top:16px;color:var(--primary);">
+        跃迁引擎预热中<span class="loading-dots">...</span>
+      </div>
+      <div style="font-size:var(--font-xs);color:var(--mist);margin-top:8px;">正在校准星际坐标</div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: Onboarding - Character Select ===== -->
+  <div class="screen" id="screen-onboarding">
+    <div class="header">
+      <div class="logo">Planet<span class="x">X</span></div>
+      <div class="subtitle">选择你的星际身份</div>
+    </div>
+    
+    <div style="text-align:center;padding:8px 0;">
+      <div style="font-size:var(--font-lg);font-weight:700;margin-bottom:16px;">
+        你正在寻找什么？
+      </div>
+    </div>
+
+    <div class="game-card" onclick="selectIdentity('explorer')" id="card-explorer">
+      <div class="game-card-icon">🚀</div>
+      <div class="game-card-title">星际探索者</div>
+      <div class="game-card-desc">正在寻找新的职业星球 · 渴望找到属于自己的轨道</div>
+      <div class="game-card-tag tag-hot">🔥 最多人选择</div>
+    </div>
+
+    <div class="game-card" onclick="selectIdentity('captain')" id="card-captain">
+      <div class="game-card-icon">👨‍✈️</div>
+      <div class="game-card-title">舰队舰长</div>
+      <div class="game-card-desc">组建你的3人舰队 · 带领船员探索未知星域</div>
+      <div class="game-card-tag tag-team">👥 组队模式</div>
+    </div>
+
+    <div class="game-card" onclick="selectIdentity('wanderer')" id="card-wanderer">
+      <div class="game-card-icon">🌌</div>
+      <div class="game-card-title">星际漫游者</div>
+      <div class="game-card-desc">不着急着陆 · 先在各个星球间随意漂流看看</div>
+      <div class="game-card-tag tag-new">✨ 佛系模式</div>
+    </div>
+
+    <!-- T空间入口 -->
+    <div style="text-align:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+      <a href="narrative.html" style="
+        display:inline-flex;align-items:center;gap:8px;
+        padding:12px 24px;border-radius:24px;
+        font-size:var(--font-sm);font-weight:600;
+        cursor:pointer;text-decoration:none;
+        background:linear-gradient(135deg, rgba(173,59,255,0.3), rgba(255,123,50,0.08));
+        border:1px solid rgba(255,123,50,0.2);
+        color:var(--primary); transition:all 0.3s;
+      " onmouseover="this.style.boxShadow='0 0 20px var(--purple-glow)'" onmouseout="this.style.boxShadow='none'">
+        🪐 进入 T 空间 · Navigator 叙事体验
+      </a>
+      <div style="font-size:var(--font-xs);color:var(--mist);margin-top:6px;opacity:0.6;">
+        与 AI 向导对话 · 探索六域 · 10分钟叙事体验
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: Main Hub ===== -->
+  <div class="screen" id="screen-hub">
+    <div class="header">
+      <div class="logo">Planet<span class="x">X</span></div>
+      <div class="subtitle" id="hub-identity"></div>
+    </div>
+
+    <!-- XP Bar -->
+    <div class="xp-section">
+      <div class="xp-header">
+        <span class="xp-label">⚡ 星际能量</span>
+        <span class="level-badge" id="levelBadge">🪐 Lv.1 · 新兵</span>
+        <span class="xp-value" id="xpText">0 / 100 XP</span>
+      </div>
+      <div class="xp-bar-outer">
+        <div class="xp-bar-inner" style="--xp:0%" id="xpBar"></div>
+      </div>
+    </div>
+
+    <!-- Nav Tabs -->
+    <div class="nav-tabs" id="navTabs">
+      <button class="nav-tab active" data-tab="tab-missions">🎯 任务</button>
+      <button class="nav-tab" data-tab="tab-team">👥 舰队</button>
+      <button class="nav-tab" data-tab="tab-profile">🪪 我的</button>
+    </div>
+
+    <!-- Tab: Missions -->
+    <div class="screen active" id="tab-missions">
+      <div class="missions">
+        <!-- Mission 1: Personality Test -->
+        <div class="mission-card" onclick="startQuiz()" id="mission-personality">
+          <div class="mission-icon">🔮</div>
+          <div class="mission-info">
+            <div class="mission-name">星际人格测试</div>
+            <div class="mission-reward">🎁 +50 XP · 解锁专属星球身份</div>
+          </div>
+          <span class="mission-status status-todo" id="status-personality">待完成</span>
+        </div>
+
+        <!-- Mission 2: Team Up -->
+        <div class="mission-card locked" id="mission-team" onclick="startTeamMission()">
+          <div class="mission-icon">🤝</div>
+          <div class="mission-info">
+            <div class="mission-name">组建3人舰队</div>
+            <div class="mission-reward">🎁 +80 XP · 解锁隐藏星图</div>
+          </div>
+          <span class="mission-status status-todo">🔒 需先完成人格测试</span>
+        </div>
+
+        <!-- Mission 3: First Match -->
+        <div class="mission-card locked" id="mission-match" onclick="startMatchMission()">
+          <div class="mission-icon">🎯</div>
+          <div class="mission-info">
+            <div class="mission-name">首次星际匹配</div>
+            <div class="mission-reward">🎁 +100 XP · 获得匹配星图</div>
+          </div>
+          <span class="mission-status status-todo">🔒 需加入舰队</span>
+        </div>
+
+        <!-- Mission 4: Share -->
+        <div class="mission-card locked" id="mission-share" onclick="startShareMission()">
+          <div class="mission-icon">📡</div>
+          <div class="mission-info">
+            <div class="mission-name">发送星际信号</div>
+            <div class="mission-reward">🎁 +30 XP · 邀请好友获得额外能量</div>
+          </div>
+          <span class="mission-status status-todo">分享人格结果</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Team -->
+    <div class="screen" id="tab-team">
+      <div class="team-header" id="teamPanel">
+        <div style="font-size:var(--font-sm);color:var(--mist);margin-bottom:4px;">
+          完成人格测试后解锁舰队功能
+        </div>
+        <div class="team-name" id="teamName" style="display:none;">舰队名称未设定</div>
+        <div class="team-code" id="teamCode" style="display:none;" onclick="copyTeamCode()">
+          邀请码：点击复制
+        </div>
+      </div>
+      <div class="team-members" id="teamMembers">
+        <div class="team-member">
+          <div class="member-avatar filled" id="member-me">🧑‍🚀</div>
+          <div class="member-name">我</div>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar empty" id="member-2">❓</div>
+          <div class="member-name">虚位以待</div>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar empty" id="member-3">❓</div>
+          <div class="member-name">虚位以待</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn btn-outline btn-sm" onclick="simulateInvite()">
+          📋 复制邀请链接
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab: Profile -->
+    <div class="screen" id="tab-profile">
+      <div style="text-align:center;padding:16px 0;" id="profileHeader">
+        <div style="font-size:3rem;" id="profileEmoji">🌌</div>
+        <div style="font-size:var(--font-lg);font-weight:700;color:var(--primary);" id="profileType">
+          未测试
+        </div>
+        <div style="font-size:var(--font-xs);color:var(--mist);" id="profileIdentity">
+          完成人格测试获取你的星际身份
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-tests">0</div>
+          <div class="stat-label">完成任务</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-teammates">0</div>
+          <div class="stat-label">舰队成员</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-shares">0</div>
+          <div class="stat-label">信号传播</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-xp">0</div>
+          <div class="stat-label">总能量</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: Quiz ===== -->
+  <div class="screen" id="screen-quiz">
+    <div class="header">
+      <div style="font-size:var(--font-sm);color:var(--mist);" id="quizStep">第 1/8 题</div>
+    </div>
+    <div class="quiz-container">
+      <div class="quiz-progress" id="quizProgress"></div>
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: Quiz Result ===== -->
+  <div class="screen" id="screen-result">
+    <div class="result-card">
+      <div class="result-type" id="resultEmoji">🪐</div>
+      <div class="result-name" id="resultName"></div>
+      <div class="result-subtitle" id="resultTagline"></div>
+      <div class="result-traits" id="resultTraits"></div>
+      <div style="font-size:var(--font-sm);color:var(--mist);line-height:1.6;margin-bottom:16px;" id="resultDesc"></div>
+      
+      <!-- Share Preview -->
+      <div class="share-preview" id="sharePreview">
+        <div class="sp-type" id="spEmoji">🪐</div>
+        <div class="sp-name" id="spName"></div>
+        <div class="sp-tagline">PlanetX · 星际人格认证</div>
+        <div class="share-qr">📱 扫码加入舰队</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button class="btn btn-lime" onclick="shareResult()">
+          📡 分享到星际频道
+        </button>
+        <button class="btn" style="background:linear-gradient(135deg, var(--purple-soft), rgba(255,123,50,0.08));border:1px solid rgba(173,59,255,0.3);color:#D7B6FF;" onclick="handleProfileShare()">
+          👔 分享给 HR（画像链接）
+        </button>
+        <button class="btn btn-outline" onclick="goToCommunity()">
+          🛰 加入舰队 · 去社区注册
+        </button>
+        <button class="btn btn-primary" onclick="goToHub()">
+          🚀 返回母舰 · 继续探险
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: Auth (Login/Register) ===== -->
+  <div class="screen" id="screen-auth">
+    <div class="header">
+      <div class="logo">Planet<span class="x">X</span></div>
+      <div class="subtitle">跃迁登录 · 登上你的飞船</div>
+    </div>
+    
+    <div id="authForm" style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <label style="font-size:var(--font-xs);color:var(--mist);display:block;margin-bottom:4px;">📧 邮箱</label>
+        <input type="email" id="authEmail" placeholder="你的星际邮箱" style="width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:var(--font-md);">
+      </div>
+      <div>
+        <label style="font-size:var(--font-xs);color:var(--mist);display:block;margin-bottom:4px;">🔐 密码</label>
+        <input type="password" id="authPassword" placeholder="至少8位" style="width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:var(--font-md);">
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary" onclick="handleSignIn()" style="flex:1;">🚀 登录</button>
+        <button class="btn btn-outline" onclick="handleSignUp()" style="flex:1;">✨ 注册</button>
+      </div>
+      <!-- 🔒 封闭内测：访客模式已禁用，必须注册 -->
+      <!-- <button class="btn btn-lime btn-sm" onclick="skipAuth()" style="margin-top:4px;">🌌 先逛逛，稍后登录（访客模式）</button> -->
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- PWA Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+    console.log('%c[PWA] Service Worker registered: ' + reg.scope, 'color:#FF7B32;');
+  }).catch(function(err) {
+    console.warn('[PWA] SW registration failed:', err);
+  });
+}
+</script>
+
+<script>
+// ===================== LOOMA API (auto-region) =====================
+// 按 hostname 自动选海外/本地/大陆 API；同一套 JWT + 合约，数据按区域隔离
+// 大陆侧不走 api 子域：api.szbolent.cn 已废弃（无 DNS 解析）；
+// api.szbolent.com.cn 虽在线但未放行 szbolent.com.cn / IP 的 CORS（无 ACAO 头）。
+// 大陆站点（szbolent.com.cn、1.14.202.161）的 nginx 已把 /v1/、/health 反代到同机 Looma，
+// 故走同源相对路径，零 CORS —— 与线上 Vite 版 planetx 行为一致。
+var API_BASE = (function() {
+  var hostname = window.location.hostname;
+  if (hostname.indexOf('genz.ltd') !== -1 || hostname.indexOf('vercel.app') !== -1) {
+    return 'https://api.genz.ltd';
+  }
+  // 本地开发：Looma 由 backend/dev.sh 起在 :5200，CORS 已含 *.servbay.host
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
+    return 'https://api.servbay.host';
+  }
+  // 大陆自托管（szbolent.com.cn / IP 直连等）→ 同源相对
+  return '';
+})();
+var TOKEN_KEY = 'planetx_token';
+
+// ===================== SAAS BASE (auto-region, for HR share URLs) =====================
+var SAAS_BASE = (function() {
+  var hostname = window.location.hostname;
+  if (hostname.indexOf('genz.ltd') !== -1 || hostname.indexOf('vercel.app') !== -1) {
+    return 'https://tspace.genz.ltd';
+  }
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
+    return 'https://tspace.servbay.host';
+  }
+  // 大陆自托管：T 空间入口（实测 200）
+  return 'https://szbolent.com.cn/tspace/';
+})();
+
+function getToken() {
+  try { return localStorage.getItem(TOKEN_KEY); } catch (e) { return null; }
+}
+function saveToken(token) {
+  try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+}
+function clearToken() {
+  try { localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+}
+
+async function apiFetch(path, options) {
+  options = options || {};
+  var headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
+  var token = getToken();
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  return fetch(API_BASE + path, Object.assign({}, options, { headers: headers }));
+}
+
+async function apiJson(path, options) {
+  var res = await apiFetch(path, options);
+  var data = {};
+  try { data = await res.json(); } catch (e) {}
+  if (!res.ok) {
+    throw new Error(data.message || data.error || ('HTTP ' + res.status));
+  }
+  return data;
+}
+
+function applyGameProfile(profile) {
+  if (!profile) return;
+  if (profile.identity) STATE.identity = profile.identity;
+  STATE.level = profile.level || 1;
+  STATE.xp = profile.xp || 0;
+  STATE.xpToNext = profile.xp_to_next || 100;
+  STATE.missionsCompleted = profile.missions_completed || [];
+
+  if (profile.personality_detail) {
+    try {
+      var detail = typeof profile.personality_detail === 'string'
+        ? JSON.parse(profile.personality_detail) : profile.personality_detail;
+      if (detail && detail.name) STATE.personalityType = detail;
+    } catch (e) {}
+  }
+
+  if (profile.fleet) {
+    STATE.fleetId = profile.fleet.id;
+    STATE.teamSize = profile.team_size || 0;
+    document.getElementById('teamName').textContent = '星际舰队 · ' + profile.fleet.name;
+    document.getElementById('teamName').style.display = 'block';
+    document.getElementById('teamCode').textContent = '邀请码：' + (profile.fleet.invite_code || '');
+    document.getElementById('teamCode').style.display = 'inline-block';
+    document.getElementById('stat-teammates').textContent = STATE.teamSize;
+  }
+
+  var identityLabels = {
+    explorer: '星际探索者 · 求职模式',
+    captain: '舰队舰长 · 组队模式',
+    wanderer: '星际漫游者 · 探索模式'
+  };
+  if (STATE.identity) {
+    document.getElementById('hub-identity').textContent = identityLabels[STATE.identity] || '';
+  }
+  if (STATE.personalityType) {
+    var p = STATE.personalityType;
+    document.getElementById('profileEmoji').textContent = p.emoji || '🌌';
+    document.getElementById('profileType').textContent = p.name || '未测试';
+    document.getElementById('profileIdentity').textContent = p.tagline || identityLabels[STATE.identity] || '';
+    document.getElementById('mission-team').classList.remove('locked');
+    document.getElementById('mission-team').querySelector('.mission-status').textContent = '待组队';
+    document.getElementById('status-personality').textContent = '已完成';
+    document.getElementById('status-personality').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('personality')) {
+    document.getElementById('mission-team').classList.remove('locked');
+    document.getElementById('status-personality').textContent = '已完成';
+    document.getElementById('status-personality').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('team')) {
+    document.getElementById('mission-match').classList.remove('locked');
+    document.getElementById('mission-match').querySelector('.mission-status').textContent = '待完成';
+    document.getElementById('mission-team').querySelector('.mission-status').textContent = '已完成';
+    document.getElementById('mission-team').querySelector('.mission-status').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('match')) {
+    document.getElementById('mission-share').classList.remove('locked');
+    document.getElementById('mission-share').querySelector('.mission-status').textContent = '待完成';
+    document.getElementById('mission-match').querySelector('.mission-status').textContent = '已完成';
+    document.getElementById('mission-match').querySelector('.mission-status').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('share')) {
+    document.getElementById('mission-share').classList.remove('locked');
+    document.getElementById('mission-share').querySelector('.mission-status').className = 'mission-status status-done';
+    document.getElementById('mission-share').querySelector('.mission-status').textContent = '已完成';
+  }
+
+  // ── localStorage fallback: restore progress not yet synced to API ──
+  restoreMissionsFromLocal();
+  restoreTeamFromLocal();
+  restorePersonalityFromLocal();
+  // Re-apply chain unlock after restore
+  _applyMissionChain();
+
+  updateHub();
+}
+
+// Re-evaluate mission chain based on STATE.missionsCompleted
+function _applyMissionChain() {
+  if (STATE.missionsCompleted.includes('personality')) {
+    var teamEl = document.getElementById('mission-team');
+    teamEl.classList.remove('locked');
+    if (!STATE.missionsCompleted.includes('team')) {
+      teamEl.querySelector('.mission-status').textContent = '待组队';
+      teamEl.querySelector('.mission-status').className = 'mission-status status-todo';
+    }
+    document.getElementById('status-personality').textContent = '已完成';
+    document.getElementById('status-personality').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('team')) {
+    var matchEl = document.getElementById('mission-match');
+    matchEl.classList.remove('locked');
+    matchEl.querySelector('.mission-status').textContent = STATE.missionsCompleted.includes('match') ? '已完成' : '待完成';
+    matchEl.querySelector('.mission-status').className = STATE.missionsCompleted.includes('match') ? 'mission-status status-done' : 'mission-status status-todo';
+    document.getElementById('mission-team').querySelector('.mission-status').textContent = '已完成';
+    document.getElementById('mission-team').querySelector('.mission-status').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('match')) {
+    var shareEl = document.getElementById('mission-share');
+    shareEl.classList.remove('locked');
+    shareEl.querySelector('.mission-status').textContent = STATE.missionsCompleted.includes('share') ? '已完成' : '待完成';
+    shareEl.querySelector('.mission-status').className = STATE.missionsCompleted.includes('share') ? 'mission-status status-done' : 'mission-status status-todo';
+    document.getElementById('mission-match').querySelector('.mission-status').textContent = '已完成';
+    document.getElementById('mission-match').querySelector('.mission-status').className = 'mission-status status-done';
+  }
+  if (STATE.missionsCompleted.includes('share')) {
+    document.getElementById('mission-share').querySelector('.mission-status').textContent = '已完成';
+    document.getElementById('mission-share').querySelector('.mission-status').className = 'mission-status status-done';
+  }
+}
+
+async function syncProfileToApi(payload) {
+  if (!getToken()) return;
+  try {
+    var data = await apiJson('/v1/game/profile-sync', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    if (data.xp !== undefined) STATE.xp = data.xp;
+    if (data.level !== undefined) STATE.level = data.level;
+    updateHub();
+  } catch (e) {
+    console.warn('[PlanetX] profile-sync failed:', e);
+  }
+}
+
+async function syncMissionToApi(missionId, xpReward) {
+  if (!getToken()) return;
+  try {
+    var data = await apiJson('/v1/game/mission-complete', {
+      method: 'POST',
+      body: JSON.stringify({ mission_id: missionId, xp_reward: xpReward })
+    });
+    if (data.total_xp !== undefined) STATE.xp = data.total_xp;
+    if (data.level !== undefined) STATE.level = data.level;
+    updateHub();
+  } catch (e) {
+    if (e.message && e.message.indexOf('already') === -1) {
+      console.warn('[PlanetX] mission-sync failed:', e);
+    }
+  }
+}
+
+// ===================== GAME STATE =====================
+const STATE = {
+  user: null,
+  identity: null,
+  level: 1,
+  xp: 0,
+  xpToNext: 100,
+  personalityType: null,
+  teamSize: 0,
+  missionsCompleted: [],
+  quizAnswers: [],
+  achievements: [],
+  fleetId: null,
+  _refCode: null,
+  _referredBy: null,
+  _region: 'CN',                  // 计费地区，由终端 ?region= 送入，缺省 CN
+  _join: null,                    // 真邀请码（?join=），与 ref 不是一回事
+  profileShareCode: null          // HR 画像分享码
+};
+
+// ===================== AUTH FUNCTIONS =====================
+async function signUp(email, password) {
+  try {
+    var data = await apiJson('/v1/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ email: email, password: password })
+    });
+    saveToken(data.access_token);
+    STATE.user = data.user;
+    await loadProfile(data.user);
+    showToast('注册成功！欢迎加入 PlanetX 🚀');
+    return { user: data.user };
+  } catch (err) {
+    showToast('注册失败: ' + err.message);
+    return null;
+  }
+}
+
+async function signIn(email, password) {
+  try {
+    var data = await apiJson('/v1/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email: email, password: password })
+    });
+    saveToken(data.access_token);
+    STATE.user = data.user;
+    await loadProfile(data.user);
+    showToast('跃迁成功！欢迎回来 🪐');
+    return { user: data.user };
+  } catch (err) {
+    showToast('登录失败: ' + err.message);
+    return null;
+  }
+}
+
+async function signOut() {
+  clearToken();
+  STATE.user = null;
+  STATE.identity = null;
+  STATE.level = 1;
+  STATE.xp = 0;
+  STATE.xpToNext = 100;
+  STATE.personalityType = null;
+  STATE.missionsCompleted = [];
+  STATE.fleetId = null;
+  STATE.teamSize = 0;
+  switchScreen('screen-hub', 'screen-auth');
+  showToast('已安全退出');
+}
+
+// ===================== LOAD PROFILE FROM LOOMA API =====================
+async function loadProfile(user) {
+  STATE.user = user;
+  try {
+    var profile = await apiJson('/v1/game/profile');
+    applyGameProfile(profile);
+  } catch (err) {
+    console.warn('[PlanetX] Profile load failed (using defaults):', err);
+    updateHub();
+  }
+}
+
+// ===================== INIT =====================
+(function initStars() {
+  const container = document.getElementById('stars');
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      --d:${Math.random()*3+2}s; --dl:${Math.random()*4}s;
+    `;
+    frag.appendChild(s);
+  }
+  container.appendChild(frag);
+})();
+
+// ===== SESSION CHECK =====
+let _loadingResolved = false;
+function resolveLoading(targetScreen) {
+  if (_loadingResolved) return;
+  _loadingResolved = true;
+  switchScreen('screen-loading', targetScreen);
+}
+setTimeout(function() { resolveLoading('screen-auth'); }, 5000);
+
+(async function checkSession() {
+  try {
+    var token = getToken();
+    if (!token) {
+      setTimeout(function() { resolveLoading('screen-auth'); }, 1500);
+      return;
+    }
+    var authProfile = await apiJson('/v1/auth/profile');
+    STATE.user = authProfile;
+    var gameProfile = await apiJson('/v1/game/profile');
+    applyGameProfile(gameProfile);
+    syncReferralAfterLogin(authProfile.id);
+    setTimeout(function() {
+      resolveLoading(STATE.identity ? 'screen-hub' : 'screen-onboarding');
+    }, 800);
+  } catch (err) {
+    console.warn('[PlanetX] Session check failed:', err);
+    clearToken();
+    resolveLoading('screen-auth');
+  }
+})();
+
+// Loading screen animation
+(function loadingAnim() {
+  const dots = document.querySelector('.loading-dots');
+  let count = 0;
+  const timer = setInterval(() => {
+    count = (count + 1) % 4;
+    dots.textContent = '.'.repeat(count);
+  }, 400);
+})();
+
+// ===================== SCREEN SWITCHING =====================
+function switchScreen(fromId, toId) {
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+    s.style.display = '';
+  });
+  var to = document.getElementById(toId);
+  if (to) {
+    to.classList.add('active');
+    to.style.animation = 'none';
+    to.offsetHeight;
+    to.style.animation = 'screenIn 0.4s ease';
+  }
+}
+
+// ===================== IDENTITY SELECTION =====================
+function selectIdentity(type) {
+  STATE.identity = type;
+  const identityLabels = {
+    explorer: '星际探索者 · 求职模式',
+    captain: '舰队舰长 · 组队模式',
+    wanderer: '星际漫游者 · 探索模式'
+  };
+  document.getElementById('hub-identity').textContent = identityLabels[type];
+  document.getElementById('profileIdentity').textContent = identityLabels[type];
+  
+  // Add XP for choosing identity
+  addXP(10);
+  showToast('身份确认！+10 XP');
+  
+  switchScreen('screen-onboarding', 'screen-hub');
+  updateHub();
+}
+
+// ===================== XP SYSTEM =====================
+function addXP(amount) {
+  STATE.xp += amount;
+  STATE.xp = Math.max(0, STATE.xp);
+  document.getElementById('stat-xp').textContent = STATE.xp;
+  
+  // Level up check
+  while (STATE.xp >= STATE.xpToNext) {
+    if (STATE.xpToNext <= 0) break; // Bugfix: guard against infinite loop
+    STATE.xp -= STATE.xpToNext;
+    STATE.level++;
+    STATE.xpToNext = Math.floor(STATE.xpToNext * 1.5);
+    showAchievement('⬆️ 升级！', `你已晋升为 Lv.${STATE.level} · ${getRankName(STATE.level)}`);
+  }
+  
+  updateHub();
+}
+
+function getRankName(level) {
+  if (level <= 3) return '星际新兵';
+  if (level <= 6) return '星域探索者';
+  if (level <= 10) return '银河领航员';
+  if (level <= 15) return '星际指挥官';
+  return '宇宙传奇';
+}
+
+function updateHub() {
+  const xpBar = document.getElementById('xpBar');
+  const xpText = document.getElementById('xpText');
+  const levelBadge = document.getElementById('levelBadge');
+  const pct = Math.min(100, (STATE.xp / STATE.xpToNext) * 100);
+  xpBar.style.setProperty('--xp', pct + '%');
+  xpText.textContent = STATE.xp + ' / ' + STATE.xpToNext + ' XP';
+  levelBadge.textContent = '🪐 Lv.' + STATE.level + ' · ' + getRankName(STATE.level);
+  
+  document.getElementById('stat-xp').textContent = STATE.xp;
+  document.getElementById('stat-tests').textContent = STATE.missionsCompleted.length;
+}
+
+// ===================== NAVIGATION TABS =====================
+document.getElementById('navTabs').addEventListener('click', function(e) {
+  const tab = e.target.closest('.nav-tab');
+  if (!tab) return;
+  
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  
+  const targetId = tab.dataset.tab;
+  ['tab-missions','tab-team','tab-profile'].forEach(id => {
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById(targetId).classList.add('active');
+});
+
+// ===================== QUIZ SYSTEM =====================
+const QUIZ_QUESTIONS = [
+  {
+    q: '周末的下午，你最想做什么？',
+    options: [
+      { text: '约朋友去新开的咖啡店打卡', trait: 'social' },
+      { text: '一个人在家看剧/打游戏', trait: 'introvert' },
+      { text: '去报名学一个新技能', trait: 'growth' },
+      { text: '随便逛逛，走到哪算哪', trait: 'wanderer' }
+    ]
+  },
+  {
+    q: '面对一个全新的任务，你的第一反应是？',
+    options: [
+      { text: '先做个计划再开始', trait: 'planner' },
+      { text: '直接上手，边做边调整', trait: 'action' },
+      { text: '先问问做过的人的经验', trait: 'social' },
+      { text: '先想清楚这个任务值不值得做', trait: 'thinker' }
+    ]
+  },
+  {
+    q: '工作中让你最不爽的是什么？',
+    options: [
+      { text: '重复无聊的任务', trait: 'creative' },
+      { text: '不被理解/不被认可', trait: 'social' },
+      { text: '没有成长空间', trait: 'growth' },
+      { text: '996没自己的生活', trait: 'balance' }
+    ]
+  },
+  {
+    q: '如果加入一个团队项目，你希望扮演什么角色？',
+    options: [
+      { text: '出主意的那个人', trait: 'creative' },
+      { text: '把大家组织起来的人', trait: 'leader' },
+      { text: '把细节做完美的人', trait: 'perfectionist' },
+      { text: '谁需要帮忙就去帮谁', trait: 'supporter' }
+    ]
+  },
+  {
+    q: '朋友心情不好找你倾诉，你通常会？',
+    options: [
+      { text: '认真听完，给具体建议', trait: 'thinker' },
+      { text: '一起吐槽，情绪共鸣最重要', trait: 'social' },
+      { text: '拉TA出去散心转换心情', trait: 'action' },
+      { text: '分享一首诗或一首歌', trait: 'creative' }
+    ]
+  },
+  {
+    q: '看到朋友圈都在刷某个热点，你会？',
+    options: [
+      { text: '马上加入讨论', trait: 'social' },
+      { text: '先自己查资料搞清楚再发言', trait: 'thinker' },
+      { text: '有点烦，划过去不看', trait: 'introvert' },
+      { text: '做成一个梗图发出去', trait: 'creative' }
+    ]
+  },
+  {
+    q: '最近一次让你感到"我太牛了"是因为？',
+    options: [
+      { text: '解决了一个棘手的技术问题', trait: 'thinker' },
+      { text: '帮一个朋友度过了难关', trait: 'supporter' },
+      { text: '完成了一件拖延很久的事', trait: 'action' },
+      { text: '创造了一个让自己满意的作品', trait: 'creative' }
+    ]
+  },
+  {
+    q: '你对"内卷"的态度是？',
+    options: [
+      { text: '不卷不行，但想卷得聪明一点', trait: 'planner' },
+      { text: '找到自己的节奏，不跟别人比', trait: 'balance' },
+      { text: '换条赛道，不挤同一个独木桥', trait: 'creative' },
+      { text: '找到志同道合的人一起对抗', trait: 'social' }
+    ]
+  }
+];
+
+let currentQuizStep = 0;
+const quizTraitCount = {};
+
+function startQuiz() {
+  currentQuizStep = 0;
+  STATE.quizAnswers = [];
+  Object.keys(quizTraitCount).forEach(k => delete quizTraitCount[k]);
+  switchScreen('screen-hub', 'screen-quiz');
+  renderQuizStep();
+}
+
+function renderQuizStep() {
+  const q = QUIZ_QUESTIONS[currentQuizStep];
+  document.getElementById('quizStep').textContent = `第 ${currentQuizStep + 1}/${QUIZ_QUESTIONS.length} 题`;
+  document.getElementById('quizQuestion').textContent = q.q;
+  
+  // Progress dots
+  const progress = document.getElementById('quizProgress');
+  progress.innerHTML = QUIZ_QUESTIONS.map((_, i) => {
+    if (i < currentQuizStep) return '<div class="quiz-dot done"></div>';
+    if (i === currentQuizStep) return '<div class="quiz-dot current"></div>';
+    return '<div class="quiz-dot"></div>';
+  }).join('');
+  
+  // Options
+  const optionsEl = document.getElementById('quizOptions');
+  optionsEl.innerHTML = q.options.map((opt, i) => `
+    <button class="quiz-option" data-idx="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt.text}
+    </button>
+  `).join('');
+  
+  optionsEl.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Deselect all
+      optionsEl.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+      // Select this
+      this.classList.add('selected');
+      const idx = parseInt(this.dataset.idx);
+      
+      setTimeout(() => {
+        const trait = q.options[idx].trait;
+        quizTraitCount[trait] = (quizTraitCount[trait] || 0) + 1;
+        STATE.quizAnswers.push(idx + 1);
+        currentQuizStep++;
+        
+        if (currentQuizStep >= QUIZ_QUESTIONS.length) {
+          showQuizResult();
+        } else {
+          renderQuizStep();
+        }
+      }, 300);
+    });
+  });
+}
+
+function showQuizResult() {
+  // Determine personality type based on trait counts
+  const traits = Object.entries(quizTraitCount).sort((a, b) => b[1] - a[1]);
+  const topTraits = traits.slice(0, 2).map(t => t[0]);
+  
+  const personalityMap = {
+    'creative_social': { name: '星云艺术家', emoji: '🎨', tagline: '创造力 + 感染力 = 你的超能力', 
+      desc: '你天生会讲故事。在团队里你是灵感的源头，你的想法总能点燃别人的热情。适合创意、内容、品牌向的工作。',
+      traits: ['创造力爆表', '社交引力', '直觉驱动'] },
+    'creative_thinker': { name: '黑洞程序员', emoji: '💻', tagline: '思维深度穿透事件视界',
+      desc: '你对世界的理解超越表面。安静、深邃、逻辑严密。适合技术、研发、数据分析向的工作。',
+      traits: ['深度思考', '逻辑严谨', '独立作战'] },
+    'social_action': { name: '超新星领航员', emoji: '⭐', tagline: '你的能量可以点亮整个星系',
+      desc: '你是人群中的太阳。行动力+社交力让你成为天然的Leader。适合管理、销售、创业向的工作。',
+      traits: ['天然领袖', '行动力MAX', '感染力强'] },
+    'social_supporter': { name: '双星星系守护者', emoji: '🌓', tagline: '你的存在就是别人的安全感',
+      desc: '你是团队的粘合剂。善解人意、温暖可靠。适合HR、客服、教育、心理咨询向的工作。',
+      traits: ['共情力强', '可靠后盾', '温暖磁场'] },
+    'growth_balance': { name: '脉冲星修行者', emoji: '✨', tagline: '持续进化，但从不透支自己',
+      desc: '你追求成长但不盲从。节奏感是你最强的武器。适合需要持续深耕的专业领域。',
+      traits: ['长期主义', '自我节奏', '持续进化'] },
+    'wanderer_balance': { name: '暗物质漫游者', emoji: '🌌', tagline: '你的自由就是你的引力',
+      desc: '你不急着定义自己。在探索中你会找到属于自己的独特轨道。适合自由职业、跨界领域。',
+      traits: ['自由灵魂', '跨界思维', '不被定义'] },
+  };
+  
+  // Find best match
+  const key = topTraits.join('_');
+  let personality = personalityMap[key] || personalityMap['creative_social'];
+  
+  // Fallback: match based on dominant single trait
+  if (!personalityMap[key]) {
+    const fallbackMap = {
+      creative: personalityMap['creative_social'],
+      social: personalityMap['social_action'],
+      thinker: personalityMap['creative_thinker'],
+      action: personalityMap['social_action'],
+      supporter: personalityMap['social_supporter'],
+      growth: personalityMap['growth_balance'],
+      balance: personalityMap['growth_balance'],
+      wanderer: personalityMap['wanderer_balance'],
+    };
+    personality = fallbackMap[topTraits[0]] || personalityMap['creative_social'];
+  }
+  
+  STATE.personalityType = personality;
+  persistPersonality();
+
+  // Render result
+  document.getElementById('resultEmoji').textContent = personality.emoji;
+  document.getElementById('resultName').textContent = personality.name;
+  document.getElementById('resultTagline').textContent = personality.tagline;
+  document.getElementById('resultTraits').innerHTML = personality.traits.map(t =>
+    `<span class="result-trait">${t}</span>`
+  ).join('');
+  document.getElementById('resultDesc').textContent = personality.desc;
+  
+  // Share preview
+  document.getElementById('spEmoji').textContent = personality.emoji;
+  document.getElementById('spName').textContent = personality.name;
+  
+  // Update profile
+  document.getElementById('profileEmoji').textContent = personality.emoji;
+  document.getElementById('profileType').textContent = personality.name;
+  document.getElementById('profileIdentity').textContent = personality.tagline;
+  
+  switchScreen('screen-quiz', 'screen-result');
+  
+  // Complete mission
+  completeMission('personality');
+  addXP(50);
+  showAchievement('🔮 星际人格觉醒！', `你被认证为「${personality.name}」`);
+  
+  // Unlock team mission
+  document.getElementById('mission-team').classList.remove('locked');
+  document.getElementById('mission-team').querySelector('.mission-status').textContent = '待组队';
+  document.getElementById('status-personality').textContent = '已完成';
+  document.getElementById('status-personality').className = 'mission-status status-done';
+}
+
+// ===================== MISSION SYSTEM =====================
+function completeMission(missionId) {
+  if (STATE.missionsCompleted.includes(missionId)) return;
+  STATE.missionsCompleted.push(missionId);
+  document.getElementById('stat-tests').textContent = STATE.missionsCompleted.length;
+  persistMissions();
+}
+
+function persistMissions() {
+  try { localStorage.setItem('planetx_missions', JSON.stringify(STATE.missionsCompleted)); } catch(e) {}
+}
+function restoreMissionsFromLocal() {
+  try {
+    var saved = localStorage.getItem('planetx_missions');
+    if (saved) {
+      var arr = JSON.parse(saved);
+      if (Array.isArray(arr)) arr.forEach(function(m) { if (!STATE.missionsCompleted.includes(m)) STATE.missionsCompleted.push(m); });
+    }
+  } catch(e) {}
+}
+// Also persist team state so refresh doesn't lose it
+function persistTeamState() {
+  try {
+    localStorage.setItem('planetx_team', JSON.stringify({
+      fleetId: STATE.fleetId,
+      teamSize: STATE.teamSize,
+      teamCode: document.getElementById('teamCode').textContent.replace('邀请码：',''),
+      teamName: document.getElementById('teamName').textContent
+    }));
+  } catch(e) {}
+}
+function restoreTeamFromLocal() {
+  try {
+    var saved = localStorage.getItem('planetx_team');
+    if (saved) {
+      var t = JSON.parse(saved);
+      if (t.fleetId) STATE.fleetId = t.fleetId;
+      if (t.teamSize) {
+        STATE.teamSize = t.teamSize;
+        document.getElementById('stat-teammates').textContent = STATE.teamSize;
+        for (var i = 0; i < Math.min(t.teamSize, 2); i++) fillMemberSlot(i);
+        document.getElementById('teamName').textContent = t.teamName || '星际舰队 · ' + (t.teamCode || '');
+        document.getElementById('teamName').style.display = 'block';
+        document.getElementById('teamCode').textContent = '邀请码：' + (t.teamCode || '');
+        document.getElementById('teamCode').style.display = 'inline-block';
+      }
+    }
+  } catch(e) {}
+}
+
+// ===================== TEAM SYSTEM =====================
+function simulateInvite() {
+  var code = 'PX-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById('teamName').textContent = '星际舰队 · ' + code;
+  document.getElementById('teamName').style.display = 'block';
+  document.getElementById('teamCode').textContent = '邀请码：' + code;
+  document.getElementById('teamCode').style.display = 'inline-block';
+  STATE.fleetId = code;
+  persistTeamState();
+
+  // Simulate team filling — mock 2 members joining sequentially
+  if (STATE.teamSize < 2) {
+    _doMockTeamFill(0);
+  }
+}
+
+function _doMockTeamFill(slot) {
+  if (slot >= 2) return;
+  setTimeout(function() {
+    STATE.teamSize++;
+    fillMemberSlot(STATE.teamSize - 1);
+    document.getElementById('stat-teammates').textContent = STATE.teamSize;
+    persistTeamState();
+    showToast('👥 新船员加入舰队！(' + STATE.teamSize + '/3)');
+
+    if (STATE.teamSize >= 2) {
+      completeMission('team');
+      addXP(80);
+      document.getElementById('mission-match').classList.remove('locked');
+      document.getElementById('mission-match').querySelector('.mission-status').textContent = '待完成';
+      // Bugfix: status-mission-team may not exist in DOM; query dynamic status span
+      var teamStatusEl = document.getElementById('status-mission-team');
+      if (!teamStatusEl) {
+        teamStatusEl = document.getElementById('mission-team').querySelector('.mission-status');
+        if (teamStatusEl) teamStatusEl.id = 'status-mission-team';
+      }
+      if (teamStatusEl) {
+        teamStatusEl.textContent = '已完成';
+        teamStatusEl.className = 'mission-status status-done';
+      }
+      showAchievement('🤝 舰队集结完毕！', '3人成团 · 隐藏星图已解锁');
+    }
+    _doMockTeamFill(slot + 1);
+  }, 1200);
+}
+
+// ===================== MISSION HANDLERS =====================
+
+// Mission 2: 组建舰队 — click from mission card
+function startTeamMission() {
+  var missionEl = document.getElementById('mission-team');
+  if (missionEl.classList.contains('locked')) {
+    showToast('🔒 请先完成人格测试');
+    return;
+  }
+  if (STATE.missionsCompleted.includes('team')) {
+    showToast('✅ 舰队已完成组建');
+    return;
+  }
+  // Update status
+  var statusEl = document.getElementById('status-mission-team');
+  if (!statusEl) {
+    statusEl = missionEl.querySelector('.mission-status');
+    statusEl.id = 'status-mission-team';
+  }
+  statusEl.textContent = '组队中...';
+  statusEl.className = 'mission-status status-todo';
+  showToast('🤝 正在集结舰队...');
+  simulateInvite();
+}
+
+// Mission 3: 星际匹配 — mock match result
+function startMatchMission() {
+  var missionEl = document.getElementById('mission-match');
+  if (missionEl.classList.contains('locked')) {
+    showToast('🔒 请先完成舰队组建');
+    return;
+  }
+  if (STATE.missionsCompleted.includes('match')) {
+    showToast('✅ 已完成星际匹配');
+    return;
+  }
+
+  // Mock match result
+  var matchTypes = [
+    { role: '星际架构师', emoji: '🏗️', compat: '92%', desc: '你的逻辑架构与TA的创意引擎完美互补' },
+    { role: '银河领航员', emoji: '🧭', compat: '88%', desc: 'TA的视野为你打开新的星际航线' },
+    { role: '深空探险家', emoji: '🚀', compat: '85%', desc: '你们的冒险精神将共同探索未知星域' }
+  ];
+  var match = matchTypes[Math.floor(Math.random() * matchTypes.length)];
+
+  var statusEl = missionEl.querySelector('.mission-status');
+  statusEl.textContent = '匹配中...';
+  statusEl.className = 'mission-status status-todo';
+  showToast('🎯 星际信号扫描中...');
+
+  setTimeout(function() {
+    completeMission('match');
+    addXP(100);
+    statusEl.textContent = '已完成';
+    statusEl.className = 'mission-status status-done';
+    document.getElementById('mission-share').classList.remove('locked');
+    document.getElementById('mission-share').querySelector('.mission-status').textContent = '待完成';
+    showAchievement(
+      '🎯 匹配成功！',
+      '你与 ' + match.emoji + ' ' + match.role + ' 匹配度 ' + match.compat + ' · ' + match.desc
+    );
+    // Also sync to API (best-effort)
+    if (STATE.user && STATE.user.email) {
+      syncMissionToApi('match', 100);
+    }
+  }, 1800);
+}
+
+// Mission 4: 分享 — open share panel
+function startShareMission() {
+  var missionEl = document.getElementById('mission-share');
+  if (missionEl.classList.contains('locked')) {
+    showToast('🔒 请先完成星际匹配');
+    return;
+  }
+  if (STATE.missionsCompleted.includes('share')) {
+    showToast('✅ 已发送星际信号');
+    return;
+  }
+
+  var p = STATE.personalityType;
+  if (!p) {
+    showToast('请先完成人格测试');
+    return;
+  }
+
+  // Build a share panel inline near the mission area
+  var existingPanel = document.querySelector('.mission-share-panel');
+  if (existingPanel) { existingPanel.remove(); return; }
+
+  var inviteUrl = getInviteLink();
+  var shareText = '🪐 我的 PlanetX 星际身份：「' + p.name + '」' + p.emoji + ' · ' + p.tagline + ' · 扫码加入我的舰队一起探险！';
+  var shareUrl = inviteUrl;
+
+  var panel = document.createElement('div');
+  panel.className = 'mission-share-panel';
+  panel.innerHTML = '<div class="share-panel-title">📡 选择星际频道发送信号</div>' +
+    '<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">' +
+      '<button class="btn btn-outline btn-sm" id="btn-share-copy" style="flex:1;min-width:100px;">📋 复制链接</button>' +
+      '<button class="btn btn-outline btn-sm" id="btn-share-native" style="flex:1;min-width:100px;">📤 系统分享</button>' +
+      '<button class="btn btn-lime btn-sm" id="btn-share-done" style="width:100%;margin-top:8px;">✅ 已完成发送 · 领取奖励</button>' +
+    '</div>';
+
+  missionEl.parentNode.insertBefore(panel, missionEl.nextSibling);
+
+  panel.querySelector('#btn-share-copy').onclick = function() {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function() {
+        showToast('📋 链接已复制！发送给好友');
+      });
+    }
+  };
+  panel.querySelector('#btn-share-native').onclick = function() {
+    if (navigator.share) {
+      navigator.share({ title: 'PlanetX · 星际人格测试', text: shareText, url: shareUrl }).catch(function(){});
+    } else {
+      showToast('📋 请使用「复制链接」按钮');
+    }
+  };
+  panel.querySelector('#btn-share-done').onclick = function() {
+    completeMission('share');
+    addXP(30);
+    document.getElementById('stat-shares').textContent = parseInt(document.getElementById('stat-shares').textContent || '0') + 1;
+    missionEl.querySelector('.mission-status').textContent = '已完成';
+    missionEl.querySelector('.mission-status').className = 'mission-status status-done';
+    panel.remove();
+    showAchievement('📡 信号已发送！', '你的星际身份已传播到宇宙 · +30 XP');
+    if (STATE.user && STATE.user.email) {
+      syncMissionToApi('share', 30);
+    }
+  };
+}
+
+function fillMemberSlot(slot) {
+  const memberEmojis = ['🦊', '🐱', '🐼', '🐨', '🦄'];
+  const memberNames = ['星际猫猫', '宇宙熊猫', '银河狐狸', '深空考拉'];
+  // Bugfix: DOM has member-me (player), member-2, member-3; AI crew starts at slot+2
+  const slotEl = document.getElementById('member-' + (slot + 2));
+  if (slotEl) {
+    slotEl.textContent = memberEmojis[slot] || '👾';
+    slotEl.classList.remove('empty');
+    slotEl.classList.add('filled');
+    const nameEl = slotEl.parentElement.querySelector('.member-name');
+    if (nameEl) nameEl.textContent = memberNames[slot] || '船员';
+  }
+}
+
+function copyTeamCode() {
+  const codeEl = document.getElementById('teamCode');
+  const code = codeEl.textContent.replace('邀请码：', '');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => {
+      showToast('📋 邀请码已复制！发送给好友加入舰队');
+    });
+  }
+}
+
+// ===================== INVITE LINK (REF TRACKING) =====================
+function getInviteLink() {
+  // Generate a unique ref code if not already set
+  ensureRefCode();
+  // Build URL with ref param for tracking (works once deployed to any domain)
+  const base = window.location.origin + window.location.pathname;
+  return base + '?ref=' + STATE._refCode;
+}
+
+// 裂变闭环：终端（www.genz.ltd）的公开社区页。
+// 与终端 lib/genz-links.ts 的约定一致——跨站地址集中在一处，不要在页面里散落。
+// 换域名/换环境只改这里。
+const GENZ_COMMUNITY_URL = 'https://www.genz.ltd/community';
+
+// Check for ref param on load (tracking inbound)
+(function checkRefParam() {
+  const params = new URLSearchParams(window.location.search);
+
+  const ref = params.get('ref');
+  if (ref) {
+    STATE._referredBy = ref;
+    console.log('%c📡 检测到邀请来源: ' + ref, 'color:#21EB6C;');
+    // Could persist to localStorage for later backend sync
+    try { localStorage.setItem('planetx_ref', ref); } catch(e) {}
+  }
+
+  // 终端按地区送人进来（?region=CN|US），这里接住并原样往后传。
+  // 缺省 CN 与终端 lib/payment-plans.ts 的 normalizeRegion 空值口径一致。
+  const region = (params.get('region') || '').trim().toUpperCase();
+  STATE._region = (region === 'US' || region === 'SG') ? 'US' : 'CN';
+
+  // join 才是真邀请码（能过终端 /api/invites/validate）；
+  // 它和 ref 不是一回事——ref 只是归因，拿 ref 去注册必然失败。
+  const join = params.get('join');
+  if (join) {
+    STATE._join = join.trim();
+    try { localStorage.setItem('planetx_join', STATE._join); } catch(e) {}
+  } else {
+    try { STATE._join = localStorage.getItem('planetx_join') || null; } catch(e) { STATE._join = null; }
+  }
+})();
+
+/** 本人的 ref 码（用于对外分享归因），没有就生成。 */
+function ensureRefCode() {
+  if (!STATE._refCode) {
+    STATE._refCode = 'PX-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+  }
+  return STATE._refCode;
+}
+
+/** 结果页「加入舰队」的落地地址：带 region + 真邀请码(join) + 本人 ref(归因)。 */
+function communityEntryUrl() {
+  try {
+    const url = new URL(GENZ_COMMUNITY_URL);
+    url.searchParams.set('region', STATE._region || 'CN');
+    if (STATE._join) url.searchParams.set('join', STATE._join);
+    url.searchParams.set('ref', ensureRefCode());
+    return url.toString();
+  } catch (e) {
+    return GENZ_COMMUNITY_URL;
+  }
+}
+
+function goToCommunity() {
+  window.open(communityEntryUrl(), '_blank', 'noopener,noreferrer');
+}
+
+// ── 结果持久化：未登录测完刷新不丢（此前只存了任务与组队，人格结果没存）──
+function persistPersonality() {
+  try {
+    if (STATE.personalityType) {
+      localStorage.setItem('planetx_personality', JSON.stringify(STATE.personalityType));
+    }
+  } catch (e) {}
+}
+
+function restorePersonalityFromLocal() {
+  try {
+    const saved = localStorage.getItem('planetx_personality');
+    if (!saved || STATE.personalityType) return;
+    const p = JSON.parse(saved);
+    if (!p || !p.name) return;
+    STATE.personalityType = p;
+    // 只回填展示，不自动跳屏——避免刷新后被强行塞进结果页
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    set('resultEmoji', p.emoji); set('resultName', p.name);
+    set('resultTagline', p.tagline); set('resultDesc', p.desc);
+    set('spEmoji', p.emoji); set('spName', p.name);
+    set('profileEmoji', p.emoji); set('profileType', p.name);
+    set('profileIdentity', p.tagline);
+    const traits = document.getElementById('resultTraits');
+    if (traits && Array.isArray(p.traits)) {
+      traits.innerHTML = p.traits.map(t => `<span class="result-trait">${t}</span>`).join('');
+    }
+  } catch (e) {}
+}
+
+// ===================== SHARE COPY (Platform-Optimized) =====================
+const PLATFORM_COPY = {
+  wechat: (p) => 
+    `🪐 我的星际人格是「${p.name}」！\n` +
+    `"${p.tagline}"\n\n` +
+    `👉 测测你的是什么星球身份？\n` +
+    `${getInviteLink()}`,
+  
+  xiaohongshu: (p) =>
+    `🪐 PlanetX 星际人格测试 🪐\n\n` +
+    `我的身份：${p.emoji} ${p.name}\n` +
+    `标签：#${p.traits.join(' #')}\n\n` +
+    `"${p.tagline}"\n\n` +
+    `${p.desc}\n\n` +
+    `#PlanetX #星际人格 #MBTI #Z世代 #求职\n` +
+    `🔗 ${getInviteLink()}`,
+  
+  weibo: (p) =>
+    `🪐 PlanetX星际人格认证：我是「${p.name}」${p.emoji}\n` +
+    `"${p.tagline}"\n` +
+    `${p.desc.slice(0, 60)}…\n\n` +
+    `你也来测测？${getInviteLink()}\n` +
+    `#PlanetX星际人格# #00后求职#`,
+  
+  copy: (p) =>
+    `🪐 我在 PlanetX 的星际人格是「${p.name}」！\n` +
+    `${p.tagline}\n\n` +
+    `扫码来测测你的星际身份 → ${getInviteLink()}`
+};
+
+function getShareText(platform) {
+  const p = STATE.personalityType || { name: '未知', emoji: '🌌', tagline: '', traits: [], desc: '' };
+  const fn = PLATFORM_COPY[platform] || PLATFORM_COPY.copy;
+  return fn(p);
+}
+
+// ===================== CANVAS EXPORT =====================
+function exportCard() {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const w = 750, h = 1000;
+  canvas.width = w; canvas.height = h;
+
+  const p = STATE.personalityType || { name: '未知', emoji: '🌌', tagline: '', traits: [], desc: '' };
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#14194A');
+  grad.addColorStop(0.5, '#1A1055');
+  grad.addColorStop(1, '#0D1A3A');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Glow circles
+  const g1 = ctx.createRadialGradient(w * 0.3, h * 0.35, 0, w * 0.3, h * 0.35, 300);
+  g1.addColorStop(0, 'rgba(255,123,50,0.06)'); g1.addColorStop(1, 'transparent');
+  ctx.fillStyle = g1; ctx.fillRect(0, 0, w, h);
+  
+  const g2 = ctx.createRadialGradient(w * 0.7, h * 0.55, 0, w * 0.7, h * 0.55, 300);
+  g2.addColorStop(0, 'rgba(173,59,255,0.08)'); g2.addColorStop(1, 'transparent');
+  ctx.fillStyle = g2; ctx.fillRect(0, 0, w, h);
+
+  // Emoji
+  ctx.font = '120px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(p.emoji, w / 2, 180);
+
+  // Name
+  ctx.font = 'bold 52px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle = '#FF7B32';
+  ctx.shadowColor = 'rgba(255,123,50,0.4)';
+  ctx.shadowBlur = 30;
+  ctx.fillText(p.name, w / 2, 280);
+  ctx.shadowBlur = 0;
+
+  // Tagline
+  ctx.font = '24px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle = '#A1A3B7';
+  ctx.fillText(p.tagline, w / 2, 340);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,123,50,0.15)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(150, 400); ctx.lineTo(600, 400);
+  ctx.stroke();
+
+  // Traits
+  ctx.font = '22px "PingFang SC","Microsoft YaHei",sans-serif';
+  let tx = w / 2 - ((p.traits.length * 140) / 2) + 70;
+  p.traits.forEach((t, i) => {
+    const tw = ctx.measureText(t).width + 40;
+    ctx.fillStyle = 'rgba(173,59,255,0.3)';
+    ctx.beginPath();
+    ctx.roundRect(tx + i * 140 - tw / 2, 440, tw, 36, 18);
+    ctx.fill();
+    ctx.fillStyle = '#D7B6FF';
+    ctx.fillText(t, tx + i * 140, 466);
+  });
+
+  // Description
+  ctx.font = '22px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle = '#A1A3B7';
+  const desc = p.desc;
+  const maxWidth = 600;
+  let lineY = 540;
+  const words = desc.split('');
+  let line = '';
+  for (let i = 0; i < words.length; i++) {
+    const testLine = line + words[i];
+    if (ctx.measureText(testLine).width > maxWidth) {
+      ctx.fillText(line, w / 2, lineY);
+      line = words[i];
+      lineY += 40;
+    } else {
+      line = words[i];
+    }
+  }
+  if (line) ctx.fillText(line, w / 2, lineY);
+
+  // QR placeholder
+  ctx.fillStyle = 'rgba(255,123,50,0.05)';
+  ctx.beginPath();
+  ctx.roundRect(w / 2 - 80, lineY + 60, 160, 160, 16);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,123,50,0.2)';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.font = '18px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle = '#A1A3B7';
+  ctx.fillText('📱 扫码加入舰队', w / 2, lineY + 145);
+
+  // Watermark
+  ctx.font = '16px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillText('PLANET X · 星际人格认证 · ' + getInviteLink(), w / 2, h - 40);
+
+  // Download
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'PlanetX_星际人格_' + (p.name || 'unknown') + '.png';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('📸 卡片已保存！去朋友圈晒出你的星际身份');
+  }, 'image/png');
+
+  completeMission('share');
+  addXP(30);
+  document.getElementById('stat-shares').textContent = parseInt(document.getElementById('stat-shares').textContent) + 1;
+}
+
+// ===================== SHARE RESULT (MULTI-PLATFORM PANEL) =====================
+function shareResult() {
+  const resultCard = document.getElementById('screen-result').querySelector('.result-card');
+  const existingPanel = resultCard.querySelector('.share-panel');
+  
+  if (existingPanel) {
+    existingPanel.remove();
+    return;
+  }
+
+  const p = STATE.personalityType || { name: '未知', emoji: '🌌', tagline: '', traits: [], desc: '' };
+  
+  const panel = document.createElement('div');
+  panel.className = 'share-panel';
+  panel.innerHTML = `
+    <div class="share-panel-title">📡 选择星际频道发送信号</div>
+    <div class="share-platforms">
+      <div class="share-platform" data-platform="wechat" onclick="shareToPlatform('wechat', event)">
+        <div class="share-platform-icon">💬</div>
+        <div class="share-platform-name">微信</div>
+        <div class="share-platform-tag">朋友圈/群聊</div>
+      </div>
+      <div class="share-platform" data-platform="xiaohongshu" onclick="shareToPlatform('xiaohongshu', event)">
+        <div class="share-platform-icon">📕</div>
+        <div class="share-platform-name">小红书</div>
+        <div class="share-platform-tag">带话题标签</div>
+      </div>
+      <div class="share-platform" data-platform="weibo" onclick="shareToPlatform('weibo', event)">
+        <div class="share-platform-icon">📢</div>
+        <div class="share-platform-name">微博</div>
+        <div class="share-platform-tag">超话扩散</div>
+      </div>
+      <div class="share-platform" data-platform="copy" onclick="shareToPlatform('copy', event)" style="grid-column:1/-1;">
+        <div class="share-platform-icon">📋</div>
+        <div class="share-platform-name">复制文案</div>
+        <div class="share-platform-tag">通用版本</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;margin-bottom:10px;">
+      <button class="btn btn-sm" style="background:linear-gradient(135deg, var(--purple-soft), rgba(255,123,50,0.08));border:1px solid rgba(173,59,255,0.3);color:#D7B6FF;width:auto;min-width:200px;" onclick="handleProfileShare();event.stopPropagation();">
+        👔 生成 HR 画像链接 · 裂变 C2B
+      </button>
+    </div>
+    <div class="share-text-preview" id="shareTextPreview">
+      点击上方平台查看专属文案预览
+    </div>
+    <button class="btn btn-lime btn-sm" onclick="exportCard()" style="margin-top:8px;">
+      📸 保存分享卡片图片
+    </button>
+  `;
+  
+  // Insert after the share-preview div
+  const sharePreview = resultCard.querySelector('.share-preview');
+  sharePreview.after(panel);
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function shareToPlatform(platform, evt) {
+  if (evt) {
+    document.querySelectorAll('.share-platform').forEach(el => el.style.borderColor = '');
+    const target = evt.target.closest('.share-platform');
+    if (target) target.style.borderColor = 'var(--primary)';
+  }
+  
+  const text = getShareText(platform);
+  const preview = document.getElementById('shareTextPreview');
+  if (preview) {
+    preview.innerHTML = text.replace(/\n/g, '<br>').replace(/(#\S+)/g, '<span class="highlight">$1</span>');
+  }
+  
+  // Auto copy for non-mobile or copy platform
+  if (platform === 'copy' || !navigator.share) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 ' + (platform === 'copy' ? '文案' : '信号') + '已复制！粘贴到' + 
+          ({wechat:'微信', xiaohongshu:'小红书', weibo:'微博', copy:''}[platform] || '') + '发出去吧');
+      });
+    }
+    completeMission('share');
+    addXP(30);
+    document.getElementById('stat-shares').textContent = parseInt(document.getElementById('stat-shares').textContent) + 1;
+    return;
+  }
+  
+  // Native share for mobile
+  if (navigator.share) {
+    navigator.share({
+      title: 'PlanetX · 星际人格测试',
+      text: text,
+      url: getInviteLink(),
+    }).then(() => {
+      completeMission('share');
+      addXP(30);
+      document.getElementById('stat-shares').textContent = parseInt(document.getElementById('stat-shares').textContent) + 1;
+    }).catch(() => {});
+  }
+}
+
+function goToHub() {
+  switchScreen('screen-result', 'screen-hub');
+  updateHub();
+}
+
+// ===================== ACHIEVEMENT & TOAST =====================
+// Bugfix: clear previous timer to avoid race-condition popup dismiss
+var _achTimer = null;
+function showAchievement(title, desc) {
+  const popup = document.getElementById('achievementPopup');
+  if (_achTimer) { clearTimeout(_achTimer); _achTimer = null; }
+  document.getElementById('achTitle').textContent = title;
+  document.getElementById('achDesc').textContent = desc;
+  popup.classList.add('show');
+  _achTimer = setTimeout(function() {
+    popup.classList.remove('show');
+    _achTimer = null;
+  }, 2500);
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ===================== AUTH HANDLERS =====================
+async function handleSignIn() {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  if (!email || !password) { showToast('请填写邮箱和密码'); return; }
+  const result = await signIn(email, password);
+  if (result && result.user) {
+    switchScreen('screen-auth', STATE.identity ? 'screen-hub' : 'screen-onboarding');
+  }
+}
+
+async function handleSignUp() {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  if (!email || !password) { showToast('请填写邮箱和密码'); return; }
+  if (password.length < 8) { showToast('密码至少8位'); return; }
+  const result = await signUp(email, password);
+  if (result && result.user) {
+    switchScreen('screen-auth', 'screen-onboarding');
+  }
+}
+
+function skipAuth() {
+  switchScreen('screen-auth', 'screen-onboarding');
+}
+
+// ===================== CLOUD-SYNCED IDENTITY SELECTION =====================
+const _origSelectIdentity = selectIdentity;
+selectIdentity = async function(type) {
+  STATE.identity = type;
+  const identityLabels = {
+    explorer: '星际探索者 · 求职模式',
+    captain: '舰队舰长 · 组队模式',
+    wanderer: '星际漫游者 · 探索模式'
+  };
+  document.getElementById('hub-identity').textContent = identityLabels[type];
+  document.getElementById('profileIdentity').textContent = identityLabels[type];
+  
+  addXP(10);
+  showToast('身份确认！+10 XP');
+  
+  if (STATE.user) {
+    syncProfileToApi({ identity: type });
+  }
+  
+  switchScreen('screen-onboarding', 'screen-hub');
+  updateHub();
+};
+
+// ===================== CLOUD-SYNCED MISSION SYSTEM =====================
+const _origCompleteMission = completeMission;
+completeMission = async function(missionId) {
+  if (STATE.missionsCompleted.includes(missionId)) return;
+  STATE.missionsCompleted.push(missionId);
+  document.getElementById('stat-tests').textContent = STATE.missionsCompleted.length;
+  
+  var xpMap = { personality: 50, share: 30, team: 80, match: 40 };
+  if (STATE.user) {
+    syncMissionToApi(missionId, xpMap[missionId] || 10);
+  }
+};
+
+// ===================== CLOUD-SYNCED QUIZ RESULT =====================
+const _origShowQuizResult = showQuizResult;
+showQuizResult = async function() {
+  _origShowQuizResult();
+  
+  if (STATE.user && STATE.personalityType) {
+    syncProfileToApi({
+      personality_type: STATE.personalityType.name,
+      personality_detail: JSON.stringify(STATE.personalityType)
+    });
+  }
+};
+
+// ===================== REAL FLEET SYSTEM (Looma API) =====================
+async function loadFleetData(fleetId) {
+  try {
+    var data = await apiJson('/v1/game/fleet/mine');
+    if (!data.fleet) return;
+    STATE.fleetId = data.fleet.id;
+    STATE.teamSize = data.team_size || 0;
+    document.getElementById('teamName').textContent = '星际舰队 · ' + data.fleet.name;
+    document.getElementById('teamName').style.display = 'block';
+    document.getElementById('teamCode').textContent = '邀请码：' + (data.fleet.invite_code || '');
+    document.getElementById('teamCode').style.display = 'inline-block';
+    document.getElementById('stat-teammates').textContent = STATE.teamSize;
+    if (STATE.teamSize >= 3 && !STATE.missionsCompleted.includes('team')) {
+      await completeMission('team');
+      await addXP(80);
+      document.getElementById('mission-match').classList.remove('locked');
+      showAchievement('🤝 舰队集结完毕！', '3人成团 · 隐藏星图已解锁');
+    }
+  } catch (e) {
+    console.warn('[PlanetX] loadFleetData failed:', e);
+  }
+}
+
+async function createFleet() {
+  if (!STATE.user) { showToast('请先登录'); return; }
+  if (!STATE.personalityType) { showToast('请先完成人格测试'); return; }
+  
+  var code = 'PX-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+  var name = '舰队 ' + code;
+  
+  try {
+    var data = await apiJson('/v1/game/fleet/create', {
+      method: 'POST',
+      body: JSON.stringify({ name: name })
+    });
+    STATE.fleetId = data.id;
+    STATE.teamSize = data.team_size || 1;
+    document.getElementById('stat-teammates').textContent = STATE.teamSize;
+    document.getElementById('teamName').textContent = '星际舰队 · ' + data.name;
+    document.getElementById('teamName').style.display = 'block';
+    document.getElementById('teamCode').textContent = '邀请码：' + data.invite_code;
+    document.getElementById('teamCode').style.display = 'inline-block';
+    showToast('舰队创建成功！发送邀请码给好友加入 🚀');
+    _overrideInviteButton();
+  } catch (err) {
+    showToast('创建舰队失败: ' + err.message);
+  }
+}
+
+async function joinFleet(code) {
+  if (!STATE.user) { showToast('请先登录'); return; }
+  if (STATE.fleetId) { showToast('你已经在一个舰队中了'); return; }
+  
+  try {
+    var data = await apiJson('/v1/game/fleet/join', {
+      method: 'POST',
+      body: JSON.stringify({ invite_code: code.toUpperCase() })
+    });
+    STATE.fleetId = data.fleet_id || (data.fleet && data.fleet.id);
+    await loadFleetData(STATE.fleetId);
+    showToast('成功加入舰队！👥');
+  } catch (err) {
+    showToast('加入失败: ' + err.message);
+  }
+}
+
+function setupFleetRealtime(fleetId) {
+  // Realtime via polling fallback (Supabase removed)
+  if (!fleetId || !getToken()) return;
+  setInterval(function() {
+    if (STATE.fleetId === fleetId && getToken()) loadFleetData(fleetId);
+  }, 30000);
+}
+
+function _overrideInviteButton() {
+  // Change the invite button behavior to use real fleet system
+  const inviteBtn = document.querySelector('#tab-team .btn-outline');
+  if (inviteBtn) {
+    inviteBtn.textContent = '📋 复制邀请链接';
+    inviteBtn.onclick = function() {
+      if (!STATE.fleetId) {
+        createFleet();
+        return;
+      }
+      const codeEl = document.getElementById('teamCode');
+      const code = codeEl.textContent.replace('邀请码：', '');
+      const link = window.location.origin + window.location.pathname + '?join=' + code;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(() => {
+          showToast('📋 邀请链接已复制！发送给好友加入你的舰队');
+        });
+      }
+    };
+  }
+}
+
+// Override the old simulateInvite to use real fleet system
+simulateInvite = async function() {
+  if (!STATE.user) { showToast('请先登录后再创建舰队'); return; }
+  
+  if (STATE.fleetId) {
+    // Already in a fleet, copy invite
+    const codeEl = document.getElementById('teamCode');
+    const code = codeEl.textContent.replace('邀请码：', '');
+    const link = window.location.origin + window.location.pathname + '?join=' + code;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link).then(() => {
+        showToast('📋 邀请链接已复制！');
+      });
+    }
+  } else {
+    // Create new fleet
+    await createFleet();
+  }
+};
+
+// ===================== HANDLE JOIN FROM URL =====================
+(function checkJoinParam() {
+  const params = new URLSearchParams(window.location.search);
+  const joinCode = params.get('join');
+  if (joinCode && STATE.user) {
+    setTimeout(async () => {
+      await joinFleet(joinCode);
+    }, 3000); // Wait for profile loading
+  } else if (joinCode && !STATE.user) {
+    // Store join code for after login
+    sessionStorage.setItem('planetx_join_code', joinCode);
+  }
+})();
+
+// Process stored join code after login success
+const _origLoadProfile = loadProfile;
+loadProfile = async function(user) {
+  await _origLoadProfile(user);
+  
+  // Check if there's a pending join code
+  const pendingJoin = sessionStorage.getItem('planetx_join_code');
+  if (pendingJoin && !STATE.fleetId) {
+    sessionStorage.removeItem('planetx_join_code');
+    setTimeout(async () => {
+      await joinFleet(pendingJoin);
+    }, 1000);
+  }
+};
+
+// ===================== CLOUD-SYNCED REF TRACKING =====================
+const _origGetInviteLink = getInviteLink;
+getInviteLink = function() {
+  if (!STATE._refCode && STATE.user) {
+    STATE._refCode = 'PX-' + STATE.user.id.substring(0, 8).toUpperCase();
+  } else if (!STATE._refCode) {
+    STATE._refCode = 'PX-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+  }
+  const base = window.location.origin + window.location.pathname;
+  return base + '?ref=' + STATE._refCode;
+};
+
+// checkRefParam is defined above as an IIFE — no need to re-wrap here
+// Referral sync after login is handled by syncReferralAfterLogin()
+
+// Sync referral after login (non-blocking, best-effort)
+async function syncReferralAfterLogin(userId) {
+  try {
+    var storedRef = localStorage.getItem('planetx_ref');
+    if (storedRef && getToken()) {
+      await apiFetch('/v1/referral/use', {
+        method: 'POST',
+        body: JSON.stringify({ code: storedRef })
+      });
+      localStorage.removeItem('planetx_ref');
+      console.log('%c📡 邀请来源已记录: ' + storedRef, 'color:#21EB6C;');
+    }
+  } catch (e) {
+    console.warn('[PlanetX] Referral sync failed (non-critical):', e);
+  }
+}
+
+// ===================== PROFILE SHARE (C2B 裂变核心) =====================
+
+/**
+ * Create or retrieve a profile_share referral code via Looma API.
+ * The code points to the user's public personality profile, viewable by HR.
+ * API: POST /v1/referral/create { purpose: "profile_share" }
+ */
+async function createProfileShareCode() {
+  if (!getToken()) {
+    showToast('请先登录后再分享画像给 HR');
+    return null;
+  }
+  // Reuse existing code if already created
+  if (STATE.profileShareCode) return STATE.profileShareCode;
+
+  try {
+    var data = await apiJson('/v1/referral/create', {
+      method: 'POST',
+      body: JSON.stringify({ purpose: 'profile_share' })
+    });
+    STATE.profileShareCode = data.code;
+    console.log('%c🔗 画像分享码已生成: ' + data.code, 'color:#FF7B32;');
+    return data.code;
+  } catch (err) {
+    showToast('生成分享码失败: ' + err.message);
+    console.warn('[PlanetX] profile_share create failed:', err);
+    return null;
+  }
+}
+
+/**
+ * Generate the HR-facing share URL (T-space candidate share page).
+ * Format: https://tspace.genz.ltd/candidate/share/{code}
+ */
+function getHrShareUrl(code) {
+  var c = code || STATE.profileShareCode;
+  if (!c) return SAAS_BASE;
+  return SAAS_BASE.replace(/\/$/, '') + '/candidate/share/' + c;
+}
+
+/**
+ * C2B 裂变主流程: 人格 → 授权 → 生成画像分享码 → 复制 HR 链接
+ * 点击「分享给 HR」按钮时调用
+ */
+async function handleProfileShare() {
+  // 1. 必须先完成人格测试
+  if (!STATE.personalityType) {
+    showToast('请先完成人格测试');
+    return;
+  }
+
+  // 2. 必须先登录
+  if (!getToken()) {
+    showToast('请先登录后再分享画像给 HR');
+    var activeScreen = document.querySelector('.screen.active');
+    if (activeScreen) switchScreen(activeScreen.id, 'screen-auth');
+    return;
+  }
+
+  // 3. 合规授权弹窗
+  var consented = await showProfileShareConsent();
+  if (!consented) return;
+
+  // 4. 调用 API 生成/获取 profile_share code
+  var code = await createProfileShareCode();
+  if (!code) return;
+
+  // 5. 生成 HR 链接
+  var hrUrl = getHrShareUrl(code);
+
+  // 6. 复制到剪贴板
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(hrUrl).then(function() {
+      showToast('👔 HR 画像链接已复制！发送给 HR 一键查看你的人格分析');
+    });
+  } else {
+    // Fallback: show the link for manual copy
+    showProfileShareResult(code, hrUrl);
+  }
+
+  // 7. Sync personality to API if not already synced
+  if (STATE.personalityType) {
+    syncProfileToApi({
+      personality_type: STATE.personalityType.name,
+      personality_detail: JSON.stringify(STATE.personalityType)
+    });
+  }
+
+  // 8. Track share event
+  document.getElementById('stat-shares').textContent =
+    parseInt(document.getElementById('stat-shares').textContent || '0') + 1;
+
+  return code;
+}
+
+/**
+ * Fallback UI: show the generated HR link (when clipboard API unavailable)
+ */
+function showProfileShareResult(code, hrUrl) {
+  // Remove any existing profile-share-result
+  var existing = document.querySelector('.profile-share-result');
+  if (existing) existing.remove();
+
+  var p = STATE.personalityType || { name: '未知', emoji: '👤' };
+  var div = document.createElement('div');
+  div.className = 'profile-share-result';
+  div.innerHTML =
+    '<div style="background:var(--card);border:1px solid rgba(255,123,50,0.3);border-radius:12px;padding:16px;margin-top:12px;text-align:left;">' +
+      '<div style="font-size:var(--font-sm);color:var(--primary);font-weight:700;margin-bottom:8px;">' +
+        '👔 ' + p.emoji + ' ' + p.name + ' · HR 画像链接已生成' +
+      '</div>' +
+      '<div style="background:var(--xp-bar-bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;' +
+        'font-size:var(--font-xs);color:var(--mist);word-break:break-all;margin-bottom:8px;">' +
+        hrUrl +
+      '</div>' +
+      '<div style="font-size:var(--font-xs);color:var(--text-quaternary);">' +
+        '分享码: <b style="color:var(--green);letter-spacing:0.15em;">' + code + '</b>' +
+        ' · HR 打开后无需登录即可查看你的画像' +
+      '</div>' +
+      '<div style="font-size:var(--font-xs);color:var(--text-quaternary);margin-top:4px;">' +
+        '🔗 HR 可在 T 空间直接导入候选人' +
+      '</div>' +
+      '<button class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="navigator.clipboard.writeText(\'' +
+        hrUrl.replace(/'/g, "\\'") + '\').then(function(){showToast(\'📋 已复制！\');})">' +
+        '📋 复制链接' +
+      '</button>' +
+      '<a href="' + SAAS_BASE + '" target="_blank" rel="noopener" style="display:block;margin-top:8px;text-align:center;' +
+        'font-size:var(--font-xs);color:var(--primary);text-decoration:none;font-weight:600;">' +
+        '🏢 打开 T 空间 SaaS →' +
+      '</a>' +
+    '</div>';
+
+  // Insert after the result buttons area
+  var resultCard = document.querySelector('.result-card');
+  if (resultCard) resultCard.appendChild(div);
+}
+
+/**
+ * Consent dialog for profile_share scope.
+ * Returns true if user agrees, false otherwise.
+ */
+function showProfileShareConsent() {
+  return new Promise(function(resolve) {
+    var modal = document.getElementById('consentModal');
+    document.getElementById('consentScope').textContent = '分享人格分析结果';
+    document.getElementById('consentDesc').textContent =
+      '将为你生成一个可公开查看的人格画像链接。HR 通过该链接可以查看你的：\n' +
+      '• 星际人格类型（' + (STATE.personalityType ? STATE.personalityType.emoji + ' ' + STATE.personalityType.name : '未测试') + '）\n' +
+      '• 个性标签与描述\n' +
+      '• 等级与能量值\n\n' +
+      '⚠️ 不含手机号、邮箱等敏感联系方式。';
+    modal.style.display = 'flex';
+
+    document.getElementById('consentAgree').onclick = function() {
+      modal.style.display = 'none';
+      resolve(true);
+    };
+    document.getElementById('consentDecline').onclick = function() {
+      modal.style.display = 'none';
+      resolve(false);
+    };
+    // Close on backdrop click
+    modal.onclick = function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        resolve(false);
+      }
+    };
+  });
+}
+
+// ===================== CONSOLE EASTER EGG =====================
+console.log('%c🪐 PlanetX %c游戏化产品 v3.2 - C2B 裂变版 (海外 profile_share 已接入)',
+  'color:#FF7B32;font-size:18px;font-weight:bold;',
+  'color:#A1A3B7;');
+console.log('%c身份认同 × 社交裂变 × 情绪陪伴 = 不堆料的产品力',
+  'color:#A1A3B7;font-size:12px;');
+console.log('%c🏆 当前成就系统:', 'color:#FFC330;');
+console.log('  Lv.1 星际人格测试 → Lv.2 组建舰队 → Lv.3 星际匹配 → Lv.4 信号传播 → 🆕 Lv.5 C2B HR画像裂变');
+console.log('%c💡 提示: 完成人格测试 → 点击「分享给 HR」→ 生成画像分享码 → C2B 裂变闭环',
+  'color:#21EB6C;font-size:11px;');
+console.log('%c🔗 API: ' + API_BASE + ' · 登录用户数据持久化',
+  'color:#22c55e;font-size:11px;');
+</script>
+</body>
+</html>
