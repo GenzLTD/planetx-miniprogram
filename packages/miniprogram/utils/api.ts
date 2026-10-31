@@ -136,9 +136,14 @@ export const askApi = createChatApi(apiClient)
 export const careerApi = {
   parse: (text: string) =>
     apiClient.post('/v1/resume/parse', { text }, { timeout: 120000 }),
+  /** 含内部库内 match；微信请求上限约 60s。超时后服务端按 content_fp 幂等，可安全重试。 */
+  ingest: (payload: { markdown: string; filename: string; extracted: unknown }) =>
+    apiClient.post('/v1/resume/ingest', payload, { timeout: 60000 }),
   match: (resumeText: string) =>
-    apiClient.post('/v1/jobs/match', { resume_text: resumeText }, { timeout: 120000 }),
+    apiClient.post('/v1/jobs/match', { resume_text: resumeText }, { timeout: 60000 }),
   jobs: () => apiClient.get('/v1/jobs/list'),
+  // 职位详情：GET /v1/jobs/:job_id（job-service 真查库，seed-demo 灌入即可读）
+  jobDetail: (id: string) => apiClient.get(`/v1/jobs/${encodeURIComponent(id)}`),
   resumes: () => apiClient.get('/v1/resume/list'),
 }
 

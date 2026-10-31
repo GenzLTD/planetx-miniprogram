@@ -96,6 +96,31 @@ export interface JobMatchResponse {
   total_evaluated: number;
 }
 
+/** 库内匹配（zervi-rust contracts/jobs/library_match.v1.json）。与上表 Tatha JobMatchItem 分列。 */
+export type JobLibraryMatchStatus =
+  | "ok"
+  | "no_fit"
+  | "empty_library"
+  | "unavailable"
+  | "quota_exceeded"
+  | "skipped_duplicate";
+
+export interface LibraryJobMatchItem {
+  job_id: string;
+  title: string;
+  company: string;
+  score: number;
+  reasons: string[];
+  gaps: string[];
+}
+
+export interface JobLibraryMatchResponse {
+  matches: LibraryJobMatchItem[];
+  total_evaluated: number;
+  match_status: JobLibraryMatchStatus;
+  match_error?: string;
+}
+
 // Legacy alias – kept for backward compatibility with any code that imported JobMatchResult
 /** @deprecated use JobMatchItem instead */
 export type JobMatchResult = JobMatchItem;
@@ -239,6 +264,10 @@ export interface ResumeIngestRequest {
 export interface ResumeIngestResponse {
   resume_id: string;
   status: "processed" | "stored";
+  matches?: LibraryJobMatchItem[];
+  total_evaluated?: number;
+  match_status?: JobLibraryMatchStatus;
+  match_error?: string;
 }
 
 // ── HarmonyOS 简历管理 ──

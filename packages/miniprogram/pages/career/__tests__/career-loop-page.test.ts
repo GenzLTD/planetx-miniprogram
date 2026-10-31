@@ -13,6 +13,7 @@ jest.mock('../../../utils/api', () => ({
     jobs: jest.fn(),
     match: jest.fn(),
     parse: jest.fn(),
+    ingest: jest.fn(),
   },
 }))
 
@@ -76,6 +77,7 @@ const api = resumeApi as unknown as {
 const careerApiM = careerApi as unknown as {
   parse: jest.Mock
   match: jest.Mock
+  ingest: jest.Mock
   jobs: jest.Mock
 }
 const consent = ensureConsent as unknown as jest.Mock
@@ -127,18 +129,20 @@ describe('onSubmit parse→ingest 闭环', () => {
 
   it('parse（careerApi 显式 120s）成功 → 组 ingest（原文 trim + extracted）→ 成功展示 + 重拉列表', async () => {
     careerApiM.parse.mockResolvedValue({ extracted: { name: '李四' } })
-    api.ingest.mockResolvedValue({ resume_id: '42', status: 'processed' })
+    careerApiM.ingest.mockResolvedValue({ resume_id: '42', status: 'processed', match_status: 'ok', matches: [] })
     const ctx = page()
     await ctx.onSubmit()
     // 阻塞项回归：parse 必须走 careerApi（120s），不得退回 resumeApi.parse（默认 10s）
     expect(careerApiM.parse).toHaveBeenCalledWith('简历原文')
     expect(api.parse).not.toHaveBeenCalled()
-    expect(api.ingest).toHaveBeenCalledWith({
+    expect(careerApiM.ingest).toHaveBeenCalledWith({
       markdown: '简历原文',
       filename: 'resume-李四.md',
       extracted: { name: '李四' },
     })
+    expect(api.ingest).not.toHaveBeenCalled()
     expect(ctx.data.result).toBe('已入库 #42（processed）')
+    expect(ctx.data.matches).toEqual([])
     expect(ctx.data.busy).toBe(false)
     expect(api.list).toHaveBeenCalled()
   })
@@ -165,7 +169,7 @@ describe('onSubmit parse→ingest 闭环', () => {
   it('ingest 失败 → 回显解析结果 + error 落「入库失败」，busy 复位不重拉列表', async () => {
     const parsed = { extracted: { name: 'a' } }
     careerApiM.parse.mockResolvedValue(parsed)
-    api.ingest.mockRejectedValue(new Error('ingest boom'))
+    careerApiM.ingest.mockRejectedValue(new Error('ingest boom'))
     const ctx = page()
     await ctx.onSubmit()
     // nit 修复：解析已扣额度，入库失败也要回显解析结果，避免用户重试再扣
@@ -188,14 +192,54 @@ describe('onSubmit parse→ingest 闭环', () => {
     expect(careerApiM.parse).not.toHaveBeenCalled()
   })
 
-  it('match 模式不 ingest，结果仍页内 JSON', async () => {
+  it('match 模式不 ingest，有 job_id 的结果可跳详情', async () => {
     const ctx = page()
     ctx.setData({ mode: 'match' })
-    careerApiM.match.mockResolvedValue({ score: 0.8 })
+    careerApiM.match.mockResolvedValue({
+      matches: [
+        { job_id: 'demo-1', title: '高级 Rust 后端工程师', score: 0.8, reasons: ['库内'] },
+        { title: '无 id 丢弃' },
+      ],
+    })
     await ctx.onSubmit()
     expect(careerApi.match).toHaveBeenCalledWith('简历原文')
+    expect(careerApiM.ingest).not.toHaveBeenCalled()
     expect(api.ingest).not.toHaveBeenCalled()
-    expect(ctx.data.result).toBe(JSON.stringify({ score: 0.8 }, null, 2))
+    expect(ctx.data.matches).toEqual([
+      { id: 'demo-1', title: '高级 Rust 后端工程师', score: '80%', reasons: '库内' },
+    ])
+    expect(ctx.data.result).toBe('')
+  })
+
+  it('parse→ingest 带回 matches 时展示可跳转职位', async () => {
+    careerApiM.parse.mockResolvedValue({ extracted: { name: '李四' } })
+    careerApiM.ingest.mockResolvedValue({
+      resume_id: '42',
+      status: 'processed',
+      match_status: 'ok',
+      matches: [{ job_id: 'demo-1', title: 'Rust', score: 1, reasons: ['重合'] }],
+    })
+    const ctx = page()
+    await ctx.onSubmit()
+    expect(ctx.data.matches).toEqual([
+      { id: 'demo-1', title: 'Rust', score: '100%', reasons: '重合' },
+    ])
+    expect(ctx.data.result).toBe('已入库 #42（processed）')
+  })
+
+  it('匹配不可用时简历已入库提示可懂，不是空白匹配', async () => {
+    careerApiM.parse.mockResolvedValue({ extracted: { name: '李四' } })
+    careerApiM.ingest.mockResolvedValue({
+      resume_id: '42',
+      status: 'processed',
+      match_status: 'unavailable',
+      matches: [],
+    })
+    const ctx = page()
+    await ctx.onSubmit()
+    expect(ctx.data.matches).toEqual([])
+    expect(ctx.data.result).toContain('已入库')
+    expect(ctx.data.matchHint).toContain('匹配服务暂时不可用')
   })
 })
 
@@ -222,5 +266,39 @@ describe('onShow', () => {
     ctx.onShow()
     expect(ctx.loadJobs).toHaveBeenCalled()
     expect(ctx.loadResumes).toHaveBeenCalled()
+  })
+})
+
+describe('openJob', () => {
+  it('带 id 跳 job-detail（id 做 URL 编码）', () => {
+    const ctx = makePage()
+    ctx.openJob({ currentTarget: { dataset: { id: 'demo-1' } } })
+    expect(mockWx.navigateTo).toHaveBeenCalledWith({
+      url: '/pages/job-detail/index?id=demo-1',
+    })
+  })
+  it('无 id 不跳（列表行的旧结构不应导航到空详情）', () => {
+    const ctx = makePage()
+    ctx.openJob({ currentTarget: { dataset: { id: '' } } })
+    expect(mockWx.navigateTo).not.toHaveBeenCalled()
+  })
+})
+
+describe('loadJobs', () => {
+  it('保留 id 供详情导航；salary 兼容 salary_range', async () => {
+    const ctx = makePage()
+    careerApiM.jobs.mockResolvedValue({
+      jobs: [{ id: 'demo-1', title: '前端', company: '深伯乐', salary_range: '25-40K' }],
+    })
+    await ctx.loadJobs()
+    expect(ctx.data.jobs).toEqual([
+      { id: 'demo-1', title: '前端', company: '深伯乐', salary: '25-40K' },
+    ])
+  })
+  it('接口失败：清空列表且不抛', async () => {
+    const ctx = makePage()
+    careerApiM.jobs.mockRejectedValue(new Error('502'))
+    await ctx.loadJobs()
+    expect(ctx.data.jobs).toEqual([])
   })
 })

@@ -4,8 +4,8 @@
  * 调用前走 jobseeker_core，和小程序 ensureConsent 一致。
  *
  * 求职闭环（career-loop-wire）：解析成功即入库（thin-ingest，extracted
- * 随 body 带 → 服务端 processed），列表点条目进 detail（编辑 + 谁可看）。
- * 匹配结果仍留页内 JSON。
+ * 随 body 带 → 服务端 processed + 内部库内 match），列表点条目进 detail。
+ * matches[].job_id 可跳职位详情；无 id 的项不展示为可点。
  */
 import { careerApi, resumeApi } from '../../utils/api'
 import { ensureConsent } from '../../utils/consent'
@@ -19,7 +19,9 @@ Page({
     busy: false,
     result: '',
     error: '',
-    jobs: [] as Array<{ title: string; company: string; salary: string }>,
+    jobs: [] as Array<{ id: string; title: string; company: string; salary: string }>,
+    matches: [] as Array<{ id: string; title: string; score: string; reasons: string }>,
+    matchHint: '',
     // 我的简历（GET /v1/resume/list）
     resumes: [] as ResumeRow[],
     resumeTotal: 0,
@@ -35,7 +37,7 @@ Page({
   },
 
   onMode(e: any) {
-    this.setData({ mode: e.currentTarget.dataset.mode, result: '', error: '' })
+    this.setData({ mode: e.currentTarget.dataset.mode, result: '', error: '', matches: [], matchHint: '' })
   },
 
   goTemplates() {
@@ -53,7 +55,9 @@ Page({
   async loadJobs() {
     try {
       const resp = await careerApi.jobs() as { jobs?: Array<Record<string, string>> }
+      // 保留 id：详情页 GET /v1/jobs/:job_id 的唯一入口（无 id 的行不可导航）
       const jobs = (resp.jobs || []).slice(0, 20).map((job) => ({
+        id: job.id || '',
         title: job.title || '未命名职位',
         company: job.company || '',
         salary: job.salary_range || job.salary || '',
@@ -62,6 +66,46 @@ Page({
     } catch {
       this.setData({ jobs: [] })
     }
+  },
+
+  applyMatchPayload(resp: unknown, note: string) {
+    const raw = resp && typeof resp === 'object'
+      ? (resp as { matches?: unknown; match_status?: string; match_error?: string })
+      : {}
+    const list = Array.isArray(raw.matches) ? raw.matches : []
+    const matches = list
+      .map((item) => {
+        const row = item && typeof item === 'object' ? (item as Record<string, unknown>) : {}
+        const id = String(row.job_id || row.id || '').trim()
+        const title = String(row.title || '未命名职位')
+        const scoreNum = Number(row.score)
+        const score = Number.isFinite(scoreNum)
+          ? `${Math.round(scoreNum <= 1 ? scoreNum * 100 : scoreNum)}%`
+          : ''
+        const reasons = Array.isArray(row.reasons)
+          ? row.reasons.map((r) => String(r)).filter(Boolean).join('；')
+          : ''
+        return { id, title, score, reasons }
+      })
+      .filter((row) => row.id)
+    const hints: Record<string, string> = {
+      ok: matches.length ? '' : '没有达到推荐门槛的库内职位。',
+      no_fit: '库内没有足够相关的职位。',
+      empty_library: '职位库为空。',
+      unavailable: '匹配服务暂时不可用，简历已保留。可稍后点「计算匹配」。',
+      quota_exceeded: '当日匹配配额已用尽，简历已保留。',
+      skipped_duplicate: '同一份简历已入库，未重复匹配。可点「计算匹配」。',
+    }
+    const status = String(raw.match_status || (matches.length ? 'ok' : ''))
+    const matchHint = raw.match_error || hints[status] || ''
+    const result = note || (matches.length || matchHint ? '' : JSON.stringify(resp ?? {}, null, 2))
+    this.setData({ matches, result, matchHint })
+  },
+
+  openJob(e: any) {
+    const id = String(e?.currentTarget?.dataset?.id || '').trim()
+    if (!id) return
+    wx.navigateTo({ url: `/pages/job-detail/index?id=${encodeURIComponent(id)}` })
   },
 
   async loadResumes() {
@@ -106,11 +150,12 @@ Page({
       wx.showToast({ title: '需要授权后才能处理简历', icon: 'none' })
       return
     }
-    this.setData({ busy: true, result: '', error: '' })
+    this.setData({ busy: true, result: '', error: '', matches: [], matchHint: '' })
     try {
       if (this.data.mode === 'match') {
         const resp = await careerApi.match(text)
-        this.setData({ result: JSON.stringify(resp, null, 2), busy: false })
+        this.applyMatchPayload(resp, '')
+        this.setData({ busy: false })
         return
       }
       // parse → ingest 闭环：解析成功即入库（extracted 随 body → processed）
@@ -124,11 +169,15 @@ Page({
         return
       }
       try {
-        const ingested = await resumeApi.ingest(body) as { resume_id?: string; status?: string }
-        this.setData({
-          result: `已入库 #${ingested.resume_id ?? '?'}（${ingested.status || 'stored'}）`,
-          busy: false,
-        })
+        const ingested = await careerApi.ingest(body) as {
+          resume_id?: string
+          status?: string
+          matches?: unknown
+          match_status?: string
+          match_error?: string
+        }
+        this.applyMatchPayload(ingested, `已入库 #${ingested.resume_id ?? '?'}（${ingested.status || 'stored'}）`)
+        this.setData({ busy: false })
       } catch (err: any) {
         // 入库失败也回显解析结果：解析已扣额度，避免用户以为白跑而重试再扣
         this.setData({

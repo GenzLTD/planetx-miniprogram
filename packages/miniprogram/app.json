@@ -16,7 +16,8 @@
     "pages/legal/index",
     "pages/resume/templates/index",
     "pages/resume/blacklist/index",
-    "pages/resume/detail/index"
+    "pages/resume/detail/index",
+    "pages/job-detail/index"
   ],
   "window": {
     "backgroundTextStyle": "dark",
